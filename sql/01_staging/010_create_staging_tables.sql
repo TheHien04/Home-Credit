@@ -1,0 +1,485 @@
+/*
+Generated from bounded Home Credit schema profiles.
+All source columns are nullable in staging; validation occurs before NDS.
+Dependency: ctl.ETLBatch from 00_admin/001_create_control_layer.sql.
+This script creates objects only and never drops existing tables.
+*/
+
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
+IF OBJECT_ID(N'[stg].[Application]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[Application]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_Application_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [DatasetSplit] VARCHAR(5) NOT NULL,
+        [SK_ID_CURR] BIGINT NULL,
+        [TARGET] BIGINT NULL,
+        [NAME_CONTRACT_TYPE] NVARCHAR(255) NULL,
+        [CODE_GENDER] NVARCHAR(255) NULL,
+        [FLAG_OWN_CAR] NVARCHAR(255) NULL,
+        [FLAG_OWN_REALTY] NVARCHAR(255) NULL,
+        [CNT_CHILDREN] BIGINT NULL,
+        [AMT_INCOME_TOTAL] DECIMAL(28,10) NULL,
+        [AMT_CREDIT] DECIMAL(28,10) NULL,
+        [AMT_ANNUITY] DECIMAL(28,10) NULL,
+        [AMT_GOODS_PRICE] DECIMAL(28,10) NULL,
+        [NAME_TYPE_SUITE] NVARCHAR(255) NULL,
+        [NAME_INCOME_TYPE] NVARCHAR(255) NULL,
+        [NAME_EDUCATION_TYPE] NVARCHAR(255) NULL,
+        [NAME_FAMILY_STATUS] NVARCHAR(255) NULL,
+        [NAME_HOUSING_TYPE] NVARCHAR(255) NULL,
+        [REGION_POPULATION_RELATIVE] DECIMAL(28,10) NULL,
+        [DAYS_BIRTH] BIGINT NULL,
+        [DAYS_EMPLOYED] BIGINT NULL,
+        [DAYS_REGISTRATION] BIGINT NULL,
+        [DAYS_ID_PUBLISH] BIGINT NULL,
+        [OWN_CAR_AGE] BIGINT NULL,
+        [FLAG_MOBIL] BIGINT NULL,
+        [FLAG_EMP_PHONE] BIGINT NULL,
+        [FLAG_WORK_PHONE] BIGINT NULL,
+        [FLAG_CONT_MOBILE] BIGINT NULL,
+        [FLAG_PHONE] BIGINT NULL,
+        [FLAG_EMAIL] BIGINT NULL,
+        [OCCUPATION_TYPE] NVARCHAR(255) NULL,
+        [CNT_FAM_MEMBERS] BIGINT NULL,
+        [REGION_RATING_CLIENT] BIGINT NULL,
+        [REGION_RATING_CLIENT_W_CITY] BIGINT NULL,
+        [WEEKDAY_APPR_PROCESS_START] NVARCHAR(255) NULL,
+        [HOUR_APPR_PROCESS_START] BIGINT NULL,
+        [REG_REGION_NOT_LIVE_REGION] BIGINT NULL,
+        [REG_REGION_NOT_WORK_REGION] BIGINT NULL,
+        [LIVE_REGION_NOT_WORK_REGION] BIGINT NULL,
+        [REG_CITY_NOT_LIVE_CITY] BIGINT NULL,
+        [REG_CITY_NOT_WORK_CITY] BIGINT NULL,
+        [LIVE_CITY_NOT_WORK_CITY] BIGINT NULL,
+        [ORGANIZATION_TYPE] NVARCHAR(255) NULL,
+        [EXT_SOURCE_1] DECIMAL(28,10) NULL,
+        [EXT_SOURCE_2] DECIMAL(28,10) NULL,
+        [EXT_SOURCE_3] DECIMAL(28,10) NULL,
+        [APARTMENTS_AVG] DECIMAL(28,10) NULL,
+        [BASEMENTAREA_AVG] DECIMAL(28,10) NULL,
+        [YEARS_BEGINEXPLUATATION_AVG] DECIMAL(28,10) NULL,
+        [YEARS_BUILD_AVG] DECIMAL(28,10) NULL,
+        [COMMONAREA_AVG] DECIMAL(28,10) NULL,
+        [ELEVATORS_AVG] DECIMAL(28,10) NULL,
+        [ENTRANCES_AVG] DECIMAL(28,10) NULL,
+        [FLOORSMAX_AVG] DECIMAL(28,10) NULL,
+        [FLOORSMIN_AVG] DECIMAL(28,10) NULL,
+        [LANDAREA_AVG] DECIMAL(28,10) NULL,
+        [LIVINGAPARTMENTS_AVG] DECIMAL(28,10) NULL,
+        [LIVINGAREA_AVG] DECIMAL(28,10) NULL,
+        [NONLIVINGAPARTMENTS_AVG] DECIMAL(28,10) NULL,
+        [NONLIVINGAREA_AVG] DECIMAL(28,10) NULL,
+        [APARTMENTS_MODE] DECIMAL(28,10) NULL,
+        [BASEMENTAREA_MODE] DECIMAL(28,10) NULL,
+        [YEARS_BEGINEXPLUATATION_MODE] DECIMAL(28,10) NULL,
+        [YEARS_BUILD_MODE] DECIMAL(28,10) NULL,
+        [COMMONAREA_MODE] DECIMAL(28,10) NULL,
+        [ELEVATORS_MODE] DECIMAL(28,10) NULL,
+        [ENTRANCES_MODE] DECIMAL(28,10) NULL,
+        [FLOORSMAX_MODE] DECIMAL(28,10) NULL,
+        [FLOORSMIN_MODE] DECIMAL(28,10) NULL,
+        [LANDAREA_MODE] DECIMAL(28,10) NULL,
+        [LIVINGAPARTMENTS_MODE] DECIMAL(28,10) NULL,
+        [LIVINGAREA_MODE] DECIMAL(28,10) NULL,
+        [NONLIVINGAPARTMENTS_MODE] DECIMAL(28,10) NULL,
+        [NONLIVINGAREA_MODE] DECIMAL(28,10) NULL,
+        [APARTMENTS_MEDI] DECIMAL(28,10) NULL,
+        [BASEMENTAREA_MEDI] DECIMAL(28,10) NULL,
+        [YEARS_BEGINEXPLUATATION_MEDI] DECIMAL(28,10) NULL,
+        [YEARS_BUILD_MEDI] DECIMAL(28,10) NULL,
+        [COMMONAREA_MEDI] DECIMAL(28,10) NULL,
+        [ELEVATORS_MEDI] DECIMAL(28,10) NULL,
+        [ENTRANCES_MEDI] DECIMAL(28,10) NULL,
+        [FLOORSMAX_MEDI] DECIMAL(28,10) NULL,
+        [FLOORSMIN_MEDI] DECIMAL(28,10) NULL,
+        [LANDAREA_MEDI] DECIMAL(28,10) NULL,
+        [LIVINGAPARTMENTS_MEDI] DECIMAL(28,10) NULL,
+        [LIVINGAREA_MEDI] DECIMAL(28,10) NULL,
+        [NONLIVINGAPARTMENTS_MEDI] DECIMAL(28,10) NULL,
+        [NONLIVINGAREA_MEDI] DECIMAL(28,10) NULL,
+        [FONDKAPREMONT_MODE] NVARCHAR(255) NULL,
+        [HOUSETYPE_MODE] NVARCHAR(255) NULL,
+        [TOTALAREA_MODE] DECIMAL(28,10) NULL,
+        [WALLSMATERIAL_MODE] NVARCHAR(255) NULL,
+        [EMERGENCYSTATE_MODE] NVARCHAR(255) NULL,
+        [OBS_30_CNT_SOCIAL_CIRCLE] BIGINT NULL,
+        [DEF_30_CNT_SOCIAL_CIRCLE] BIGINT NULL,
+        [OBS_60_CNT_SOCIAL_CIRCLE] BIGINT NULL,
+        [DEF_60_CNT_SOCIAL_CIRCLE] BIGINT NULL,
+        [DAYS_LAST_PHONE_CHANGE] BIGINT NULL,
+        [FLAG_DOCUMENT_2] BIGINT NULL,
+        [FLAG_DOCUMENT_3] BIGINT NULL,
+        [FLAG_DOCUMENT_4] BIGINT NULL,
+        [FLAG_DOCUMENT_5] BIGINT NULL,
+        [FLAG_DOCUMENT_6] BIGINT NULL,
+        [FLAG_DOCUMENT_7] BIGINT NULL,
+        [FLAG_DOCUMENT_8] BIGINT NULL,
+        [FLAG_DOCUMENT_9] BIGINT NULL,
+        [FLAG_DOCUMENT_10] BIGINT NULL,
+        [FLAG_DOCUMENT_11] BIGINT NULL,
+        [FLAG_DOCUMENT_12] BIGINT NULL,
+        [FLAG_DOCUMENT_13] BIGINT NULL,
+        [FLAG_DOCUMENT_14] BIGINT NULL,
+        [FLAG_DOCUMENT_15] BIGINT NULL,
+        [FLAG_DOCUMENT_16] BIGINT NULL,
+        [FLAG_DOCUMENT_17] BIGINT NULL,
+        [FLAG_DOCUMENT_18] BIGINT NULL,
+        [FLAG_DOCUMENT_19] BIGINT NULL,
+        [FLAG_DOCUMENT_20] BIGINT NULL,
+        [FLAG_DOCUMENT_21] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_HOUR] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_DAY] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_WEEK] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_MON] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_QRT] BIGINT NULL,
+        [AMT_REQ_CREDIT_BUREAU_YEAR] BIGINT NULL,
+        CONSTRAINT [PK_stg_Application] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_Application_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID]),
+        CONSTRAINT [CK_stg_Application_DatasetSplit] CHECK ([DatasetSplit] IN ('TRAIN', 'TEST'))
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[Application]')
+      AND name = N'IX_stg_Application_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_Application_SK_ID_CURR] ON [stg].[Application] ([SK_ID_CURR]);
+GO
+
+IF OBJECT_ID(N'[stg].[PreviousApplication]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[PreviousApplication]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_PreviousApplication_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_PREV] BIGINT NULL,
+        [SK_ID_CURR] BIGINT NULL,
+        [NAME_CONTRACT_TYPE] NVARCHAR(255) NULL,
+        [AMT_ANNUITY] DECIMAL(28,10) NULL,
+        [AMT_APPLICATION] DECIMAL(28,10) NULL,
+        [AMT_CREDIT] DECIMAL(28,10) NULL,
+        [AMT_DOWN_PAYMENT] DECIMAL(28,10) NULL,
+        [AMT_GOODS_PRICE] DECIMAL(28,10) NULL,
+        [WEEKDAY_APPR_PROCESS_START] NVARCHAR(255) NULL,
+        [HOUR_APPR_PROCESS_START] BIGINT NULL,
+        [FLAG_LAST_APPL_PER_CONTRACT] NVARCHAR(255) NULL,
+        [NFLAG_LAST_APPL_IN_DAY] BIGINT NULL,
+        [RATE_DOWN_PAYMENT] DECIMAL(28,10) NULL,
+        [RATE_INTEREST_PRIMARY] DECIMAL(28,10) NULL,
+        [RATE_INTEREST_PRIVILEGED] DECIMAL(28,10) NULL,
+        [NAME_CASH_LOAN_PURPOSE] NVARCHAR(255) NULL,
+        [NAME_CONTRACT_STATUS] NVARCHAR(255) NULL,
+        [DAYS_DECISION] BIGINT NULL,
+        [NAME_PAYMENT_TYPE] NVARCHAR(255) NULL,
+        [CODE_REJECT_REASON] NVARCHAR(255) NULL,
+        [NAME_TYPE_SUITE] NVARCHAR(255) NULL,
+        [NAME_CLIENT_TYPE] NVARCHAR(255) NULL,
+        [NAME_GOODS_CATEGORY] NVARCHAR(255) NULL,
+        [NAME_PORTFOLIO] NVARCHAR(255) NULL,
+        [NAME_PRODUCT_TYPE] NVARCHAR(255) NULL,
+        [CHANNEL_TYPE] NVARCHAR(255) NULL,
+        [SELLERPLACE_AREA] BIGINT NULL,
+        [NAME_SELLER_INDUSTRY] NVARCHAR(255) NULL,
+        [CNT_PAYMENT] BIGINT NULL,
+        [NAME_YIELD_GROUP] NVARCHAR(255) NULL,
+        [PRODUCT_COMBINATION] NVARCHAR(255) NULL,
+        [DAYS_FIRST_DRAWING] BIGINT NULL,
+        [DAYS_FIRST_DUE] BIGINT NULL,
+        [DAYS_LAST_DUE_1ST_VERSION] BIGINT NULL,
+        [DAYS_LAST_DUE] BIGINT NULL,
+        [DAYS_TERMINATION] BIGINT NULL,
+        [NFLAG_INSURED_ON_APPROVAL] BIGINT NULL,
+        CONSTRAINT [PK_stg_PreviousApplication] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_PreviousApplication_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[PreviousApplication]')
+      AND name = N'IX_stg_PreviousApplication_SK_ID_PREV'
+)
+    CREATE INDEX [IX_stg_PreviousApplication_SK_ID_PREV] ON [stg].[PreviousApplication] ([SK_ID_PREV]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[PreviousApplication]')
+      AND name = N'IX_stg_PreviousApplication_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_PreviousApplication_SK_ID_CURR] ON [stg].[PreviousApplication] ([SK_ID_CURR]);
+GO
+
+IF OBJECT_ID(N'[stg].[BureauCredit]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[BureauCredit]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_BureauCredit_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_CURR] BIGINT NULL,
+        [SK_ID_BUREAU] BIGINT NULL,
+        [CREDIT_ACTIVE] NVARCHAR(255) NULL,
+        [CREDIT_CURRENCY] NVARCHAR(255) NULL,
+        [DAYS_CREDIT] BIGINT NULL,
+        [CREDIT_DAY_OVERDUE] BIGINT NULL,
+        [DAYS_CREDIT_ENDDATE] BIGINT NULL,
+        [DAYS_ENDDATE_FACT] BIGINT NULL,
+        [AMT_CREDIT_MAX_OVERDUE] DECIMAL(28,10) NULL,
+        [CNT_CREDIT_PROLONG] BIGINT NULL,
+        [AMT_CREDIT_SUM] DECIMAL(28,10) NULL,
+        [AMT_CREDIT_SUM_DEBT] DECIMAL(28,10) NULL,
+        [AMT_CREDIT_SUM_LIMIT] DECIMAL(28,10) NULL,
+        [AMT_CREDIT_SUM_OVERDUE] DECIMAL(28,10) NULL,
+        [CREDIT_TYPE] NVARCHAR(255) NULL,
+        [DAYS_CREDIT_UPDATE] BIGINT NULL,
+        [AMT_ANNUITY] DECIMAL(28,10) NULL,
+        CONSTRAINT [PK_stg_BureauCredit] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_BureauCredit_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[BureauCredit]')
+      AND name = N'IX_stg_BureauCredit_SK_ID_BUREAU'
+)
+    CREATE INDEX [IX_stg_BureauCredit_SK_ID_BUREAU] ON [stg].[BureauCredit] ([SK_ID_BUREAU]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[BureauCredit]')
+      AND name = N'IX_stg_BureauCredit_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_BureauCredit_SK_ID_CURR] ON [stg].[BureauCredit] ([SK_ID_CURR]);
+GO
+
+IF OBJECT_ID(N'[stg].[BureauBalance]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[BureauBalance]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_BureauBalance_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_BUREAU] BIGINT NULL,
+        [MONTHS_BALANCE] BIGINT NULL,
+        [STATUS] NVARCHAR(255) NULL,
+        CONSTRAINT [PK_stg_BureauBalance] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_BureauBalance_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[BureauBalance]')
+      AND name = N'IX_stg_BureauBalance_SK_ID_BUREAU'
+)
+    CREATE INDEX [IX_stg_BureauBalance_SK_ID_BUREAU] ON [stg].[BureauBalance] ([SK_ID_BUREAU]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[BureauBalance]')
+      AND name = N'IX_stg_BureauBalance_MONTHS_BALANCE'
+)
+    CREATE INDEX [IX_stg_BureauBalance_MONTHS_BALANCE] ON [stg].[BureauBalance] ([MONTHS_BALANCE]);
+GO
+
+IF OBJECT_ID(N'[stg].[InstallmentPayment]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[InstallmentPayment]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_InstallmentPayment_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_PREV] BIGINT NULL,
+        [SK_ID_CURR] BIGINT NULL,
+        [NUM_INSTALMENT_VERSION] BIGINT NULL,
+        [NUM_INSTALMENT_NUMBER] BIGINT NULL,
+        [DAYS_INSTALMENT] BIGINT NULL,
+        [DAYS_ENTRY_PAYMENT] BIGINT NULL,
+        [AMT_INSTALMENT] DECIMAL(28,10) NULL,
+        [AMT_PAYMENT] DECIMAL(28,10) NULL,
+        CONSTRAINT [PK_stg_InstallmentPayment] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_InstallmentPayment_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[InstallmentPayment]')
+      AND name = N'IX_stg_InstallmentPayment_SK_ID_PREV'
+)
+    CREATE INDEX [IX_stg_InstallmentPayment_SK_ID_PREV] ON [stg].[InstallmentPayment] ([SK_ID_PREV]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[InstallmentPayment]')
+      AND name = N'IX_stg_InstallmentPayment_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_InstallmentPayment_SK_ID_CURR] ON [stg].[InstallmentPayment] ([SK_ID_CURR]);
+GO
+
+IF OBJECT_ID(N'[stg].[POSCashBalance]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[POSCashBalance]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_POSCashBalance_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_PREV] BIGINT NULL,
+        [SK_ID_CURR] BIGINT NULL,
+        [MONTHS_BALANCE] BIGINT NULL,
+        [CNT_INSTALMENT] BIGINT NULL,
+        [CNT_INSTALMENT_FUTURE] BIGINT NULL,
+        [NAME_CONTRACT_STATUS] NVARCHAR(255) NULL,
+        [SK_DPD] BIGINT NULL,
+        [SK_DPD_DEF] BIGINT NULL,
+        CONSTRAINT [PK_stg_POSCashBalance] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_POSCashBalance_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[POSCashBalance]')
+      AND name = N'IX_stg_POSCashBalance_SK_ID_PREV'
+)
+    CREATE INDEX [IX_stg_POSCashBalance_SK_ID_PREV] ON [stg].[POSCashBalance] ([SK_ID_PREV]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[POSCashBalance]')
+      AND name = N'IX_stg_POSCashBalance_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_POSCashBalance_SK_ID_CURR] ON [stg].[POSCashBalance] ([SK_ID_CURR]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[POSCashBalance]')
+      AND name = N'IX_stg_POSCashBalance_MONTHS_BALANCE'
+)
+    CREATE INDEX [IX_stg_POSCashBalance_MONTHS_BALANCE] ON [stg].[POSCashBalance] ([MONTHS_BALANCE]);
+GO
+
+IF OBJECT_ID(N'[stg].[CreditCardBalance]', N'U') IS NULL
+BEGIN
+    CREATE TABLE [stg].[CreditCardBalance]
+    (
+        [StagingRowID] BIGINT IDENTITY(1,1) NOT NULL,
+        [BatchID] BIGINT NOT NULL,
+        [SourceRowNumber] BIGINT NOT NULL,
+        [LoadedAtUtc] DATETIME2(3) NOT NULL
+            CONSTRAINT [DF_stg_CreditCardBalance_LoadedAtUtc] DEFAULT SYSUTCDATETIME(),
+        [SK_ID_PREV] BIGINT NULL,
+        [SK_ID_CURR] BIGINT NULL,
+        [MONTHS_BALANCE] BIGINT NULL,
+        [AMT_BALANCE] DECIMAL(28,10) NULL,
+        [AMT_CREDIT_LIMIT_ACTUAL] BIGINT NULL,
+        [AMT_DRAWINGS_ATM_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_DRAWINGS_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_DRAWINGS_OTHER_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_DRAWINGS_POS_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_INST_MIN_REGULARITY] DECIMAL(28,10) NULL,
+        [AMT_PAYMENT_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_PAYMENT_TOTAL_CURRENT] DECIMAL(28,10) NULL,
+        [AMT_RECEIVABLE_PRINCIPAL] DECIMAL(28,10) NULL,
+        [AMT_RECIVABLE] DECIMAL(28,10) NULL,
+        [AMT_TOTAL_RECEIVABLE] DECIMAL(28,10) NULL,
+        [CNT_DRAWINGS_ATM_CURRENT] BIGINT NULL,
+        [CNT_DRAWINGS_CURRENT] BIGINT NULL,
+        [CNT_DRAWINGS_OTHER_CURRENT] BIGINT NULL,
+        [CNT_DRAWINGS_POS_CURRENT] BIGINT NULL,
+        [CNT_INSTALMENT_MATURE_CUM] BIGINT NULL,
+        [NAME_CONTRACT_STATUS] NVARCHAR(255) NULL,
+        [SK_DPD] BIGINT NULL,
+        [SK_DPD_DEF] BIGINT NULL,
+        CONSTRAINT [PK_stg_CreditCardBalance] PRIMARY KEY CLUSTERED ([StagingRowID]),
+        CONSTRAINT [FK_stg_CreditCardBalance_Batch] FOREIGN KEY ([BatchID]) REFERENCES [ctl].[ETLBatch] ([BatchID])
+    );
+END;
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[CreditCardBalance]')
+      AND name = N'IX_stg_CreditCardBalance_SK_ID_PREV'
+)
+    CREATE INDEX [IX_stg_CreditCardBalance_SK_ID_PREV] ON [stg].[CreditCardBalance] ([SK_ID_PREV]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[CreditCardBalance]')
+      AND name = N'IX_stg_CreditCardBalance_SK_ID_CURR'
+)
+    CREATE INDEX [IX_stg_CreditCardBalance_SK_ID_CURR] ON [stg].[CreditCardBalance] ([SK_ID_CURR]);
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.indexes
+    WHERE object_id = OBJECT_ID(N'[stg].[CreditCardBalance]')
+      AND name = N'IX_stg_CreditCardBalance_MONTHS_BALANCE'
+)
+    CREATE INDEX [IX_stg_CreditCardBalance_MONTHS_BALANCE] ON [stg].[CreditCardBalance] ([MONTHS_BALANCE]);
+GO

@@ -1,0 +1,54 @@
+# Raw and generated data
+home-credit-default-risk/
+data/raw/**
+data/staging/**
+data/processed/**
+!data/raw/.gitkeep
+!data/staging/.gitkeep
+!data/processed/.gitkeep
+
+# SQL Server and SSIS generated files
+*.bak
+*.mdf
+*.ldf
+*.ispac
+*.dtproj.user
+*.suo
+.vs/
+bin/
+obj/
+
+# Power BI binaries and exports
+*.pbix
+*.pbit
+*.pdf
+
+# Local configuration and logs
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.key
+kaggle.json
+credentials.json
+secrets.json
+.DS_Store
+
+# LaTeX generated files
+# Report sources are maintained locally and will be published in a later release.
+latex/
+latex/build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
