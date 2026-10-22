@@ -30,6 +30,7 @@ _Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được 
 | TC-020 | Rerun | Same source does not duplicate data | Counts unchanged | Run full load twice |
 | TC-021 | Local KPI | Full-scan aggregate invariants | PASS | `validate_kpi_baseline.py` |
 | TC-022 | Deploy | Required SQL objects exist | 59 objects | `053_smoke_test_schema.sql` |
+| TC-023 | Repository | Code-first validation on every push/PR | PASS | GitHub Actions `validate.yml` |
 
 ## ✅ Kết quả local đã xác nhận
 
@@ -41,6 +42,7 @@ _Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được 
 | Python syntax | PASS | Toàn bộ script compile thành công |
 | SQL static structure | PASS | Batch boundary và dấu ngoặc cân bằng |
 | Documentation links | PASS | Không có internal link bị thiếu |
+| TC-023 code-first CI | PASS locally | Python compile, KPI invariants và artifact checks không cần raw CSV |
 
 Các test cần SQL Server, SSIS hoặc Power BI vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
 

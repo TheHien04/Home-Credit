@@ -6,6 +6,9 @@ data/processed/**
 !data/raw/.gitkeep
 !data/staging/.gitkeep
 !data/processed/.gitkeep
+!data/processed/eda/
+data/processed/eda/**
+!data/processed/eda/full_kpi_baseline.json
 
 # SQL Server and SSIS generated files
 *.bak

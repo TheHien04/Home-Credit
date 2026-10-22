@@ -2,6 +2,8 @@
 
 _An academic Business Intelligence and data warehousing project by Group 8_
 
+[![Project validation](https://github.com/TheHien04/Home-Credit/actions/workflows/validate.yml/badge.svg)](https://github.com/TheHien04/Home-Credit/actions/workflows/validate.yml)
+
 ---
 
 ## 📋 Overview
@@ -21,7 +23,7 @@ The repository is intentionally **code-first**: SQL, Python validation utilities
 | SQL warehouse | Control, STG, NDS, DDS, ETL, tests, analytics views | Implemented; Windows execution pending |
 | SSIS | Five-package control-flow and data-flow specification | Specification complete; packages pending |
 | Power BI | Semantic model, canonical DAX, five-page dashboard design | Specification complete; PBIX pending |
-| Verification | Full-file KPI baseline and artifact validator | Local checks pass |
+| Verification | Versioned KPI baseline, artifact validator, GitHub Actions | Local checks pass; CI enabled |
 
 ## 🏗️ Architecture
 
@@ -107,7 +109,7 @@ python3 scripts/validate_kpi_baseline.py
 python3 scripts/validate_project_artifacts.py
 ```
 
-The final two commands must report `PASS`. The artifact validator also checks raw-file hashes, internal Markdown links, SQL structure, expected object counts, and optional local report sources.
+The final two commands must report `PASS`. The artifact validator checks raw-file hashes, internal Markdown links, SQL structure, expected object counts, and optional local report sources. GitHub Actions runs the same code-first checks with `--skip-raw` because the Kaggle files are intentionally excluded from the repository.
 
 ### Deploy on the Windows integration host
 
@@ -127,7 +129,7 @@ The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytic
 | `ssis/` | SSIS package build specification and future runtime artifacts |
 | `powerbi/` | Semantic-model specification, DAX measures, and future evidence |
 | `docs/` | Data, modeling, KPI, testing, setup, and handoff documentation |
-| `data/` | Ignored local workspace for generated or intermediate data |
+| `data/` | Ignored local workspace; only the aggregate KPI baseline is versioned |
 
 ## 👥 Team
 

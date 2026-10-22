@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import re
 import sys
@@ -16,7 +17,10 @@ SMOKE_TEST = ROOT / "sql" / "05_tests" / "053_smoke_test_schema.sql"
 EXPECTED_SQL_OBJECTS = 59
 
 REQUIRED_ARTIFACTS = (
+    ".github/workflows/validate.yml",
     "README.md",
+    "data/processed/eda/full_kpi_baseline.json",
+    "docs/DDS_MODEL.md",
     "docs/KPI_BASELINE_FULL_SCAN.md",
     "docs/PROJECT_STATUS.md",
     "docs/SUBMISSION_CHECKLIST.md",
@@ -197,9 +201,20 @@ def check_latex_sources(failures: list[str]) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Validate versioned Home Credit BI artifacts and optional local raw data."
+    )
+    parser.add_argument(
+        "--skip-raw",
+        action="store_true",
+        help="Skip source-file SHA-256 verification for CI or a code-only clone.",
+    )
+    args = parser.parse_args()
+
     failures: list[str] = []
     check_required_artifacts(failures)
-    check_raw_hashes(failures)
+    if not args.skip_raw:
+        check_raw_hashes(failures)
     check_markdown_links(failures)
     check_sql_structure(failures)
     check_latex_sources(failures)
@@ -209,9 +224,10 @@ def main() -> None:
             print(f"FAIL: {message}")
         raise SystemExit(1)
 
+    raw_summary = "raw hashes skipped" if args.skip_raw else "10 raw hashes"
     print(
         "Project artifact validation: PASS "
-        f"({len(REQUIRED_ARTIFACTS)} required artifacts, 10 raw hashes, "
+        f"({len(REQUIRED_ARTIFACTS)} required artifacts, {raw_summary}, "
         f"{EXPECTED_SQL_OBJECTS} SQL objects, links and optional LaTeX conventions)"
     )
 

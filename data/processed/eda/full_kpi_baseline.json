@@ -1,0 +1,214 @@
+{
+  "application": {
+    "average_annuity_amount": 27108.57,
+    "average_annuity_to_income": 0.18093,
+    "average_available_external_score": 0.509251,
+    "average_credit_amount": 599026.0,
+    "average_credit_to_income": 3.95757,
+    "average_income_amount": 168797.92,
+    "by_affordability_band": {
+      "High (35–50%)": {
+        "applications": 13977,
+        "average_credit_amount": 857884.48,
+        "default_rate": 0.08149102,
+        "defaults": 1139
+      },
+      "Low (≤20%)": {
+        "applications": 202441,
+        "average_credit_amount": 507117.79,
+        "default_rate": 0.07807707,
+        "defaults": 15806
+      },
+      "Moderate (20–35%)": {
+        "applications": 88551,
+        "average_credit_amount": 759792.8,
+        "default_rate": 0.08683132,
+        "defaults": 7689
+      },
+      "Unknown": {
+        "applications": 12,
+        "average_credit_amount": 565876.5,
+        "default_rate": 0.0,
+        "defaults": 0
+      },
+      "Very high (>50%)": {
+        "applications": 2530,
+        "average_credit_amount": 896362.39,
+        "default_rate": 0.07549407,
+        "defaults": 191
+      }
+    },
+    "by_age_band": {
+      "25–34": {
+        "applications": 72429,
+        "average_credit_amount": 542519.23,
+        "default_rate": 0.10660095,
+        "defaults": 7721
+      },
+      "35–44": {
+        "applications": 84261,
+        "average_credit_amount": 637992.0,
+        "default_rate": 0.08408398,
+        "defaults": 7085
+      },
+      "45–54": {
+        "applications": 70190,
+        "average_credit_amount": 661079.58,
+        "default_rate": 0.07046588,
+        "defaults": 4946
+      },
+      "55–64": {
+        "applications": 60522,
+        "average_credit_amount": 620478.03,
+        "default_rate": 0.05421169,
+        "defaults": 3281
+      },
+      "65+": {
+        "applications": 7876,
+        "average_credit_amount": 269824.27,
+        "default_rate": 0.03656679,
+        "defaults": 288
+      },
+      "Under 25": {
+        "applications": 12233,
+        "average_credit_amount": 414962.15,
+        "default_rate": 0.12294613,
+        "defaults": 1504
+      }
+    },
+    "by_contract_type": {
+      "Cash loans": {
+        "applications": 278232,
+        "average_credit_amount": 627965.73,
+        "default_rate": 0.08345913,
+        "defaults": 23221
+      },
+      "Revolving loans": {
+        "applications": 29279,
+        "average_credit_amount": 324017.98,
+        "default_rate": 0.05478329,
+        "defaults": 1604
+      }
+    },
+    "by_income_band": {
+      "100k–149k": {
+        "applications": 91591,
+        "average_credit_amount": 520160.18,
+        "default_rate": 0.08618751,
+        "defaults": 7894
+      },
+      "150k–249k": {
+        "applications": 112444,
+        "average_credit_amount": 676516.69,
+        "default_rate": 0.08146277,
+        "defaults": 9160
+      },
+      "250k+": {
+        "applications": 39778,
+        "average_credit_amount": 900748.04,
+        "default_rate": 0.06400523,
+        "defaults": 2546
+      },
+      "Under 100k": {
+        "applications": 63698,
+        "average_credit_amount": 387216.15,
+        "default_rate": 0.08202769,
+        "defaults": 5225
+      }
+    },
+    "default_applications": 24825,
+    "default_rate": 0.08072882,
+    "non_default_applications": 282686,
+    "rows_scanned": 307511,
+    "total_applications": 307511
+  },
+  "bureau_credit": {
+    "active_bureau_debt": 166140712936.59,
+    "active_credit_rows": 541919,
+    "credits_with_overdue": 3918,
+    "negative_debt_rows": 8418,
+    "rows_scanned": 1716428,
+    "status_counts": {
+      "Active": 541919,
+      "Bad debt": 20,
+      "Closed": 917733,
+      "Sold": 5653
+    },
+    "total_overdue_amount": 58767541.51,
+    "train_linked_rows": 1465325
+  },
+  "bureau_monthly": {
+    "dds_scope_rows": 17821796,
+    "parent_missing_rows": 3120184,
+    "rows_scanned": 27299925,
+    "status_counts_in_scope": {
+      "0": 4919909,
+      "1": 167904,
+      "2": 18048,
+      "3": 7067,
+      "4": 4698,
+      "5": 52600,
+      "C": 9119139,
+      "X": 3532431
+    },
+    "train_linked_rows": 14701612
+  },
+  "credit_card_monthly": {
+    "parent_missing_rows": 872972,
+    "rows_scanned": 3840312,
+    "rows_with_dpd": 134123,
+    "total_balance_amount": 190686609912.73,
+    "total_credit_limit_amount": 493728786000.0,
+    "train_linked_rows": 3227965
+  },
+  "installment_payment": {
+    "average_days_late": 12.5137,
+    "late_payment_rate": 0.08573891,
+    "late_payment_rows": 993629,
+    "missing_payment_rows": 2583,
+    "parent_missing_rows": 1019371,
+    "payment_variance_amount": 1799292418.12,
+    "recorded_payment_rows": 11589009,
+    "rows_scanned": 13605401,
+    "total_paid_amount": 197904671164.26,
+    "total_scheduled_amount": 196105378746.14,
+    "train_linked_rows": 11591592
+  },
+  "metadata": {
+    "analysis_date": "2026-10-22",
+    "formulas": {
+      "active_bureau_debt": "sum debt where CREDIT_ACTIVE is Active; negative debt retained",
+      "average_days_late": "mean positive payment-day minus due-day difference among late rows",
+      "default_rate": "default applications / labeled TRAIN applications",
+      "late_payment_rate": "recorded payments with payment day > due day / recorded payment rows",
+      "previous_approval_rate": "approved previous applications / TRAIN-linked previous applications"
+    },
+    "manifest_sha256": "b894ba2616452477cee70d667a7c535c05573f48b92d943a54f64c86e52f1305",
+    "python_version": "3.9.6",
+    "raw_data_modified": false,
+    "raw_rows_emitted": false,
+    "scope": "complete-file aggregate scan of seven business CSV files"
+  },
+  "pos_cash_monthly": {
+    "parent_missing_rows": 291621,
+    "rows_scanned": 10001358,
+    "rows_with_dpd": 259107,
+    "train_linked_rows": 8543375
+  },
+  "previous_application": {
+    "approval_rate": 0.62679378,
+    "approved_rows": 886099,
+    "average_application_amount": 175243.59,
+    "average_credit_amount": 196354.09,
+    "negative_amount_rows": 2,
+    "nonpositive_payment_count_rows": 121985,
+    "rows_scanned": 1670214,
+    "status_counts": {
+      "Approved": 886099,
+      "Canceled": 259441,
+      "Refused": 245390,
+      "Unused offer": 22771
+    },
+    "train_linked_rows": 1413701
+  }
+}

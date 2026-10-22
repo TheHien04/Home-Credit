@@ -10,7 +10,7 @@ Có hai cách đo để tránh nhầm giữa “đã viết thiết kế/script�
 
 | Góc đo | Tiến độ ước tính | Ý nghĩa |
 | --- | ---: | --- |
-| Artifact thiết kế và mã nguồn | **85%** | Profiling, STG/NDS/DDS, ETL/tests, KPI baseline, Power BI và SSIS specs đã có; report source được phát hành riêng |
+| Artifact thiết kế và mã nguồn | **88%** | Profiling, STG/NDS/DDS, ETL/tests, KPI baseline, chi tiết star schema, Power BI/SSIS specs và CI đã có; report source được phát hành riêng |
 | Pipeline SQL/SSIS chạy thực tế | **22%** | Full local analytics đã chạy; SQL Server/SSIS/Power BI chưa chạy end-to-end |
 | Local full-data analysis | **100%** | 7 business files, 58.441.149 rows, KPI baseline và invariants đã hoàn tất |
 
@@ -30,8 +30,10 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 - Tạo 6 dimensions, 7 facts, DDS loader và 12 DDS reconciliation tests
 - Viết semantic SQL views, KPI reconciliation và canonical DAX measures
 - Chạy full-data KPI baseline và xác nhận mọi aggregate invariant đều PASS
-- Hoàn thiện bus matrix, KPI dictionary, source-to-target mapping và 22-case test plan
+- Hoàn thiện bus matrix, ERD star schema có PK/FK, KPI dictionary, source-to-target mapping và 23-case test plan
 - Viết SSIS package build specification cho 5 packages và error flow
+- Thêm GitHub Actions để compile Python, kiểm tra KPI baseline và validate code-first artifacts trên push/PR
+- Đưa aggregate KPI baseline an toàn vào Git; không chứa raw row hoặc dữ liệu định danh
 - Viết báo cáo kỹ thuật Chương 1–7, kế hoạch nhóm 4 người và checklist bàn giao
 - Chuẩn bị report source riêng; chưa đưa vào code-first release trên GitHub
 - Đóng gói validator local cho raw hashes, KPI invariants, SQL structure, tài liệu và 59 object bắt buộc
@@ -55,7 +57,7 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 
 | Phase | Trạng thái | % | Còn thiếu để Done |
 | --- | --- | ---: | --- |
-| 0. Setup & repository | Đang làm | 80% | Cài và chụp bằng chứng SQL Server, VS, SSDT/SSIS trên Windows |
+| 0. Setup & repository | Gần xong | 90% | Cài và chụp bằng chứng SQL Server, VS, SSDT/SSIS trên Windows |
 | 1. Intake & profiling | Gần xong | 95% | Chạy duplicate test theo composite grain sau khi load STG |
 | 2. Business requirements | Gần xong | 95% | Nhóm/giảng viên xác nhận KPI dictionary |
 | 3. STG & NDS | Đã viết, chưa chạy DB | 80% | Load thật, sửa lỗi runtime, ký acceptance tests |
