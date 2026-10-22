@@ -42,7 +42,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--root",
         type=Path,
-        default=Path("data/raw"),
+        default=Path("home-credit-default-risk"),
         help="Approved raw-data directory inside this project.",
     )
     parser.add_argument(

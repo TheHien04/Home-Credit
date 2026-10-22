@@ -9,7 +9,7 @@ _Hướng dẫn đưa dữ liệu Home Credit vào workspace an toàn_
 1. Đăng nhập trang [Home Credit Default Risk](https://www.kaggle.com/competitions/home-credit-default-risk/data).
 2. Chấp nhận Competition Rules bằng tài khoản Kaggle của bạn.
 3. Chọn **Download All**.
-4. Giải nén vào thư mục `data/raw/` của project.
+4. Giải nén vào thư mục `home-credit-default-risk/` ở project root.
 5. Không đổi tên hoặc chỉnh sửa các file CSV gốc.
 
 > 🔐 **Bảo mật:** Không gửi username, password, API token hoặc file `kaggle.json`. Project chỉ cần các CSV đã tải.
@@ -42,7 +42,7 @@ Script chỉ đọc tên file, kích thước, header và số dòng; không in 
 ## ⚠️ Quy tắc dữ liệu gốc
 
 - Không mở rồi lưu lại CSV bằng Excel
-- Không xóa null hoặc sửa category trong `data/raw/`
+- Không xóa null hoặc sửa category trong `home-credit-default-risk/`
 - Không commit CSV lên Git
 - Mọi sample hoặc dữ liệu dẫn xuất đặt ở `data/staging/` hoặc `data/processed/`
 - Kết quả profiling phải ghi rõ giới hạn số dòng nếu chỉ quét một phần
