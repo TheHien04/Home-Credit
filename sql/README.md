@@ -4,7 +4,7 @@ _Deployment order and operational guidance for the Home Credit BI database_
 
 ---
 
-**Windows runtime owner:** Nguyen Van Hop (23127192). Nguyen The Hien supports source-logic and KPI-baseline reconciliation.
+**Windows runtime owner:** Nguyễn Văn Hộp (23127192). Nguyễn Thế Hiển supports source-logic and KPI-baseline reconciliation.
 
 ## 📁 Directory structure
 

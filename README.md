@@ -133,10 +133,10 @@ The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytic
 
 | Student ID | Member | Primary responsibility |
 | ---: | --- | --- |
-| 22127107 | Nguyen The Hien | Data intake, profiling, quality rules, KPI baseline, documentation, coordination |
-| 23127182 | Nguyen Truong Duy | Windows toolchain, SSIS staging, reject flow, rerun validation |
-| 23127192 | Nguyen Van Hop | SQL deployment, NDS/DDS packages, KPI reconciliation, performance evidence |
-| 23127328 | Nguyen Quoc Bao | Power BI, SQL-to-DAX reconciliation, runtime evidence, presentation package |
+| 22127107 | Nguyễn Thế Hiển | Data intake, profiling, quality rules, KPI baseline, documentation, coordination |
+| 23127182 | Nguyễn Trường Duy | Windows toolchain, SSIS staging, reject flow, rerun validation |
+| 23127192 | Nguyễn Văn Hộp | SQL deployment, NDS/DDS packages, KPI reconciliation, performance evidence |
+| 23127328 | Nguyễn Quốc Bảo | Power BI, SQL-to-DAX reconciliation, runtime evidence, presentation package |
 
 ## 📚 Documentation
 
