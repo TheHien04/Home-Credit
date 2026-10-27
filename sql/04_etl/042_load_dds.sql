@@ -417,7 +417,7 @@ BEGIN
         THROW;
     END CATCH;
 
-    SELECT N'FactLoanApplication' AS ObjectName, COUNT_BIG(*) AS RowCount FROM dds.FactLoanApplication WHERE SourceBatchID = @BatchID
+    SELECT N'FactLoanApplication' AS ObjectName, COUNT_BIG(*) AS [RowCount] FROM dds.FactLoanApplication WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'FactPreviousApplication', COUNT_BIG(*) FROM dds.FactPreviousApplication WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'FactInstallmentPayment', COUNT_BIG(*) FROM dds.FactInstallmentPayment WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'FactBureauCredit', COUNT_BIG(*) FROM dds.FactBureauCredit WHERE SourceBatchID = @BatchID

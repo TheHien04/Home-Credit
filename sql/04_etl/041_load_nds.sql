@@ -236,7 +236,7 @@ BEGIN
         THROW;
     END CATCH;
 
-    SELECT N'Applicant' AS ObjectName, COUNT_BIG(*) AS RowCount FROM nds.Applicant WHERE SourceBatchID = @BatchID
+    SELECT N'Applicant' AS ObjectName, COUNT_BIG(*) AS [RowCount] FROM nds.Applicant WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'LoanApplication', COUNT_BIG(*) FROM nds.LoanApplication WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'PreviousApplication', COUNT_BIG(*) FROM nds.PreviousApplication WHERE SourceBatchID = @BatchID
     UNION ALL SELECT N'BureauCredit', COUNT_BIG(*) FROM nds.BureauCredit WHERE SourceBatchID = @BatchID
