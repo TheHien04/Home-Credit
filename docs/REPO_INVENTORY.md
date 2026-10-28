@@ -14,7 +14,8 @@ _Nhóm 8 · kiểm kê phục vụ mốc trình bày 30/10/2026_
 | Source-to-target mapping | EXIST | `SOURCE_TO_TARGET_MAPPING.md`, `MAPPING_APPLICATION_V01.md` | Reviewer ký xác nhận |
 | SQL Server DDL | EXIST | `sql/00_admin` đến `sql/03_dds` | Deploy trên canonical host |
 | SQL ETL và tests | EXIST | `sql/04_etl`, `sql/05_tests` | Chạy theo một `BatchID` |
-| SSIS design | EXIST | `ssis/PACKAGE_BUILD_SPEC.md` | Dựng `.dtproj/.dtsx` trên Windows |
+| SSIS design | EXIST | `ssis/PACKAGE_BUILD_SPEC.md` | Hoàn thiện đủ năm package |
+| SSIS application staging source | EXIST | `ssis/HomeCredit_BI/HomeCredit_ETL/` | Parameterize, build và chạy trên canonical Windows host |
 | KPI baseline | VERIFIED LOCAL | `KPI_BASELINE_FULL_SCAN.md` | Đối soát SQL và DAX |
 | Power BI specification | EXIST | `powerbi/MODEL_SPEC.md`, `MEASURES_DAX.md` | Tạo và refresh PBIX |
 | Report và team plan | EXIST LOCAL | `latex/report`, `latex/team-plan` | Render và chèn runtime evidence |

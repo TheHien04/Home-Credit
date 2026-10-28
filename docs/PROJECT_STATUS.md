@@ -10,7 +10,7 @@ Có hai cách đo để tránh nhầm giữa “đã viết thiết kế/script�
 
 | Góc đo | Tiến độ ước tính | Ý nghĩa |
 | --- | ---: | --- |
-| Artifact thiết kế và mã nguồn | **88%** | Profiling, STG/NDS/DDS, ETL/tests, KPI baseline, chi tiết star schema, Power BI/SSIS specs và CI đã có; report source được phát hành riêng |
+| Artifact thiết kế và mã nguồn | **92%** | Profiling, STG/NDS/DDS, ETL/tests, KPI baseline, chi tiết star schema, Power BI/SSIS specs, application staging package source và CI đã có; report source được phát hành riêng |
 | Pipeline SQL/SSIS chạy thực tế | **22%** | Full local analytics đã chạy; SQL Server/SSIS/Power BI chưa chạy end-to-end |
 | Local full-data analysis | **100%** | 7 business files, 58.441.149 rows, KPI baseline và invariants đã hoàn tất |
 
@@ -34,6 +34,7 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 - Chạy full-data KPI baseline và xác nhận mọi aggregate invariant đều PASS
 - Hoàn thiện bus matrix, ERD star schema có PK/FK, KPI dictionary, source-to-target mapping và 23-case test plan
 - Viết SSIS package build specification cho 5 packages và error flow
+- Commit Visual Studio/SSIS project source cho application-train staging; chưa có runtime evidence
 - Thêm GitHub Actions để compile Python, kiểm tra KPI baseline và validate code-first artifacts trên push/PR
 - Đưa aggregate KPI baseline an toàn vào Git; không chứa raw row hoặc dữ liệu định danh
 - Viết báo cáo kỹ thuật Chương 1–7, kế hoạch nhóm 4 người và checklist bàn giao
@@ -65,7 +66,7 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 | 2. Business requirements | Gần xong | 95% | Nhóm/giảng viên xác nhận KPI dictionary |
 | 3. STG & NDS | Đã viết, chưa chạy DB | 80% | Load thật, sửa lỗi runtime, ký acceptance tests |
 | 4. DDS/star schema | Đã viết, chưa chạy DB | 75% | Compile/load full data và review performance |
-| 5. SSIS ETL | Có build spec | 35% | Dựng solution `.dtproj/.dtsx` trên Windows và chạy thật |
+| 5. SSIS ETL | Có build spec và application staging source | 45% | Parameterize package, bổ sung TEST/reject flow và các package còn lại; chạy thật trên Windows |
 | 6. Testing & reconciliation | Local baseline PASS | 70% | Chạy SQL/Power BI test, lưu evidence và benchmark |
 | 7. Power BI | Có model/DAX spec | 30% | Tạo `.pbix`, 5 pages, interactions và visual QA |
 | 8. Report/demo | Có draft Chương 1–7 ở workspace riêng | 75% | Phát hành report source, render/QA PDF, điền ảnh runtime, slide và tập demo |
@@ -86,7 +87,7 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 - SSIS và Visual Studio integration là công cụ Windows; workspace hiện tại là macOS.
 - Chưa có SQL Server instance để compile và chạy các script T-SQL trên full data.
 - Vì vậy các STG/NDS/DDS scripts đã được review tĩnh nhưng chưa được xác nhận runtime.
-- Chưa có file `.dtsx`, `.pbix`, ảnh evidence hay kết quả performance của full ETL.
+- Đã có application staging `.dtsx`; chưa có `.pbix`, ảnh execution evidence hay kết quả performance của full ETL.
 
 ## Definition of Done gần nhất
 

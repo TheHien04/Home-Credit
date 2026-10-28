@@ -12,7 +12,7 @@ _Evidence-based status for the 30/10 progress presentation_
 | Profiling and DQ | Full business scan | Python profilers and reports | 58.441.149 business rows | PASS local |
 | KPI oracle | Application/history KPIs | Versioned baseline | All local invariants PASS | PASS local |
 | SQL warehouse | Control/STG/NDS/DDS | 59 required SQL objects scripted | Static checks PASS | READY, runtime pending |
-| SSIS | Five-package ETL | Build specification complete | No Windows execution evidence | BLOCKED runtime |
+| SSIS | Five-package ETL | Build specification and application-train staging `.dtproj/.dtsx` committed | Source inspected; no Windows execution evidence | PARTIAL, runtime pending |
 | Power BI | Five pages | Model and DAX specifications | No PBIX evidence | PLANNED |
 | Report | Chapters and appendices | LaTeX source updated | Static convention checks PASS | DOING |
 
@@ -31,7 +31,7 @@ _Evidence-based status for the 30/10 progress presentation_
 ## Known issues and dependencies
 
 1. Canonical Windows host must install compatible SQL Server, Visual Studio, SSDT/SSIS and Power BI versions.
-2. Duy must build/run SSIS staging before Hộp can execute NDS/DDS reconciliation.
+2. Duy must review, parameterize and run the committed SSIS staging package before Hộp can execute NDS/DDS reconciliation.
 3. Bảo must wait for verified DDS before final KPI reconciliation in Power BI.
 4. All runtime evidence must share one canonical `BatchID` and Git commit.
 

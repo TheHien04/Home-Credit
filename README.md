@@ -21,7 +21,7 @@ The repository is intentionally **code-first**: SQL, Python validation utilities
 | Data intake | Source inventory, SHA-256 manifest, profiling scripts | Ready |
 | Data quality | Cleaning contract, anomaly flags, reject handling | Ready for runtime validation |
 | SQL warehouse | Control, STG, NDS, DDS, ETL, tests, analytics views | Implemented; Windows execution pending |
-| SSIS | Five-package control-flow and data-flow specification | Specification complete; packages pending |
+| SSIS | Five-package specification plus application-train staging package source | Initial `.dtproj/.dtsx` committed; runtime and remaining packages pending |
 | Power BI | Semantic model, canonical DAX, five-page dashboard design | Specification complete; PBIX pending |
 | Verification | Versioned KPI baseline, artifact validator, GitHub Actions | Local checks pass; CI enabled |
 
@@ -126,7 +126,7 @@ The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytic
 | --- | --- |
 | `scripts/` | Data checks, profiling, KPI computation, and deployment utilities |
 | `sql/` | Ordered SQL Server deployment, ETL, validation, and analytics scripts |
-| `ssis/` | SSIS package build specification and future runtime artifacts |
+| `ssis/` | SSIS build specification and the current Visual Studio/SSIS project source |
 | `powerbi/` | Semantic-model specification, DAX measures, and future evidence |
 | `docs/` | Data, modeling, KPI, testing, setup, and handoff documentation |
 | `data/` | Ignored local workspace; only the aggregate KPI baseline is versioned |
@@ -168,7 +168,7 @@ The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytic
 
 - SQL Server, SSIS, and Power BI have not yet been executed end to end on the canonical Windows host
 - Runtime screenshots, row-throughput measurements, transaction-log usage, and rerun evidence remain pending
-- `.dtsx`, `.pbix`, PDF, and LaTeX report sources are intentionally excluded from this code-first release
+- `.pbix`, PDF, and LaTeX report sources are intentionally excluded from this code-first release; SSIS project source is versioned
 - Segment-level findings are descriptive associations and must not be interpreted as causal effects
 
 ## 🔐 Data and security
