@@ -45,7 +45,7 @@ _Cập nhật: 29/10/2026 — test chạy local và test chờ Windows được 
 | SQL static structure | PASS | Batch boundary và dấu ngoặc cân bằng |
 | Documentation links | PASS | Không có internal link bị thiếu |
 | TC-023 code-first CI | PASS locally | Python compile, KPI invariants và artifact checks không cần raw CSV |
-| TC-024/025 application samples | PASS local | Hai sample 5.000 rows khớp SHA-256 và `STG_TEST_ORACLE.md` |
+| TC-024/025 application samples | PASS local | Hai sample 5.000 rows khớp SHA-256 và oracle trong `PROGRESS_REVIEW_30OCT.md` |
 
 Các test cần SQL Server, SSIS hoặc Power BI vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
 

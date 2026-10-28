@@ -73,10 +73,10 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 
 ## ⏭️ Việc tiếp theo theo đúng thứ tự
 
-1. **Hiển:** bàn giao `MVP_30OCT`, `MAPPING_APPLICATION_V01`, hai application samples và `STG_TEST_ORACLE` cho Duy/Hộp; nhận xác nhận review.
+1. **Hiển:** bàn giao `PROGRESS_REVIEW_30OCT.md` và hai application samples cho Duy/Hộp; nhận xác nhận review.
 2. **Cả ba bạn Windows:** thống nhất SQL Server/SSIS target version; Duy cài ETL toolchain, Hộp chuẩn bị canonical SQL/SSIS host, Bảo cài Power BI.
 3. **Hộp — Windows:** deploy SQL trên canonical host theo `sql/README.md`; smoke test phải tìm đủ 59 objects.
-4. **Duy — Windows:** chạy application sample trước; actual counts phải khớp `STG_TEST_ORACLE.md`.
+4. **Duy — Windows:** chạy application sample trước; actual counts phải khớp test oracle trong `PROGRESS_REVIEW_30OCT.md`.
 5. **Duy — Windows:** tạo một `ctl.ETLBatch`, mở rộng staging package và load cả 7 nguồn nghiệp vụ cùng `BatchID`.
 6. **Hộp — Windows:** tích hợp package STG, dựng/chạy NDS và DDS packages; lưu result grids, KPI reconciliation và benchmark.
 7. **Bảo — Windows:** tạo `.pbix` theo model/DAX spec, làm 5 pages và đối soát SQL–DAX.

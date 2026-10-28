@@ -150,17 +150,12 @@ The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytic
 | [Data dictionary](docs/DATA_DICTIONARY.md) | Curated tables, grains, keys, and derived fields |
 | [DDS model](docs/DDS_MODEL.md) | Bus matrix, fact grains, dimensions, and additive behavior |
 | [Source-to-target mapping](docs/SOURCE_TO_TARGET_MAPPING.md) | Representative mappings across warehouse layers |
-| [Application mapping v0.1](docs/MAPPING_APPLICATION_V01.md) | SSIS mapping for the 30 October application vertical slice |
-| [Application profile](docs/PROFILE_APPLICATION.md) | Full and sample TRAIN/TEST profiling results |
-| [Staging test oracle](docs/STG_TEST_ORACLE.md) | Expected sample/full counts for SQL reconciliation |
 | [KPI dictionary](docs/KPI_DICTIONARY.md) | Canonical formulas, populations, and filter rules |
 | [Full-data KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) | Independent expected values from the complete local scan |
 | [Test plan](docs/TEST_PLAN.md) | Validation catalog, execution order, and evidence requirements |
 | [Windows setup checklist](docs/WINDOWS_SETUP_CHECKLIST.md) | SQL Server, Visual Studio, SSDT/SSIS, and Power BI setup |
 | [Project status](docs/PROJECT_STATUS.md) | Completed work, pending runtime gates, and next actions |
-| [30 October MVP](docs/MVP_30OCT.md) | Bounded progress-demo scope and acceptance criteria |
-| [29 October progress status](docs/PROGRESS_STATUS_29OCT.md) | Implemented/verified/blocked/planned matrix |
-| [30 October speaker notes](docs/SPEAKER_NOTES_30OCT.md) | Two-to-three-minute presentation script and Q&A |
+| [30 October progress review](docs/PROGRESS_REVIEW_30OCT.md) | Hiển handoff, MVP, profile, mapping, test oracle, status and speaker notes |
 | [Submission checklist](docs/SUBMISSION_CHECKLIST.md) | Ownership, evidence, and final-package requirements |
 | [SQL workspace](sql/README.md) | Deployment order and post-staging execution commands |
 
