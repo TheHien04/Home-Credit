@@ -1,0 +1,25 @@
+name: home_credit_analytics
+version: 1.0.0
+config-version: 2
+
+profile: home_credit_analytics
+
+model-paths: ["models"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages", "logs"]
+
+vars:
+  batch_id: 0
+
+models:
+  home_credit_analytics:
+    staging:
+      +schema: nds
+      +materialized: view
+    intermediate:
+      +schema: nds
+      +materialized: view
+    marts:
+      +schema: dds
+      +materialized: table
+

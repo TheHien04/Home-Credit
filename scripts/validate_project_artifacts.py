@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import re
 import sys
 from collections import Counter
@@ -29,7 +30,13 @@ REQUIRED_ARTIFACTS = (
     "scripts/validate_kpi_baseline.py",
     "sql/000_deploy_all.sql",
     "sql/05_tests/054_validate_kpi_baseline.sql",
-    "ssis/PACKAGE_BUILD_SPEC.md",
+    "mage/README.md",
+    "mage/io_config.yaml.example",
+    "dbt_home_credit/dbt_project.yml",
+    "dbt_home_credit/models/marts/fct_loan_application.sql",
+    "dbt_home_credit/tests/assert_application_population.sql",
+    "genai/README.md",
+    "genai/kpi_insight.schema.json",
     "powerbi/MODEL_SPEC.md",
     "powerbi/MEASURES_DAX.md",
 )
@@ -48,6 +55,29 @@ def check_required_artifacts(failures: list[str]) -> None:
     for relative in REQUIRED_ARTIFACTS:
         if not (ROOT / relative).is_file():
             fail(f"Missing required artifact: {relative}", failures)
+
+
+def check_required_stack_artifacts(failures: list[str]) -> None:
+    dbt_project = (ROOT / "dbt_home_credit" / "dbt_project.yml").read_text(encoding="utf-8")
+    for marker in ("profile: home_credit_analytics", "batch_id: 0", "+schema: dds"):
+        if marker not in dbt_project:
+            fail(f"dbt project is missing required marker: {marker}", failures)
+
+    dbt_test = (ROOT / "dbt_home_credit" / "tests" / "assert_application_population.sql").read_text(
+        encoding="utf-8"
+    )
+    for marker in ("307511", "24825", "ref('fct_loan_application')"):
+        if marker not in dbt_test:
+            fail(f"dbt KPI test is missing required marker: {marker}", failures)
+
+    try:
+        schema = json.loads((ROOT / "genai" / "kpi_insight.schema.json").read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        fail(f"Invalid GenAI JSON schema: {error}", failures)
+    else:
+        required = set(schema.get("required", []))
+        if required != {"summary", "metric_ids", "caveats"}:
+            fail("GenAI schema has an unexpected required-field contract", failures)
 
 
 def check_raw_hashes(failures: list[str]) -> None:
@@ -213,6 +243,7 @@ def main() -> None:
 
     failures: list[str] = []
     check_required_artifacts(failures)
+    check_required_stack_artifacts(failures)
     if not args.skip_raw:
         check_raw_hashes(failures)
     check_markdown_links(failures)

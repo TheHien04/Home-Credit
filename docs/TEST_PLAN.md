@@ -44,7 +44,7 @@ _Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được 
 | Documentation links | PASS | Không có internal link bị thiếu |
 | TC-023 code-first CI | PASS locally | Python compile, KPI invariants và artifact checks không cần raw CSV |
 
-Các test cần SQL Server, SSIS hoặc Power BI vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
+Các test cần Mage, dbt, SQL Server, Power BI hoặc GenAI runtime vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
 
 ## ▶️ Execution order
 

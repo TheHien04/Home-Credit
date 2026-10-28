@@ -1,99 +1,121 @@
 # Project status — Home Credit BI
 
-_Cập nhật: 22/10/2026 — Nhóm 8_
+_Cập nhật: 29/10/2026 — Nhóm 8_
 
 ---
 
-## 📊 Tóm tắt tiến độ
+## 📊 Đánh giá sau khi đối chiếu đề bài
 
-Có hai cách đo để tránh nhầm giữa “đã viết thiết kế/script” và “đã chạy end-to-end”:
+Thiết kế dữ liệu và baseline hiện tại vẫn có giá trị, nhưng kiến trúc SSIS cũ không đáp ứng toolchain bắt buộc. Project đã chuyển hướng sang `Mage.ai → SQL Server STG → dbt → SQL Server marts → Power BI + GenAI`.
 
-| Góc đo | Tiến độ ước tính | Ý nghĩa |
+| Góc đo | Tiến độ ước tính | Diễn giải |
 | --- | ---: | --- |
-| Artifact thiết kế và mã nguồn | **88%** | Profiling, STG/NDS/DDS, ETL/tests, KPI baseline, chi tiết star schema, Power BI/SSIS specs và CI đã có; report source được phát hành riêng |
-| Pipeline SQL/SSIS chạy thực tế | **22%** | Full local analytics đã chạy; SQL Server/SSIS/Power BI chưa chạy end-to-end |
-| Local full-data analysis | **100%** | 7 business files, 58.441.149 rows, KPI baseline và invariants đã hoàn tất |
+| Phân tích local và KPI oracle | **100%** | 7 business files, 58.441.149 rows, KPI invariants PASS |
+| Thiết kế dữ liệu tái sử dụng | **90%** | Grain, cleaning rules, STG/NDS/DDS, KPI và test contracts đã có |
+| Required-stack source artifacts | **45%** | Mage spec, dbt application MVP và GenAI contract đã có; history chưa migrate |
+| Required-stack runtime | **0% verified** | Chưa có Mage/dbt/SQL Server/Power BI/GenAI run end-to-end |
+| Report/demo | **65%** | Nội dung data/model tốt; kiến trúc, evidence và dashboard cần cập nhật |
 
-Các tỷ lệ là ước tính quản trị dự án, không phải điểm số môn học.
+Các tỷ lệ là ước tính quản trị dự án, không phải điểm số môn học. `0% verified` không có nghĩa là chưa có mã nguồn; nó có nghĩa là chưa có execution evidence của toolchain bắt buộc.
 
-## ✅ Đã hoàn thành
+## ✅ Phần giữ lại được
 
-- Nhận đủ 10 file Home Credit, tổng cộng 58.538.856 data rows
-- Kiểm kê encoding, schema, row count và kích thước file
-- Full-scan khóa chính, quan hệ `SK_ID_CURR`, parent coverage và các rule chất lượng cốt lõi
-- Xác nhận 307.511 train applications, default rate 8,0729%
-- Chốt grain cho application, previous, bureau, monthly balances và installments
-- Viết control/audit layer và registry nguồn
-- Sinh 7 bảng STG, 8 bảng NDS và index cốt lõi
-- Viết rule catalog làm sạch, 8 clean views và procedure nạp NDS có transaction
-- Viết staging validation và NDS reconciliation tests
-- Tạo 6 dimensions, 7 facts, DDS loader và 12 DDS reconciliation tests
-- Viết semantic SQL views, KPI reconciliation và canonical DAX measures
-- Chạy full-data KPI baseline và xác nhận mọi aggregate invariant đều PASS
-- Hoàn thiện bus matrix, ERD star schema có PK/FK, KPI dictionary, source-to-target mapping và 23-case test plan
-- Viết SSIS package build specification cho 5 packages và error flow
-- Thêm GitHub Actions để compile Python, kiểm tra KPI baseline và validate code-first artifacts trên push/PR
-- Đưa aggregate KPI baseline an toàn vào Git; không chứa raw row hoặc dữ liệu định danh
-- Viết báo cáo kỹ thuật Chương 1–7, kế hoạch nhóm 4 người và checklist bàn giao
-- Chuẩn bị report source riêng; chưa đưa vào code-first release trên GitHub
-- Đóng gói validator local cho raw hashes, KPI invariants, SQL structure, tài liệu và 59 object bắt buộc
+- Manifest SHA-256, profiling và full-data quality scan
+- 307.511 labeled applications, 24.825 defaults và default rate 8,0729%
+- Source-to-target mapping và cleaning rules có lineage
+- Control, audit và source-aligned staging DDL trên SQL Server
+- Grain, bus matrix, dimensions, facts và canonical KPI definitions
+- SQL validators, semantic views và independent Python KPI oracle
+- Power BI model/DAX specification
+- GitHub Actions và static artifact validator
 
-## 🧹 Các lỗi dữ liệu đã xử lý bằng rule
+## 🔄 Phần đã chuyển đổi
 
-| Vấn đề | Số dòng | Cách xử lý ở NDS |
-| --- | ---: | --- |
-| `DAYS_EMPLOYED = 365243` | 55.374 | Tenure → null, bật flag |
-| Gender `XNA` | 4 | `Unknown`, bật flag |
-| Missing application annuity | 12 | Giữ null, bật flag |
-| Missing goods price | 278 | Giữ null, bật flag |
-| Previous date sentinel | 997.144 | Từng sentinel → null, bật flag |
-| Previous payment count ≤ 0 | 144.985 | Giữ giá trị, bật flag |
-| Previous negative amount | 2 | Giữ để review, bật flag |
-| Bureau debt âm | 8.418 | Giữ để tránh bóp méo dữ liệu, bật flag |
-| Installment thiếu ngày/amount payment | 2.905 | Giữ null, `PaymentRecordedFlag = 0` |
-| Child row thiếu parent | 3,41–28,20% tùy bảng | Không xóa; bật `ParentMissingFlag` |
+- SSIS không còn là orchestrator chính; Mage chịu trách nhiệm ingestion, trigger, retry và logging
+- dbt chịu trách nhiệm cleaning, transformations, tests, documentation và lineage
+- Đã thêm dbt application vertical slice từ `stg.Application` tới `FactLoanApplicationMVP`
+- Đã thêm Mage pipeline specification và mẫu cấu hình MSSQL không chứa credential
+- Đã thêm GenAI input/output contract và JSON schema cho grounded KPI narrative
+- Validator và README đã chuyển sang kiểm tra required-stack artifacts
 
-## 🗺️ Trạng thái theo phase
+## 🧭 Kiến trúc mục tiêu
 
-| Phase | Trạng thái | % | Còn thiếu để Done |
-| --- | --- | ---: | --- |
-| 0. Setup & repository | Gần xong | 90% | Cài và chụp bằng chứng SQL Server, VS, SSDT/SSIS trên Windows |
-| 1. Intake & profiling | Gần xong | 95% | Chạy duplicate test theo composite grain sau khi load STG |
-| 2. Business requirements | Gần xong | 95% | Nhóm/giảng viên xác nhận KPI dictionary |
-| 3. STG & NDS | Đã viết, chưa chạy DB | 80% | Load thật, sửa lỗi runtime, ký acceptance tests |
-| 4. DDS/star schema | Đã viết, chưa chạy DB | 75% | Compile/load full data và review performance |
-| 5. SSIS ETL | Có build spec | 35% | Dựng solution `.dtproj/.dtsx` trên Windows và chạy thật |
-| 6. Testing & reconciliation | Local baseline PASS | 70% | Chạy SQL/Power BI test, lưu evidence và benchmark |
-| 7. Power BI | Có model/DAX spec | 30% | Tạo `.pbix`, 5 pages, interactions và visual QA |
-| 8. Report/demo | Có draft Chương 1–7 ở workspace riêng | 75% | Phát hành report source, render/QA PDF, điền ảnh runtime, slide và tập demo |
+```mermaid
+flowchart LR
+    accTitle: Required Stack Migration
+    accDescr: Existing profiling and SQL assets feed a required architecture where Mage orchestrates ingestion, dbt transforms and tests data in SQL Server, and verified marts serve Power BI and a grounded generative AI component.
 
-## ⏭️ Việc tiếp theo theo đúng thứ tự
+    raw(["Raw CSV"]) --> mage["Mage ingestion"]
+    mage --> stg[("SQL Server STG")]
+    stg --> dbt["dbt models and tests"]
+    dbt --> marts[("SQL Server marts")]
+    marts --> pbi(["Power BI"])
+    marts --> ai["Grounded GenAI"]
+    ai --> pbi
 
-1. **Cả ba bạn Windows:** thống nhất SQL Server/SSIS target version; Duy cài ETL toolchain, Hộp chuẩn bị canonical SQL/SSIS host, Bảo cài Power BI.
-2. **Hộp — Windows:** deploy SQL trên canonical host theo `sql/README.md`; smoke test phải tìm đủ 59 objects.
-3. **Duy — Windows:** tạo một `ctl.ETLBatch`, dựng staging package và load cả 7 nguồn nghiệp vụ cùng `BatchID`.
-4. **Duy — Windows:** chạy staging validator, sửa cho đến khi không còn `FAIL`, rồi thực hiện rerun test.
-5. **Hộp — Windows:** nhập package STG của Duy vào final solution, dựng/chạy NDS và DDS packages; lưu result grids, KPI reconciliation và benchmark.
-6. **Bảo — Windows:** tạo `.pbix` theo model/DAX spec, làm 5 pages và đối soát SQL–DAX.
-7. **Bảo — Windows:** tổng hợp evidence, điền runtime placeholders, định dạng Word/slide và tổ chức demo.
-8. **Hiển — Mac/điều phối:** giải thích baseline, review logic/population, hợp nhất artifact và kiểm tra nội dung cuối.
+    classDef input fill:#ede9fe,stroke:#7c3aed,stroke-width:2px,color:#3b0764
+    classDef process fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef data fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12
+    classDef output fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
 
-## ⚠️ Chưa thể xác nhận ở máy hiện tại
+    class raw input
+    class mage,dbt,ai process
+    class stg,marts data
+    class pbi output
+```
 
-- SSIS và Visual Studio integration là công cụ Windows; workspace hiện tại là macOS.
-- Chưa có SQL Server instance để compile và chạy các script T-SQL trên full data.
-- Vì vậy các STG/NDS/DDS scripts đã được review tĩnh nhưng chưa được xác nhận runtime.
-- Chưa có file `.dtsx`, `.pbix`, ảnh evidence hay kết quả performance của full ETL.
+## 👥 Phân công chính thức
 
-## Definition of Done gần nhất
+Bảng timeline 4 × 12 có cấu trúc quản trị tốt: mỗi task có dependency, deliverable, acceptance và reviewer. Nhóm giữ cấu trúc đó nhưng thay toàn bộ task SSIS bằng Mage/dbt và ưu tiên lại từ ngày 29/10.
 
-Mốc kế tiếp được xem là hoàn tất khi:
+| Thành viên | Vai trò chính | Deliverable bắt buộc | Reviewer |
+| --- | --- | --- | --- |
+| Nguyễn Thế Hiển | Data analyst/BI analyst, DQ, KPI oracle, documentation, coordination | Mapping, test oracle, report, acceptance matrix | Nguyễn Quốc Bảo |
+| Nguyễn Trường Duy | Data engineer — Mage ingestion/orchestration | Mage pipeline, reject path, shared `BatchID`, logs, rerun | Nguyễn Văn Hộp |
+| Nguyễn Văn Hộp | Analytics engineer — dbt/SQL Server | dbt models/tests/docs, SQL deploy, reconciliation, performance | Nguyễn Trường Duy |
+| Nguyễn Quốc Bảo | BI/AI engineer | PBIX, SQL–DAX matrix, grounded GenAI demo, slides/video | Nguyễn Thế Hiển |
 
-- 7 bảng STG có đúng row count nguồn
-- staging validation không có `FAIL`
-- NDS load thành công trong một transaction
-- 12 NDS tests đều `PASS`
-- 12 DDS tests đều `PASS`
-- Default count vẫn là 24.825 trên 307.511 train rows
-- Sentinel và missing-payment counts khớp full-scan
-- Unmatched history rows không bị mất
+## 🚦 Dependency gates
+
+| Gate | Owner | Điều kiện PASS |
+| --- | --- | --- |
+| G0 — Required stack | Hiển | README, architecture, ownership và backlog không còn coi SSIS là core |
+| G1 — Environment | Duy/Hộp | Mage Docker, dbt, ODBC và SQL Server `SELECT 1` hoạt động |
+| G2 — Ingestion | Duy | TRAIN/TEST vào STG với `BatchID`, accepted/rejected counts và log |
+| G3 — dbt MVP | Hộp | `dbt build` PASS; lineage có source/staging/intermediate/mart |
+| G4 — KPI reconciliation | Hộp/Hiển | 307.511 applications, 24.825 defaults, 8,0729% khớp oracle |
+| G5 — Power BI | Bảo | DAX bằng SQL dưới cùng filter; ít nhất hai trang demo hoạt động |
+| G6 — GenAI | Bảo/Hiển | Chỉ dùng aggregate KPI, JSON hợp lệ, không bịa số/nhân quả |
+| G7 — Rerun/final | Cả nhóm | Rerun không duplicate; report/demo có evidence từ cùng `BatchID` |
+
+## ⏭️ Kế hoạch ưu tiên từ 29/10
+
+### 29/10 — cứu kiến trúc và dựng vertical slice
+
+- **Hiển:** khóa mapping application MVP, cập nhật kiến trúc/report và chuẩn bị KPI oracle
+- **Duy:** cài Docker/Mage, kết nối SQL Server, tạo pipeline skeleton và block `start_batch`
+- **Hộp:** deploy SQL, chạy `dbt debug`, sửa dbt MVP tới khi compile được
+- **Bảo:** cài Power BI, tạo wireframe và GenAI mock từ KPI JSON nhưng gắn nhãn `MOCK`
+
+### 30/10 — trình bày tiến độ trung thực
+
+- Ưu tiên demo một vertical slice chạy thật: TRAIN/TEST sample → Mage → STG → dbt → SQL result
+- Nếu runtime chưa xong, trình bày rõ `Implemented / Verified / Blocked`; không dùng mock làm bằng chứng runtime
+- Power BI và GenAI được demo bằng data đã verified hoặc ghi rõ mock scope
+
+### 31/10–07/11 — hoàn thiện mini project
+
+1. Migrate six remaining business sources to dbt
+2. Hoàn thiện DDS/star marts và full KPI tests
+3. Build Power BI pages and SQL–DAX reconciliation
+4. Add grounded GenAI Python block and failure fallback
+5. Run full/incremental/rerun tests and capture performance
+6. Update report, slides, video, and final submission package
+
+## ⚠️ Rủi ro đang mở
+
+- `dbt-sqlserver` là community adapter; phải khóa version sau proof-of-connection
+- Mage–dbt integration cần Docker hoặc Mage Pro; nhóm chọn Docker OSS
+- Full history tables lớn, nên application vertical slice phải PASS trước khi mở rộng
+- Power BI và GenAI không được đọc trực tiếp dữ liệu chưa qua dbt tests
+- SSIS artifacts cũ chỉ còn giá trị tham khảo lịch sử và không được nộp thay Mage/dbt

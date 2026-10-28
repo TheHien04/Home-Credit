@@ -1,0 +1,11 @@
+version: 0.1.1
+default:
+  MSSQL_DATABASE: "{{ env_var('MSSQL_DATABASE') }}"
+  MSSQL_SCHEMA: stg
+  MSSQL_DRIVER: "ODBC Driver 18 for SQL Server"
+  MSSQL_HOST: "{{ env_var('MSSQL_HOST') }}"
+  MSSQL_PASSWORD: "{{ env_var('MSSQL_PASSWORD') }}"
+  MSSQL_PORT: 1433
+  MSSQL_USER: "{{ env_var('MSSQL_USER') }}"
+  MSSQL_CONNECTION_METHOD: direct
+

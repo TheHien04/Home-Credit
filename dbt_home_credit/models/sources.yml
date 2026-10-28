@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: home_credit_stg
+    database: "{{ env_var('DBT_SQLSERVER_DATABASE', 'HomeCreditBI') }}"
+    schema: stg
+    description: Source-aligned tables loaded by Mage into SQL Server.
+    tables:
+      - name: application
+        identifier: Application
+        description: Combined application train and test rows for one ingestion batch.
+        loaded_at_field: LoadedAtUtc
+        columns:
+          - name: BatchID
+            tests: [not_null]
+          - name: SourceRowNumber
+            tests: [not_null]
+          - name: SK_ID_CURR
+            tests: [not_null]
+          - name: DatasetSplit
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ["TRAIN", "TEST"]
+
