@@ -1,5 +1,5 @@
 /*
-Purpose: Standardize ETL batch/file lifecycle calls used by Mage orchestration.
+Purpose: Standardize ETL batch/file lifecycle calls used by SSIS.
 Dependency: 001_create_control_layer.sql and 002_seed_source_files.sql.
 */
 

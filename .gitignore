@@ -10,7 +10,7 @@ data/processed/**
 data/processed/eda/**
 !data/processed/eda/full_kpi_baseline.json
 
-# SQL Server and legacy SSIS generated files
+# SQL Server and SSIS generated files
 *.bak
 *.mdf
 *.ldf
@@ -20,14 +20,6 @@ data/processed/eda/**
 .vs/
 bin/
 obj/
-
-# Mage and dbt local state
-mage/**/io_config.yaml
-mage/**/.env
-dbt_home_credit/profiles.yml
-dbt_home_credit/target/
-dbt_home_credit/logs/
-dbt_home_credit/dbt_packages/
 
 # Power BI binaries and exports
 *.pbix

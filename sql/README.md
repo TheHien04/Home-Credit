@@ -57,7 +57,7 @@ Object-creation scripts do not delete source or staging data. `etl.usp_LoadNDS` 
 
 ## ▶️ Post-staging execution
 
-Run these commands only after the Mage staging pipeline has completed and returned a valid `BatchID`:
+Run these commands only after the SSIS staging package has completed and returned a valid `BatchID`:
 
 ```sql
 EXEC ctl.usp_ValidateHomeCreditStaging @BatchID = 1;

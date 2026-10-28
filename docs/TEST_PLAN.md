@@ -1,6 +1,6 @@
 # Test plan — Home Credit BI
 
-_Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được tách riêng_
+_Cập nhật: 29/10/2026 — test chạy local và test chờ Windows được tách riêng_
 
 ---
 
@@ -31,6 +31,8 @@ _Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được 
 | TC-021 | Local KPI | Full-scan aggregate invariants | PASS | `validate_kpi_baseline.py` |
 | TC-022 | Deploy | Required SQL objects exist | 59 objects | `053_smoke_test_schema.sql` |
 | TC-023 | Repository | Code-first validation on every push/PR | PASS | GitHub Actions `validate.yml` |
+| TC-024 | Demo sample | TRAIN sample checksum/count/domain | 5.000 rows; 386 defaults; no invalid key/target | Local validator + `055_validate_application_sample.sql` |
+| TC-025 | Demo sample | TEST sample checksum/count/domain | 5.000 rows; TARGET absent at source | Local validator + `055_validate_application_sample.sql` |
 
 ## ✅ Kết quả local đã xác nhận
 
@@ -43,8 +45,9 @@ _Cập nhật: 22/10/2026 — test chạy local và test chờ Windows được 
 | SQL static structure | PASS | Batch boundary và dấu ngoặc cân bằng |
 | Documentation links | PASS | Không có internal link bị thiếu |
 | TC-023 code-first CI | PASS locally | Python compile, KPI invariants và artifact checks không cần raw CSV |
+| TC-024/025 application samples | PASS local | Hai sample 5.000 rows khớp SHA-256 và `STG_TEST_ORACLE.md` |
 
-Các test cần Mage, dbt, SQL Server, Power BI hoặc GenAI runtime vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
+Các test cần SQL Server, SSIS hoặc Power BI vẫn ở trạng thái `PENDING`; không được suy ra `PASS` từ kiểm tra tĩnh.
 
 ## ▶️ Execution order
 

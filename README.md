@@ -8,9 +8,9 @@ _An academic Business Intelligence and data warehousing project by Group 8_
 
 ## 📋 Overview
 
-This repository implements a reproducible BI pipeline for consumer-credit portfolio and default-risk analysis using the Home Credit Default Risk dataset.[^1] The required stack is Mage.ai, dbt, SQL Server, Power BI, and a grounded generative-AI component.
+This repository implements a reproducible BI pipeline for consumer-credit portfolio and default-risk analysis using the Home Credit Default Risk dataset.[^1] The project focuses on dimensional modeling, ETL controls, data quality, KPI reconciliation, and Power BI reporting.
 
-The repository is intentionally **code-first**: Mage orchestration specifications, dbt models and tests, SQL, Python validation utilities, Power BI model specifications, and technical documentation are versioned here. Raw Kaggle data, generated reports, runtime screenshots, credentials, and binary BI artifacts are excluded from Git.
+The repository is intentionally **code-first**: SQL, Python validation utilities, SSIS build specifications, Power BI model specifications, and technical documentation are versioned here. Raw Kaggle data, generated reports, runtime screenshots, and binary BI artifacts are excluded from Git.
 
 > 📌 **Scope:** This is a BI/data warehouse project, not a production credit-decision system or a Kaggle machine-learning submission.
 
@@ -20,11 +20,9 @@ The repository is intentionally **code-first**: Mage orchestration specification
 | --- | --- | --- |
 | Data intake | Source inventory, SHA-256 manifest, profiling scripts | Ready |
 | Data quality | Cleaning contract, anomaly flags, reject handling | Ready for runtime validation |
-| SQL warehouse | Control, STG, NDS, DDS, tests, analytics views | Existing SQL assets ready for migration/runtime validation |
-| Mage.ai | Ingestion and orchestration pipeline | Build specification ready; runtime pipeline pending |
-| dbt | SQL Server MVP model, tests, and lineage | Application vertical slice implemented; history migration pending |
+| SQL warehouse | Control, STG, NDS, DDS, ETL, tests, analytics views | Implemented; Windows execution pending |
+| SSIS | Five-package control-flow and data-flow specification | Specification complete; packages pending |
 | Power BI | Semantic model, canonical DAX, five-page dashboard design | Specification complete; PBIX pending |
-| Generative AI | Grounded KPI narrative contract and JSON schema | Contract ready; provider integration pending |
 | Verification | Versioned KPI baseline, artifact validator, GitHub Actions | Local checks pass; CI enabled |
 
 ## 🏗️ Architecture
@@ -32,33 +30,27 @@ The repository is intentionally **code-first**: Mage orchestration specification
 ```mermaid
 flowchart LR
     accTitle: Home Credit BI Pipeline
-    accDescr: Mage loads Home Credit CSV files to SQL Server, dbt transforms and tests the data, and verified marts feed Power BI and a grounded generative AI narrative.
+    accDescr: Home Credit CSV files move through staging, data-quality validation, normalized storage, a dimensional warehouse, and Power BI reporting while failed records are retained in an audit path.
 
-    source(["📥 Kaggle CSV files"]) --> mage["⚙️ Mage ingestion"]
-    mage --> staging[("💾 SQL Server STG")]
-    staging --> dbt["🧪 dbt build and tests"]
-    dbt -->|Pass| dds[("💾 SQL Server marts")]
-    dbt -->|Fail| audit[("⚠️ Audit and rejects")]
+    source(["📥 Kaggle CSV files"]) --> staging[("💾 STG layer")]
+    staging --> quality{"🔍 Quality checks"}
+    quality -->|Pass| nds[("💾 NDS layer")]
+    quality -->|Reject| audit[("⚠️ Audit and rejects")]
+    nds --> dds[("💾 DDS star schema")]
     dds --> dashboard(["📊 Power BI reports"])
-    dds --> genai["🧠 Grounded GenAI"]
-    genai --> dashboard
 
     classDef input fill:#ede9fe,stroke:#7c3aed,stroke-width:2px,color:#3b0764
-    classDef process fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
     classDef data fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
     classDef warning fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12
     classDef output fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
 
     class source input
-    class staging,dds data
-    class audit warning
-    class mage,dbt,genai process
+    class staging,nds,dds data
+    class quality,audit warning
     class dashboard output
 ```
 
-Mage orchestrates ingestion and dbt runs; dbt performs deterministic transformation and testing in SQL Server; Power BI consumes verified marts. Mage supports dbt scheduling, dependency execution, tests, and monitoring when run in Docker or Mage Pro.[^2] SQL Server connectivity is available through Mage's MSSQL integration.[^3]
-
-The SQL Server dbt adapter is community-maintained, so the team must record and freeze the validated adapter, dbt Core, ODBC, and SQL Server versions after the connection proof passes.[^4]
+The warehouse separates source-aligned staging, deterministic normalization, and dimensional presentation. Each fact table retains an explicit grain so that one-to-many history tables do not inflate application-level KPIs.
 
 ## 📊 Verified data baseline
 
@@ -84,10 +76,8 @@ See the [full KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) and [data profile re
 | Requirement | Purpose | Platform |
 | --- | --- | --- |
 | Python 3 | Profiling and validation | macOS, Windows, or Linux |
-| Docker Desktop | Mage OSS and Mage–dbt integration | macOS, Windows, or Linux |
-| Mage.ai | Ingestion and orchestration | Docker |
-| dbt Core with `dbt-sqlserver` | Transformation, tests, and lineage | Mage container or local development |
-| SQL Server and `sqlcmd` | Persistence, deployment, and testing | Canonical integration host |
+| SQL Server and `sqlcmd` | Warehouse deployment and testing | Windows integration host |
+| Visual Studio with SSDT/SSIS | SSIS package implementation | Windows |
 | Power BI Desktop | Semantic model and dashboard | Windows |
 
 ### Clone and prepare the data
@@ -128,15 +118,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\Deploy-HomeCreditSql.ps1 `
   -ServerInstance "localhost"
 ```
 
-The deployment creates the control, STG, NDS, DDS, validation, and analytics objects, then runs the schema smoke test. Existing SQL loaders remain as reconciliation references while transformation ownership migrates to dbt.
-
-### Run the required Mage and dbt vertical slice
-
-1. Follow the [toolchain setup](docs/TOOLCHAIN_SETUP.md).
-2. Configure the canonical SQL Server connection from `mage/io_config.yaml.example` without committing credentials.
-3. Build the application ingestion pipeline from the [Mage specification](mage/README.md).
-4. Run the [dbt MVP](dbt_home_credit/README.md) with the `BatchID` returned by Mage.
-5. Compare the dbt mart with the versioned KPI baseline before connecting Power BI.
+The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytics objects, then runs the schema smoke test. Continue with the [SSIS package build specification](ssis/PACKAGE_BUILD_SPEC.md), [Power BI model specification](powerbi/MODEL_SPEC.md), and [canonical DAX measures](powerbi/MEASURES_DAX.md).
 
 ## 📁 Repository structure
 
@@ -144,10 +126,8 @@ The deployment creates the control, STG, NDS, DDS, validation, and analytics obj
 | --- | --- |
 | `scripts/` | Data checks, profiling, KPI computation, and deployment utilities |
 | `sql/` | Ordered SQL Server deployment, ETL, validation, and analytics scripts |
-| `mage/` | Required orchestration design and safe SQL Server configuration template |
-| `dbt_home_credit/` | Required dbt models, tests, profile template, and lineage source |
+| `ssis/` | SSIS package build specification and future runtime artifacts |
 | `powerbi/` | Semantic-model specification, DAX measures, and future evidence |
-| `genai/` | Grounded KPI narrative contract and structured-output schema |
 | `docs/` | Data, modeling, KPI, testing, setup, and handoff documentation |
 | `data/` | Ignored local workspace; only the aggregate KPI baseline is versioned |
 
@@ -156,9 +136,9 @@ The deployment creates the control, STG, NDS, DDS, validation, and analytics obj
 | Student ID | Member | Primary responsibility |
 | ---: | --- | --- |
 | 22127107 | Nguyễn Thế Hiển | Data intake, profiling, quality rules, KPI baseline, documentation, coordination |
-| 23127182 | Nguyễn Trường Duy | Mage ingestion, orchestration, reject flow, rerun evidence |
-| 23127192 | Nguyễn Văn Hộp | dbt models/tests, SQL Server deployment, KPI reconciliation, performance |
-| 23127328 | Nguyễn Quốc Bảo | Power BI, grounded GenAI integration, SQL-to-DAX reconciliation, demo |
+| 23127182 | Nguyễn Trường Duy | Windows toolchain, SSIS staging, reject flow, rerun validation |
+| 23127192 | Nguyễn Văn Hộp | SQL deployment, NDS/DDS packages, KPI reconciliation, performance evidence |
+| 23127328 | Nguyễn Quốc Bảo | Power BI, SQL-to-DAX reconciliation, runtime evidence, presentation package |
 
 ## 📚 Documentation
 
@@ -170,20 +150,25 @@ The deployment creates the control, STG, NDS, DDS, validation, and analytics obj
 | [Data dictionary](docs/DATA_DICTIONARY.md) | Curated tables, grains, keys, and derived fields |
 | [DDS model](docs/DDS_MODEL.md) | Bus matrix, fact grains, dimensions, and additive behavior |
 | [Source-to-target mapping](docs/SOURCE_TO_TARGET_MAPPING.md) | Representative mappings across warehouse layers |
+| [Application mapping v0.1](docs/MAPPING_APPLICATION_V01.md) | SSIS mapping for the 30 October application vertical slice |
+| [Application profile](docs/PROFILE_APPLICATION.md) | Full and sample TRAIN/TEST profiling results |
+| [Staging test oracle](docs/STG_TEST_ORACLE.md) | Expected sample/full counts for SQL reconciliation |
 | [KPI dictionary](docs/KPI_DICTIONARY.md) | Canonical formulas, populations, and filter rules |
 | [Full-data KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) | Independent expected values from the complete local scan |
 | [Test plan](docs/TEST_PLAN.md) | Validation catalog, execution order, and evidence requirements |
-| [Required toolchain setup](docs/TOOLCHAIN_SETUP.md) | Mage, dbt, SQL Server, Power BI, and GenAI setup |
+| [Windows setup checklist](docs/WINDOWS_SETUP_CHECKLIST.md) | SQL Server, Visual Studio, SSDT/SSIS, and Power BI setup |
 | [Project status](docs/PROJECT_STATUS.md) | Completed work, pending runtime gates, and next actions |
+| [30 October MVP](docs/MVP_30OCT.md) | Bounded progress-demo scope and acceptance criteria |
+| [29 October progress status](docs/PROGRESS_STATUS_29OCT.md) | Implemented/verified/blocked/planned matrix |
+| [30 October speaker notes](docs/SPEAKER_NOTES_30OCT.md) | Two-to-three-minute presentation script and Q&A |
 | [Submission checklist](docs/SUBMISSION_CHECKLIST.md) | Ownership, evidence, and final-package requirements |
 | [SQL workspace](sql/README.md) | Deployment order and post-staging execution commands |
 
 ## ⚠️ Current limitations
 
-- Mage, dbt, SQL Server, Power BI, and GenAI have not yet been executed end to end on the canonical host
+- SQL Server, SSIS, and Power BI have not yet been executed end to end on the canonical Windows host
 - Runtime screenshots, row-throughput measurements, transaction-log usage, and rerun evidence remain pending
-- The dbt MVP currently covers the application vertical slice; all history sources still require migration
-- `.pbix`, PDF, and LaTeX report sources are intentionally excluded from this code-first release
+- `.dtsx`, `.pbix`, PDF, and LaTeX report sources are intentionally excluded from this code-first release
 - Segment-level findings are descriptive associations and must not be interpreted as causal effects
 
 ## 🔐 Data and security
@@ -196,9 +181,3 @@ The deployment creates the control, STG, NDS, DDS, validation, and analytics obj
 ## 🔗 Reference
 
 [^1]: Home Credit Group. (2018). "Home Credit Default Risk — Data." _Kaggle_. https://www.kaggle.com/competitions/home-credit-default-risk/data
-
-[^2]: Mage AI. "Use dbt with Mage." https://docs.mage.ai/guides/dbt/overview
-
-[^3]: Mage AI. "Microsoft SQL Server." https://docs.mage.ai/integrations/databases/MicrosoftSQLServer
-
-[^4]: dbt Labs. "Connect Microsoft SQL Server to dbt." https://docs.getdbt.com/docs/local/connect-data-platform/mssql-setup

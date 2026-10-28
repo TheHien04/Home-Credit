@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
-import json
 import re
 import sys
 from collections import Counter
@@ -16,27 +16,41 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "RAW_DATA_SHA256.txt"
 SMOKE_TEST = ROOT / "sql" / "05_tests" / "053_smoke_test_schema.sql"
 EXPECTED_SQL_OBJECTS = 59
+PROGRESS_SAMPLES = {
+    "data/staging/application_train.sample_5000.csv": {
+        "sha256": "16df53567a56f5f58d12ad58f98cce09c5041b768493abedf855000f5a518424",
+        "rows": 5000,
+        "columns": 122,
+    },
+    "data/staging/application_test.sample_5000.csv": {
+        "sha256": "8d185745ca98229301199b1614a6d71c3620bd4ceaf7101ab09b7d90314dab7b",
+        "rows": 5000,
+        "columns": 121,
+    },
+}
 
 REQUIRED_ARTIFACTS = (
     ".github/workflows/validate.yml",
     "README.md",
     "data/processed/eda/full_kpi_baseline.json",
     "docs/DDS_MODEL.md",
+    "docs/MAPPING_APPLICATION_V01.md",
+    "docs/MVP_30OCT.md",
+    "docs/PROFILE_APPLICATION.md",
+    "docs/PROGRESS_STATUS_29OCT.md",
     "docs/KPI_BASELINE_FULL_SCAN.md",
     "docs/PROJECT_STATUS.md",
+    "docs/REPO_INVENTORY.md",
+    "docs/SPEAKER_NOTES_30OCT.md",
+    "docs/STG_TEST_ORACLE.md",
     "docs/SUBMISSION_CHECKLIST.md",
     "docs/TEST_PLAN.md",
     "scripts/compute_full_kpi_baseline.py",
     "scripts/validate_kpi_baseline.py",
     "sql/000_deploy_all.sql",
     "sql/05_tests/054_validate_kpi_baseline.sql",
-    "mage/README.md",
-    "mage/io_config.yaml.example",
-    "dbt_home_credit/dbt_project.yml",
-    "dbt_home_credit/models/marts/fct_loan_application.sql",
-    "dbt_home_credit/tests/assert_application_population.sql",
-    "genai/README.md",
-    "genai/kpi_insight.schema.json",
+    "sql/05_tests/055_validate_application_sample.sql",
+    "ssis/PACKAGE_BUILD_SPEC.md",
     "powerbi/MODEL_SPEC.md",
     "powerbi/MEASURES_DAX.md",
 )
@@ -57,29 +71,6 @@ def check_required_artifacts(failures: list[str]) -> None:
             fail(f"Missing required artifact: {relative}", failures)
 
 
-def check_required_stack_artifacts(failures: list[str]) -> None:
-    dbt_project = (ROOT / "dbt_home_credit" / "dbt_project.yml").read_text(encoding="utf-8")
-    for marker in ("profile: home_credit_analytics", "batch_id: 0", "+schema: dds"):
-        if marker not in dbt_project:
-            fail(f"dbt project is missing required marker: {marker}", failures)
-
-    dbt_test = (ROOT / "dbt_home_credit" / "tests" / "assert_application_population.sql").read_text(
-        encoding="utf-8"
-    )
-    for marker in ("307511", "24825", "ref('fct_loan_application')"):
-        if marker not in dbt_test:
-            fail(f"dbt KPI test is missing required marker: {marker}", failures)
-
-    try:
-        schema = json.loads((ROOT / "genai" / "kpi_insight.schema.json").read_text(encoding="utf-8"))
-    except json.JSONDecodeError as error:
-        fail(f"Invalid GenAI JSON schema: {error}", failures)
-    else:
-        required = set(schema.get("required", []))
-        if required != {"summary", "metric_ids", "caveats"}:
-            fail("GenAI schema has an unexpected required-field contract", failures)
-
-
 def check_raw_hashes(failures: list[str]) -> None:
     for line_number, raw_line in enumerate(MANIFEST.read_text(encoding="utf-8").splitlines(), 1):
         if not raw_line.strip():
@@ -95,6 +86,30 @@ def check_raw_hashes(failures: list[str]) -> None:
                 digest.update(block)
         if digest.hexdigest() != expected:
             fail(f"SHA-256 mismatch: {relative}", failures)
+
+
+def check_progress_samples(failures: list[str]) -> None:
+    existing = {relative for relative in PROGRESS_SAMPLES if (ROOT / relative).is_file()}
+    if not existing:
+        return
+    if existing != set(PROGRESS_SAMPLES):
+        fail("Application progress samples must be present as a complete TRAIN/TEST pair", failures)
+        return
+
+    for relative, expected in PROGRESS_SAMPLES.items():
+        source = ROOT / relative
+        digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        if digest != expected["sha256"]:
+            fail(f"Progress sample SHA-256 mismatch: {relative}", failures)
+            continue
+        with source.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.reader(handle)
+            header = next(reader, [])
+            row_count = sum(1 for _ in reader)
+        if len(header) != expected["columns"]:
+            fail(f"Progress sample column-count mismatch: {relative}", failures)
+        if row_count != expected["rows"]:
+            fail(f"Progress sample row-count mismatch: {relative}", failures)
 
 
 def check_markdown_links(failures: list[str]) -> None:
@@ -243,7 +258,7 @@ def main() -> None:
 
     failures: list[str] = []
     check_required_artifacts(failures)
-    check_required_stack_artifacts(failures)
+    check_progress_samples(failures)
     if not args.skip_raw:
         check_raw_hashes(failures)
     check_markdown_links(failures)
