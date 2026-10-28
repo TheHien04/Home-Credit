@@ -1,60 +1,63 @@
 # Home Credit Risk & Loan Portfolio Analytics
 
-_An academic Business Intelligence and data warehousing project by Group 8_
+An academic Business Intelligence system for analyzing consumer-loan portfolios, repayment behavior, and credit risk with SSIS, SQL Server, and Power BI.
 
 [![Project validation](https://github.com/TheHien04/Home-Credit/actions/workflows/validate.yml/badge.svg)](https://github.com/TheHien04/Home-Credit/actions/workflows/validate.yml)
 
----
+## Overview
 
-## 📋 Overview
+This project turns the Home Credit Default Risk dataset into a governed analytical warehouse. It addresses the full BI lifecycle: source intake, data profiling, quality controls, ETL orchestration, normalized storage, dimensional modeling, KPI reconciliation, and dashboard design.
 
-This repository implements a reproducible BI pipeline for consumer-credit portfolio and default-risk analysis using the Home Credit Default Risk dataset.[^1] The project focuses on dimensional modeling, ETL controls, data quality, KPI reconciliation, and Power BI reporting.
+The system is designed for portfolio monitoring and descriptive risk analysis. It is **not** a production credit-decision engine, a causal study, or a Kaggle machine-learning submission.
 
-The repository is intentionally **code-first**: SQL, Python validation utilities, SSIS build specifications, Power BI model specifications, and technical documentation are versioned here. Raw Kaggle data, generated reports, runtime screenshots, and binary BI artifacts are excluded from Git.
+### Business questions
 
-> 📌 **Scope:** This is a BI/data warehouse project, not a production credit-decision system or a Kaggle machine-learning submission.
+- How large is the labeled application portfolio, and what is its observed default rate?
+- How does default rate vary across contract, age, income, and affordability segments?
+- What are the previous-application approval and recorded late-payment rates?
+- How should missing parents, source sentinels, and one-to-many histories be handled without distorting KPIs?
 
-## 🎯 Project scope
-
-| Area | Deliverable | Current state |
-| --- | --- | --- |
-| Data intake | Source inventory, SHA-256 manifest, profiling scripts | Ready |
-| Data quality | Cleaning contract, anomaly flags, reject handling | Ready for runtime validation |
-| SQL warehouse | Control, STG, NDS, DDS, ETL, tests, analytics views | Implemented; Windows execution pending |
-| SSIS | Five-package specification plus application-train staging package source | Initial `.dtproj/.dtsx` committed; runtime and remaining packages pending |
-| Power BI | Semantic model, canonical DAX, five-page dashboard design | Specification complete; PBIX pending |
-| Verification | Versioned KPI baseline, artifact validator, GitHub Actions | Local checks pass; CI enabled |
-
-## 🏗️ Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
-    accTitle: Home Credit BI Pipeline
-    accDescr: Home Credit CSV files move through staging, data-quality validation, normalized storage, a dimensional warehouse, and Power BI reporting while failed records are retained in an audit path.
-
-    source(["📥 Kaggle CSV files"]) --> staging[("💾 STG layer")]
-    staging --> quality{"🔍 Quality checks"}
-    quality -->|Pass| nds[("💾 NDS layer")]
-    quality -->|Reject| audit[("⚠️ Audit and rejects")]
-    nds --> dds[("💾 DDS star schema")]
-    dds --> dashboard(["📊 Power BI reports"])
-
-    classDef input fill:#ede9fe,stroke:#7c3aed,stroke-width:2px,color:#3b0764
-    classDef data fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
-    classDef warning fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12
-    classDef output fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
-
-    class source input
-    class staging,nds,dds data
-    class quality,audit warning
-    class dashboard output
+    source["Kaggle CSV files"] --> ssis["SSIS ingestion and orchestration"]
+    ssis --> stg[("STG: source-aligned landing")]
+    stg --> dq{"Data-quality gates"}
+    dq -->|Valid| nds[("NDS: normalized store")]
+    dq -->|Rejected| audit[("Audit and reject records")]
+    nds --> dds[("DDS: dimensional warehouse")]
+    dds --> sqlviews["Analytics views"]
+    sqlviews --> pbi["Power BI semantic model"]
 ```
 
-The warehouse separates source-aligned staging, deterministic normalization, and dimensional presentation. Each fact table retains an explicit grain so that one-to-many history tables do not inflate application-level KPIs.
+The warehouse deliberately separates three responsibilities:
 
-## 📊 Verified data baseline
+- **STG** preserves source-aligned values and load lineage.
+- **NDS** applies deterministic normalization while retaining quality flags.
+- **DDS** exposes conformed dimensions and facts at explicit grains for BI reporting.
 
-The local full-file scan produced the following independent reconciliation targets. These values are expected results for later SQL Server and Power BI validation, not substitutes for Windows runtime evidence.
+This separation prevents one-to-many history tables from multiplying application rows and corrupting application-level measures.
+
+## Current delivery status
+
+_Status as of 29 October 2026_
+
+| Workstream | Delivered | Verification state |
+| --- | --- | --- |
+| Source intake | Ten-file inventory, SHA-256 manifest, intake rules | Local full-data verification passed |
+| Profiling and quality | Full scans, anomaly counts, cleaning contract | Local full-data verification passed |
+| SQL Server warehouse | Control, STG, NDS, DDS, ETL, tests, analytics views | Source implemented; Windows runtime pending |
+| SSIS | Five-package build specification and application-train staging project | Initial source committed; parameterization and execution pending |
+| KPI governance | KPI dictionary and independent full-file baseline | Local reconciliation passed |
+| Power BI | Semantic-model and canonical DAX specifications | PBIX and visual validation pending |
+| Project validation | Python validators and GitHub Actions | Passing |
+
+`IMPLEMENTED` and `VERIFIED` are intentionally different states. SQL Server, SSIS, and Power BI are not considered runtime-verified until their outputs are captured from the canonical Windows environment.
+
+## Verified baseline
+
+The independent local scan provides reconciliation targets for later SQL Server and Power BI execution.
 
 | Metric | Verified value |
 | --- | ---: |
@@ -63,116 +66,169 @@ The local full-file scan produced the following independent reconciliation targe
 | Business rows scanned | 58,441,149 |
 | Labeled applications | 307,511 |
 | Default applications | 24,825 |
-| Default rate | 8.0729% |
+| Observed default rate | 8.0729% |
 | Previous-application approval rate | 62.6794% |
-| Late-payment row rate | 8.5739% |
+| Recorded late-payment row rate | 8.5739% |
 
-See the [full KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) and [data profile report](docs/DATA_PROFILE_REPORT.md) for populations, assumptions, and quality findings.
+These figures are test oracles, not substitutes for database execution evidence. Their populations and formulas are documented in the [KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) and [KPI dictionary](docs/KPI_DICTIONARY.md).
 
-## 🚀 Quick start
+### Selected quality findings
 
-### Prerequisites
+| Finding | Rows | Warehouse treatment |
+| --- | ---: | --- |
+| `DAYS_EMPLOYED = 365243` | 55,374 | Convert normalized tenure to null and retain a flag |
+| Gender category `XNA` | 4 | Map to Unknown at NDS and retain a flag |
+| Previous-date sentinels | 997,144 | Convert affected normalized dates to null and retain flags |
+| Non-positive previous payment count | 144,985 | Preserve source value and flag for review |
+| Negative bureau debt | 8,418 | Preserve value to avoid silent distortion and flag it |
+| Missing installment payment value/date | 2,905 | Preserve null and set `PaymentRecordedFlag = 0` |
 
-| Requirement | Purpose | Platform |
+Raw CSV files are never modified. Cleaning occurs through deterministic NDS rules with lineage and quality indicators.
+
+## Repository layout
+
+```text
+Home-Credit/
+├── .github/workflows/       # Continuous validation
+├── data/                    # Ignored local workspace and safe aggregate baseline
+├── docs/                    # Modeling, quality, KPI, testing, and handoff documents
+├── powerbi/                 # Semantic-model and DAX specifications
+├── scripts/                 # Profiling, validation, sampling, and deployment utilities
+├── sql/                     # Ordered SQL Server warehouse and test scripts
+└── ssis/                    # SSIS specification and Visual Studio project source
+```
+
+Raw Kaggle data, credentials, PBIX binaries, generated reports, and runtime screenshots are intentionally excluded from this code-first repository.
+
+## Getting started
+
+### 1. Prerequisites
+
+| Tool | Purpose | Platform |
 | --- | --- | --- |
-| Python 3 | Profiling and validation | macOS, Windows, or Linux |
-| SQL Server and `sqlcmd` | Warehouse deployment and testing | Windows integration host |
-| Visual Studio with SSDT/SSIS | SSIS package implementation | Windows |
+| Python 3 | Profiling and repository validation | macOS, Windows, or Linux |
+| SQL Server and `sqlcmd` | Warehouse deployment and SQL testing | Windows integration host |
+| Visual Studio with SSDT/SSIS | ETL package development and execution | Windows |
 | Power BI Desktop | Semantic model and dashboard | Windows |
 
-### Clone and prepare the data
+Follow the [Windows setup checklist](docs/WINDOWS_SETUP_CHECKLIST.md) before attempting runtime integration.
+
+### 2. Clone the repository
 
 ```bash
 git clone https://github.com/TheHien04/Home-Credit.git
 cd Home-Credit
 ```
 
-Download the competition archive after accepting the Kaggle rules, then extract the ten source files into:
+### 3. Prepare the dataset
+
+Accept the competition rules and download the dataset from [Kaggle](https://www.kaggle.com/competitions/home-credit-default-risk/data). Extract the files without renaming or editing them:
 
 ```text
 Home-Credit/
 └── home-credit-default-risk/
     ├── application_train.csv
     ├── application_test.csv
+    ├── bureau.csv
+    ├── bureau_balance.csv
     ├── previous_application.csv
     └── ...
 ```
 
-Raw data is ignored by Git. Do not rename, edit, or recommit the CSV files.
+The folder is ignored by Git. Verify every source file against [the SHA-256 manifest](docs/RAW_DATA_SHA256.txt).
 
-### Run local validation
+### 4. Run local acceptance checks
 
 ```bash
-python3 scripts/check_home_credit_data.py --root home-credit-default-risk --count-rows
+python3 scripts/check_home_credit_data.py \
+  --root home-credit-default-risk \
+  --count-rows
+
 shasum -a 256 -c docs/RAW_DATA_SHA256.txt
 python3 scripts/validate_kpi_baseline.py
 python3 scripts/validate_project_artifacts.py
 ```
 
-The final two commands must report `PASS`. The artifact validator checks raw-file hashes, internal Markdown links, SQL structure, expected object counts, and optional local report sources. GitHub Actions runs the same code-first checks with `--skip-raw` because the Kaggle files are intentionally excluded from the repository.
+The final two commands must report `PASS`. GitHub Actions performs the code-first subset with `--skip-raw` because competition data is not stored in the repository.
 
-### Deploy on the Windows integration host
+### 5. Deploy the SQL Server objects
+
+On the Windows integration host:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\Deploy-HomeCreditSql.ps1 `
+powershell -ExecutionPolicy Bypass `
+  -File .\scripts\Deploy-HomeCreditSql.ps1 `
   -ServerInstance "localhost"
 ```
 
-The deployment creates the control, STG, NDS, DDS, ETL, validation, and analytics objects, then runs the schema smoke test. Continue with the [SSIS package build specification](ssis/PACKAGE_BUILD_SPEC.md), [Power BI model specification](powerbi/MODEL_SPEC.md), and [canonical DAX measures](powerbi/MEASURES_DAX.md).
+The script verifies raw-file hashes, deploys the database objects in dependency order, and runs the schema smoke test. The expected deployment contains **59 required objects**.
 
-## 📁 Repository structure
+See [SQL workspace guidance](sql/README.md) for the deployment order and post-staging commands.
 
-| Path | Purpose |
+### 6. Execute and validate the SSIS load
+
+1. Open `ssis/HomeCredit_BI/HomeCredit_ETL/HomeCredit_ETL.dtproj` in Visual Studio.
+2. Replace machine-specific file paths and SQL connections with reviewed project parameters.
+3. Run the bounded TRAIN/TEST application sample before the full load.
+4. Record the Git commit and one canonical `BatchID`.
+5. Execute `sql/05_tests/055_validate_application_sample.sql`.
+6. Continue with STG, NDS, DDS, and KPI validators only after the sample passes.
+
+The expected sample counts, mapping contract, and presentation handoff are consolidated in the [30 October progress review](docs/PROGRESS_REVIEW_30OCT.md).
+
+## Validation strategy
+
+Every release is checked at multiple levels:
+
+| Layer | Key checks |
 | --- | --- |
-| `scripts/` | Data checks, profiling, KPI computation, and deployment utilities |
-| `sql/` | Ordered SQL Server deployment, ETL, validation, and analytics scripts |
-| `ssis/` | SSIS build specification and the current Visual Studio/SSIS project source |
-| `powerbi/` | Semantic-model specification, DAX measures, and future evidence |
-| `docs/` | Data, modeling, KPI, testing, setup, and handoff documentation |
-| `data/` | Ignored local workspace; only the aggregate KPI baseline is versioned |
+| Source | SHA-256, schema, row count, mandatory keys |
+| STG | Split rules, target domain, key uniqueness, source parity |
+| NDS | Sentinel conversion, flags, parent coverage, population reconciliation |
+| DDS | Declared grain, surrogate-key lookup, fact/dimension parity |
+| KPI | Numerator, denominator, population, SQL-to-DAX reconciliation |
+| Rerun | Stable counts, no unintended duplicates, auditable batch lifecycle |
 
-## 👥 Team
+Runtime evidence must use the same commit and `BatchID`. A source file, specification, expected value, or mockup alone is not evidence that a Windows runtime gate passed.
 
-| Student ID | Member | Primary responsibility |
-| ---: | --- | --- |
-| 22127107 | Nguyễn Thế Hiển | Data intake, profiling, quality rules, KPI baseline, documentation, coordination |
-| 23127182 | Nguyễn Trường Duy | Windows toolchain, SSIS staging, reject flow, rerun validation |
-| 23127192 | Nguyễn Văn Hộp | SQL deployment, NDS/DDS packages, KPI reconciliation, performance evidence |
-| 23127328 | Nguyễn Quốc Bảo | Power BI, SQL-to-DAX reconciliation, runtime evidence, presentation package |
-
-## 📚 Documentation
+## Core documentation
 
 | Document | Purpose |
 | --- | --- |
-| [Data download and intake](docs/DATA_DOWNLOAD_AND_INTAKE.md) | Dataset placement, file inventory, and source-data rules |
-| [Data profile report](docs/DATA_PROFILE_REPORT.md) | Shapes, missingness, key integrity, and relationship coverage |
-| [Data cleaning rules](docs/DATA_CLEANING_RULES.md) | Deterministic STG-to-NDS transformations and acceptance criteria |
+| [Data profile](docs/DATA_PROFILE_REPORT.md) | Source shapes, missingness, keys, anomalies, and parent coverage |
+| [Cleaning rules](docs/DATA_CLEANING_RULES.md) | Deterministic STG-to-NDS transformations |
 | [Data dictionary](docs/DATA_DICTIONARY.md) | Curated tables, grains, keys, and derived fields |
-| [DDS model](docs/DDS_MODEL.md) | Bus matrix, fact grains, dimensions, and additive behavior |
+| [DDS model](docs/DDS_MODEL.md) | Bus matrix, detailed star schema, PK/FK relationships, and additivity |
 | [Source-to-target mapping](docs/SOURCE_TO_TARGET_MAPPING.md) | Representative mappings across warehouse layers |
-| [KPI dictionary](docs/KPI_DICTIONARY.md) | Canonical formulas, populations, and filter rules |
-| [Full-data KPI baseline](docs/KPI_BASELINE_FULL_SCAN.md) | Independent expected values from the complete local scan |
-| [Test plan](docs/TEST_PLAN.md) | Validation catalog, execution order, and evidence requirements |
-| [Windows setup checklist](docs/WINDOWS_SETUP_CHECKLIST.md) | SQL Server, Visual Studio, SSDT/SSIS, and Power BI setup |
-| [Project status](docs/PROJECT_STATUS.md) | Completed work, pending runtime gates, and next actions |
-| [30 October progress review](docs/PROGRESS_REVIEW_30OCT.md) | Hiển handoff, MVP, profile, mapping, test oracle, status and speaker notes |
-| [Submission checklist](docs/SUBMISSION_CHECKLIST.md) | Ownership, evidence, and final-package requirements |
-| [SQL workspace](sql/README.md) | Deployment order and post-staging execution commands |
+| [Test plan](docs/TEST_PLAN.md) | Acceptance catalog, execution order, and evidence requirements |
+| [Project status](docs/PROJECT_STATUS.md) | Completed work, runtime gaps, and next actions |
+| [Submission checklist](docs/SUBMISSION_CHECKLIST.md) | Ownership and final-package gates |
 
-## ⚠️ Current limitations
+## Team
 
-- SQL Server, SSIS, and Power BI have not yet been executed end to end on the canonical Windows host
-- Runtime screenshots, row-throughput measurements, transaction-log usage, and rerun evidence remain pending
-- `.pbix`, PDF, and LaTeX report sources are intentionally excluded from this code-first release; SSIS project source is versioned
-- Segment-level findings are descriptive associations and must not be interpreted as causal effects
+| Student ID | Member | Primary ownership |
+| ---: | --- | --- |
+| 22127107 | Nguyễn Thế Hiển | Data intake, profiling, quality rules, KPI baseline, documentation, coordination |
+| 23127182 | Nguyễn Trường Duy | Windows toolchain, SSIS staging, reject flow, rerun validation |
+| 23127192 | Nguyễn Văn Hộp | SQL deployment, NDS/DDS integration, KPI reconciliation, performance evidence |
+| 23127328 | Nguyễn Quốc Bảo | Power BI, SQL-to-DAX reconciliation, runtime evidence, presentation package |
 
-## 🔐 Data and security
+## Known limitations
 
-- Keep raw Kaggle files outside version control
-- Never commit `kaggle.json`, credentials, access tokens, or private connection strings
-- Preserve the original files and verify them against `docs/RAW_DATA_SHA256.txt`
-- Store generated evidence only after checking that screenshots contain no secrets
+- End-to-end SQL Server, SSIS, and Power BI execution is still pending on the canonical Windows host.
+- The committed SSIS project currently represents the initial application-train staging implementation, not the complete five-package pipeline.
+- Runtime screenshots, throughput, transaction-log growth, rerun evidence, and the final PBIX are not yet available.
+- The source is anonymized and does not provide original calendar dates or a documented currency label.
+- Segment comparisons are descriptive associations and must not be interpreted as causal effects.
 
-## 🔗 Reference
+## Data governance
 
-[^1]: Home Credit Group. (2018). "Home Credit Default Risk — Data." _Kaggle_. https://www.kaggle.com/competitions/home-credit-default-risk/data
+- Do not commit raw Kaggle CSV files or row-level extracts.
+- Never commit `kaggle.json`, passwords, tokens, private connection strings, certificates, or local environment files.
+- Preserve source files unchanged and verify their hashes before every canonical load.
+- Inspect screenshots and logs for credentials or machine-specific information before publishing evidence.
+- Keep rejected rows and unmatched histories auditable; do not silently discard inconvenient records.
+
+## Reference
+
+Home Credit Group. (2018). _Home Credit Default Risk — Data_. Kaggle. https://www.kaggle.com/competitions/home-credit-default-risk/data
