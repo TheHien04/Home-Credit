@@ -16,7 +16,7 @@ No expected value, mock screenshot, or source file is presented as runtime evide
 
 | Deliverable | Current state | Owner/action needed |
 | --- | --- | --- |
-| Technical report | Source ready at `latex/report/main.tex`; draft/runtime warning intentionally retained | Compile to PDF/DOCX after W02–W08 evidence |
+| Technical report | Source ready at `latex/report/main.tex`; draft/runtime warning intentionally retained | Compile to final PDF/DOCX after W02–W08 evidence; current Word handoff is draft-only |
 | Team plan | Source ready at `latex/team-plan/main.tex` | Confirm contribution percentages and final date |
 | Presentation | Source ready at `latex/slides/main.tex` | Compile to PPTX/PDF and add verified screenshots |
 | SQL warehouse | 59 objects and validators are implemented; local static validation PASS | Run W02–W05 on Windows |

@@ -84,6 +84,7 @@ Tên file nên bắt đầu bằng test ID hoặc gate ID, ví dụ `W05_KPI_bas
 ## 📦 Gói nộp cuối
 
 - [ ] `Nhom08_HomeCreditBI_Report.docx` và bản PDF (compile sau W02–W08)
+- [x] `Nhom08_HomeCreditBI_Hien_Handoff_DRAFT.docx` — Word handoff source release, chưa thay thế final report
 - [ ] `Nhom08_HomeCreditBI_Slides.pptx` (compile/review sau W06)
 - [ ] `Nhom08_HomeCreditBI_YYYYMMDD.pbix`
 - [ ] SSIS solution có năm package `.dtsx`
