@@ -65,4 +65,8 @@ khác, tạo một batch chung ở host đó và cấu hình cả ba project b�
 Host hiện tại là SQL Server Express. Kiểm tra dung lượng trước khi tích hợp
 đầy đủ STG/NDS/DDS; checklist của repo yêu cầu host SQL Server Developer.
 
+Draft PR [#3](https://github.com/TheHien04/Home-Credit/pull/3) đã mở để review.
+Source snapshot `9f9991659542519e6d6b1b5a7ae563fde0bb00cd` được commit sau khi
+thu evidence; đây không phải xác nhận merge hay NDS READY.
+
 Mã nguồn và hướng dẫn chạy: [README của project Hộp](../../ssis/TEAM/hop_credit_history/README.md).

@@ -17,6 +17,11 @@ là thông tin lịch sử.
 Không đánh dấu ngày 3 hoặc 4 PASS khi chỉ có source/metadata validation.
 Không đóng batch chung khi các phần của Duy/Bảo chưa hoàn tất.
 
+Draft PR: [#3 — Credit History và guarded NDS handoff](https://github.com/TheHien04/Home-Credit/pull/3).
+Snapshot source `9f9991659542519e6d6b1b5a7ae563fde0bb00cd` được commit sau
+khi thu runtime evidence. PR chưa merge; cần thành viên khác review và nghiệm
+thu phần tích hợp còn thiếu trước khi chuyển ready.
+
 ## Full Credit History — audit thực tế batch 4
 
 | File | FileLoadID | RowsRead = RowsAccepted | RowsRejected | Trạng thái |
