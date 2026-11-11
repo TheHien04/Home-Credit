@@ -1,0 +1,7 @@
+Changed database context to 'master'.
+Changed database context to 'HomeCreditBI_Hop_DeployCheck_20261111'.
+SchemaName                                                                                                                       ObjectName                                                                                                                       ObjectType
+-------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------- ----------
+SmokeTestStatus RequiredObjectsFound RegisteredSourceFiles AffordabilityBands
+--------------- -------------------- --------------------- ------------------
+PASS                              59                    10                  5

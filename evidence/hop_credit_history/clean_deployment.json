@@ -1,0 +1,79 @@
+{
+  "CapturedAtUtc": "2026-11-11T16:46:18.4391976Z",
+  "Database": "HomeCreditBI_Hop_DeployCheck_20261111",
+  "SourceCommit": "619ff834f77b922e8fd4eb85e78a2327c5ae35b0",
+  "Scope": "Clean schema deployment and idempotent redeployment only; no source rows loaded and no NDS runtime acceptance.",
+  "BootstrapChange": "Only the database name in 00_admin/000_create_database.sql is replaced; the other fifteen source includes are executed unchanged in entry-point order.",
+  "FirstDeployment": "PASS",
+  "SecondDeployment": "PASS",
+  "RequiredObjects": 59,
+  "RegisteredSources": 10,
+  "SeededAffordabilityBands": 5,
+  "Sources": [
+    {
+      "Source": "sql/00_admin/000_create_database.sql",
+      "Sha256": "8122e26a150b039cf1f57a655569afab7360327d67c04bf6a655cba150a17b41"
+    },
+    {
+      "Source": "sql/00_admin/001_create_control_layer.sql",
+      "Sha256": "80e589519c142b52567e8b81882e4ac4f054138cbb17c075d44397a541660142"
+    },
+    {
+      "Source": "sql/00_admin/002_seed_source_files.sql",
+      "Sha256": "707369ca0108899cf23fcb03f2a44eb9593325bd1dcaf5bbf33e1b1e2eb3470f"
+    },
+    {
+      "Source": "sql/00_admin/003_create_batch_procedures.sql",
+      "Sha256": "c0e30d48ffb2f8ba8a7fb69ad0f38629ba04a847c69c78eb9cf10a8a5a501b1f"
+    },
+    {
+      "Source": "sql/01_staging/010_create_staging_tables.sql",
+      "Sha256": "fd565166fb3f3167d8930e2b7369cf586e4cba86bbad2bbb8a30056c4cd0f07e"
+    },
+    {
+      "Source": "sql/02_nds/020_create_nds_tables.sql",
+      "Sha256": "1e8609ead342fd14d16dbc4cc3eb5b2644e905a43ed8a22a68b3db317a857cc9"
+    },
+    {
+      "Source": "sql/03_dds/030_create_dds_tables.sql",
+      "Sha256": "f34202d2a9d75baa7a62f98787a9723bafde1ff938e71174af4ebc7f51598595"
+    },
+    {
+      "Source": "sql/04_etl/040_create_clean_views.sql",
+      "Sha256": "2849054c8f47df8769c50d172b7a554cb148aeff02b45f8a3abdb12e1eeb9658"
+    },
+    {
+      "Source": "sql/04_etl/041_load_nds.sql",
+      "Sha256": "cdea22e9734eaf4585c2d53ab8d6f56a13794fe693edd26da81c9d63d643c6d5"
+    },
+    {
+      "Source": "sql/04_etl/042_load_dds.sql",
+      "Sha256": "d7265a4dbba67c30525daa3131a439a3e0d30c0d88cc7ce437601745336bd039"
+    },
+    {
+      "Source": "sql/05_tests/050_validate_staging.sql",
+      "Sha256": "38c161a8f0f931dc058b7fcd7ba6799386dde478232db494adc3d2c16aa3ddd1"
+    },
+    {
+      "Source": "sql/05_tests/051_validate_nds.sql",
+      "Sha256": "c7d8b86455a2c8d8d83e06e4cc3190247d3d026ca2dcc73c900904479e32f315"
+    },
+    {
+      "Source": "sql/05_tests/052_validate_dds.sql",
+      "Sha256": "5789a2337defd7a14bafb020695721217aab5cf4fed23927d36b63c48b998c8f"
+    },
+    {
+      "Source": "sql/05_tests/054_validate_kpi_baseline.sql",
+      "Sha256": "11aabc08557854488f63beb6e17a7ec1f17509e0b78d7b9ea1a4b38d348774c9"
+    },
+    {
+      "Source": "sql/06_analytics/060_create_analytics_views.sql",
+      "Sha256": "35307f683886c685acb3b86b926b132a830a225f6ff6cf0a2644afc4656d7075"
+    },
+    {
+      "Source": "sql/05_tests/053_smoke_test_schema.sql",
+      "Sha256": "d673e22d72df0ca26845d4e4396a341dcbb1d9990ec07e3f6d21cdf773676e6b"
+    }
+  ],
+  "Status": "PASS"
+}

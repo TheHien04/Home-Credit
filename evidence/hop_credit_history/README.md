@@ -31,6 +31,9 @@ audit từng file và package điều phối NDS.
   `full_*.manifest.json` chỉ là manifest chuẩn bị nguồn, không thay runtime.
 - `schema_smoke.txt`, `backup_verify.txt`: 59 required objects PASS và backup
   COPY_ONLY/CHECKSUM được RESTORE VERIFYONLY xác nhận hợp lệ.
+- `clean_deployment.json`, `clean_deploy_pass_1.txt`, `clean_deploy_pass_2.txt`:
+  triển khai sạch và triển khai lại đều PASS trên database kiểm tra riêng;
+  JSON ghi commit và hashes SQL nguồn. Không nạp dữ liệu hoặc chứng nhận NDS.
 - `validate_0*.txt`: cả bốn portable packages qua SSIS metadata validation.
 - `rerun_guard_bureau.json` và `.txt`: chạy lại package bị chặn trước Data
   Flow; counts và audit không đổi, không chứng nhận NDS rerun.

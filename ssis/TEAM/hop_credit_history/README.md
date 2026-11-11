@@ -173,6 +173,22 @@ it does not deploy or alter anything. See the
 [integration review](../../../evidence/hop_credit_history/INTEGRATION_REVIEW.md)
 for the Application/Payment prerequisites and review findings.
 
+For a clean-schema check on the integration engine, use a fresh, separate
+database name:
+
+```powershell
+& "$tools/Test-CleanDeployment.ps1" -ServerInstance $server `
+  -DatabaseName 'HomeCreditBI_Hop_DeployCheck_REPLACE_WITH_FRESH_SUFFIX' `
+  -EvidenceDirectory './evidence/hop_credit_history'
+```
+
+The command refuses existing database names, changes only the bootstrap's
+database name, and runs the other fifteen SQL includes unchanged in their
+original order. It deploys twice and requires both 59-object smoke tests to
+pass. The empty test database is retained for inspection; no integration data
+is reset. This schema check does not prove full-data NDS regression or
+post-merge deployment.
+
 ## Local checks
 
 ```powershell

@@ -16,6 +16,10 @@ Verified on SQL Server 2022 / Visual Studio SSIS debugger, integration batch 4:
   metadata validations PASS.
 - Schema smoke PASS (59 objects / 10 sources), backup CHECKSUM + VERIFYONLY
   PASS; ten deployed NDS modules match source.
+- Clean schema deployment and idempotent redeployment PASS on a separate
+  empty database, using the fifteen original SQL includes unchanged and only
+  replacing the bootstrap database name; both smoke tests find 59 objects,
+  ten sources and five seeded bands. This is not full-data NDS regression.
 - Four preparation tests, KPI baseline and project artifact validator PASS.
 
 The only shared SQL change makes the smoke test's catalog comparisons use

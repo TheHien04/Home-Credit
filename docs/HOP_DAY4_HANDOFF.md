@@ -50,6 +50,12 @@ regression NDS.
   `nds_deployed_source_comparison.json`.
 - Bốn package portable đều qua SSIS metadata validation; Python preparation
   tests, KPI baseline và project artifact validation PASS.
+- Đã triển khai sạch rồi triển khai lại trên database riêng
+  `HomeCreditBI_Hop_DeployCheck_20261111`: cả hai lần smoke PASS 59 objects,
+  10 nguồn và 5 affordability bands. Mười lăm SQL includes được thực thi
+  nguyên bản; bootstrap chỉ đổi tên database để tách khỏi dữ liệu tích hợp.
+  Đây là kiểm tra schema/idempotence trước merge, chưa thay thế regression
+  NDS trên dữ liệu đầy đủ hoặc kiểm tra revision sau merge.
 
 ## Đầu vào còn cần để tiếp tục ngày 3–4
 
