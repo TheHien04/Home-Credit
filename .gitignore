@@ -42,6 +42,9 @@ secrets.json
 # LaTeX generated files
 # Report sources are maintained locally and will be published in a later release.
 latex/
+!latex/
+!latex/slides/
+!latex/slides/main.tex
 latex/build/
 *.aux
 *.bbl

@@ -1,0 +1,168 @@
+\documentclass[11pt,a4paper]{article}
+
+% Compile safely with either pdfLaTeX (Overleaf default) or XeLaTeX/LuaLaTeX.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T5]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,vietnamese]{babel}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}
+  \usepackage[main=vietnamese,english]{babel}
+  \setmainfont{TeX Gyre Termes}
+  \setsansfont{TeX Gyre Heros}
+\fi
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!55!black}
+
+\definecolor{primary}{HTML}{1F4E78}
+\definecolor{accent}{HTML}{D9EAF7}
+\renewcommand{\arraystretch}{1.2}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Nhóm 8 -- Home Credit BI}
+\fancyhead[R]{Kế hoạch thực hiện}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{KẾ HOẠCH VÀ PHÂN CÔNG NHÓM 8}\\[0.3cm]\large Home Credit Risk \& Loan Portfolio Analytics}
+\author{%
+\begin{tabular}{r l}
+22127107 & Nguyễn Thế Hiển \\
+23127182 & Nguyễn Trường Duy \\
+23127192 & Nguyễn Văn Hộp \\
+23127328 & Nguyễn Quốc Bảo
+\end{tabular}}
+\date{Cập nhật ngày 29/10/2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Nguyên tắc ownership}
+\begin{itemize}
+  \item Một owner chịu trách nhiệm đưa task tới Definition of Done; reviewer kiểm tra logic, evidence và khả năng tích hợp.
+  \item Phân biệt người chuẩn bị source/spec với người chạy runtime trên Windows.
+  \item Không ghi nhận \texttt{PASS} khi chưa có result grid, screenshot hoặc artifact chạy thật.
+  \item SSIS là công cụ ETL/orchestration chính theo thông báo mới nhất của giảng viên.
+  \item Mọi runtime evidence chính thức phải dùng cùng canonical database và \texttt{BatchID}.
+\end{itemize}
+
+\section{Trạng thái hiện tại}
+\begin{table}[h]
+\centering
+\caption{Tiến độ theo góc đo}
+\begin{tabularx}{\textwidth}{XrX}
+\toprule
+Góc đo & Tiến độ & Diễn giải \\
+\midrule
+Local full-data analysis & 100\% & 7 business files, 58.441.149 rows, KPI invariants PASS \\
+Phần chuẩn bị của Hiển đến 30/10 & 100\% & Inventory, MVP, mapping, samples, oracle, status và speaker notes đã có \\
+Artifact thiết kế/source & 92\% & STG/NDS/DDS, loaders, tests, report và SSIS/Power BI specs đã có \\
+Pipeline SQL/SSIS runtime & 22\% & Chưa chạy end-to-end trên canonical Windows host \\
+Report/demo & 78\% & Nội dung Chương 1--7 và speaker notes có; còn runtime evidence, PBIX và slide final \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Phân công theo thiết bị và deliverable}
+\begin{longtable}{p{3.1cm}p{3.3cm}p{5.0cm}p{3.0cm}}
+\caption{Ownership chính thức}\label{tab:ownership}\\
+\toprule
+Thành viên & Môi trường & Trách nhiệm & Deliverable \\
+\midrule
+\endfirsthead
+\toprule Thành viên & Môi trường & Trách nhiệm & Deliverable \\
+\midrule
+\endhead
+Nguyễn Thế Hiển & MacBook & Raw verification, profiling/DQ, mapping, KPI oracle, tài liệu và điều phối & Local PASS, samples/oracle, report và speaker notes \\
+Nguyễn Trường Duy & Windows ETL & Visual Studio + SSDT/SSIS, staging package, reject flow, row counts và rerun & \texttt{01\_Load\_Staging.dtsx}, STG evidence \\
+Nguyễn Văn Hộp & Canonical Windows host & SQL deploy, final SSIS solution, NDS/DDS/reconcile, validators và performance & 59 objects, package integration, test grids, benchmark \\
+Nguyễn Quốc Bảo & Windows BI & Power BI model, SQL--DAX validation, evidence, slide và demo & PBIX, screenshots, final submission package \\
+\bottomrule
+\end{longtable}
+
+\section{Dependency flow}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=1.0cm, task/.style={draw,rounded corners,fill=accent,minimum width=10.5cm,minimum height=0.75cm,align=center}, rel/.style={-{Latex[length=2mm]},thick}]
+\node[task] (setup) {Duy/Hộp/Bảo: cài đúng Windows toolchain và thống nhất target version};
+\node[task,below=of setup] (deploy) {Hộp: deploy SQL trên canonical host -- smoke test 59 objects};
+\node[task,below=of deploy] (stg) {Duy: SSIS staging, reject path và sample/full row counts};
+\node[task,below=of stg] (warehouse) {Hộp: NDS $\rightarrow$ DDS $\rightarrow$ KPI reconciliation -- mọi test PASS};
+\node[task,below=of warehouse] (pbi) {Bảo: Power BI, SQL--DAX reconciliation và screenshots};
+\node[task,below=of pbi] (final) {Cả nhóm: rerun, review chéo, report, slide và rehearsal};
+\draw[rel] (setup)--(deploy); \draw[rel] (deploy)--(stg); \draw[rel] (stg)--(warehouse); \draw[rel] (warehouse)--(pbi); \draw[rel] (pbi)--(final);
+\end{tikzpicture}
+\caption{Thứ tự phụ thuộc bắt buộc của giai đoạn SQL Server--SSIS--Power BI runtime.}
+\end{figure}
+
+\section{Work breakdown và acceptance}
+\begin{longtable}{p{1.2cm}p{3.1cm}p{3.0cm}p{7.0cm}}
+\caption{Các gate còn lại}\label{tab:gates}\\
+\toprule
+Gate & Owner & Reviewer & Điều kiện hoàn tất \\
+\midrule
+\endfirsthead
+\toprule Gate & Owner & Reviewer & Điều kiện hoàn tất \\
+\midrule
+\endhead
+W01A & Duy & Hộp & VS, SSDT/SSIS và SQL connection hoạt động; có version evidence \\
+W01B & Hộp & Duy & Canonical SQL Server, \texttt{sqlcmd} và final solution sẵn sàng \\
+W01C & Bảo & Hiển & Power BI kết nối được canonical database \\
+W02 & Hộp & Duy & Deploy thành công và smoke test tìm đủ 59 objects \\
+W03 & Duy & Hộp & SSIS STG chạy; sample oracle khớp và 7 full tables đúng source counts \\
+W04 & Hộp & Duy & 12 NDS và 12 DDS tests \texttt{PASS} \\
+W05 & Hộp & Hiển & 12 KPI baseline tests \texttt{PASS}; population khớp local baseline \\
+W06 & Bảo & Hiển & 5 Power BI pages; SQL bằng DAX dưới cùng filter \\
+W07 & Duy & Hộp & Chạy lại không duplicate; before/after counts được lưu \\
+W08 & Bảo & Cả nhóm & Report, PBIX, SSIS, SQL, evidence và slides đủ \\
+\bottomrule
+\end{longtable}
+
+\section{Việc cần làm ngay}
+\begin{enumerate}[label=\textbf{Bước \arabic*:}]
+  \item Hiển bàn giao inventory, MVP scope, mapping, TRAIN/TEST samples, test oracle và speaker notes.
+  \item Ba bạn Windows thống nhất SQL Server/SSIS target version và đường dẫn source root.
+  \item Hộp tạo canonical database; Duy và Bảo kiểm tra kết nối tới đúng môi trường này.
+  \item Duy chạy SSIS application sample trước, đối chiếu \texttt{STG\_TEST\_ORACLE}, rồi mở rộng full load.
+  \item Hộp chạy NDS/DDS/KPI validators; gửi result grids cho Hiển review population.
+  \item Bảo chỉ bắt đầu đối soát Power BI sau khi DDS và KPI tests đã PASS.
+\end{enumerate}
+
+\section{Definition of Done}
+Một task chỉ được đánh dấu hoàn thành khi:
+\begin{itemize}
+  \item artifact được lưu đúng thư mục và có tên rõ ràng;
+  \item đầu vào, đầu ra, assumption và \texttt{BatchID} được ghi lại;
+  \item có evidence chạy thật, không chỉ có source code;
+  \item reviewer đã kiểm tra và lỗi nghiêm trọng đã được xử lý;
+  \item báo cáo và project status đã được cập nhật tương ứng.
+\end{itemize}
+
+\section{Review chéo và xác nhận}
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+Người thực hiện & Reviewer & Phạm vi \\
+\midrule
+Nguyễn Thế Hiển & Nguyễn Quốc Bảo & Profiling, DQ, KPI baseline và report source \\
+Nguyễn Trường Duy & Nguyễn Văn Hộp & Environment, SSIS STG, reject flow và rerun \\
+Nguyễn Văn Hộp & Nguyễn Trường Duy & SQL deploy, NDS/DDS, KPI và performance \\
+Nguyễn Quốc Bảo & Nguyễn Thế Hiển & Power BI filters, DAX, evidence và presentation \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\end{document}

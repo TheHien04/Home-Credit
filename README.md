@@ -55,6 +55,8 @@ _Status as of 29 October 2026_
 
 `IMPLEMENTED` and `VERIFIED` are intentionally different states. SQL Server, SSIS, and Power BI are not considered runtime-verified until their outputs are captured from the canonical Windows environment.
 
+The owner-specific closure plan for Nguyễn Thế Hiển is in the [final handoff and evidence gate](docs/HIEN_FINAL_HANDOFF.md). It is the single checklist for converting the existing local baseline and SQL specifications into runtime evidence; it does not fabricate Windows results.
+
 ## Verified baseline
 
 The independent local scan provides reconciliation targets for later SQL Server and Power BI execution.

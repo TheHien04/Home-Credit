@@ -1,0 +1,632 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ---------- Language and fonts ----------
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T5]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,vietnamese]{babel}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}
+  \usepackage[main=vietnamese,english]{babel}
+  \setmainfont{TeX Gyre Termes}
+  \setsansfont{TeX Gyre Heros}
+  \setmonofont{TeX Gyre Cursor}
+\fi
+
+% ---------- Layout ----------
+\usepackage[a4paper,top=2.1cm,bottom=2.1cm,left=2.35cm,right=2.15cm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{booktabs,longtable,tabularx,array,makecell,ragged2e,multirow}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,adjustbox,float,caption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds,shadows.blur}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% ---------- Colors and metadata ----------
+\definecolor{Navy}{HTML}{183153}
+\definecolor{Blue}{HTML}{2563A6}
+\definecolor{Sky}{HTML}{EAF2FA}
+\definecolor{Teal}{HTML}{167D8D}
+\definecolor{Mint}{HTML}{E7F5F3}
+\definecolor{Gold}{HTML}{B7791F}
+\definecolor{Cream}{HTML}{FFF7E6}
+\definecolor{Slate}{HTML}{475569}
+\definecolor{Rose}{HTML}{9F3A4A}
+\definecolor{RoseLight}{HTML}{FCECEF}
+\colorlet{primary}{Navy}
+\colorlet{accent}{Sky}
+\colorlet{warning}{Rose}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Navy,
+  urlcolor=Blue,
+  citecolor=Teal,
+  pdftitle={Hệ thống BI phân tích danh mục cho vay và rủi ro tín dụng Home Credit},
+  pdfauthor={Nhóm 8 -- Nguyễn Thế Hiển, Nguyễn Trường Duy, Nguyễn Văn Hộp, Nguyễn Quốc Bảo}
+}
+
+\newcommand{\project}{Home Credit Risk \& Loan Portfolio Analytics}
+\newcommand{\pending}[1]{\textcolor{warning}{\textbf{[CẦN BỔ SUNG: #1]}}}
+\newcommand{\evidence}[1]{\texttt{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\setstretch{1.27}
+\raggedbottom
+\setcounter{tocdepth}{2}
+\setlength{\parindent}{0pt}
+\setlength{\LTpre}{6pt}
+\setlength{\LTpost}{6pt}
+\setlist[itemize]{leftmargin=1.55em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.18}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{6}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.78}
+
+\titleformat{\chapter}[display]
+  {\bfseries\color{Navy}}
+  {\filleft\Large\chaptername\ \thechapter}
+  {0.4ex}
+  {\titlerule[1.2pt]\vspace{1ex}\Huge}
+\titleformat{\section}{\Large\bfseries\color{Navy}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{Blue}}{\thesubsection}{0.7em}{}
+\titlespacing*{\chapter}{0pt}{-8pt}{15pt}
+\titlespacing*{\section}{0pt}{13pt}{5pt}
+\titlespacing*{\subsection}{0pt}{9pt}{4pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{Slate}Hệ thống thông tin phục vụ trí tuệ kinh doanh}
+\fancyhead[R]{\small\color{Slate}Home Credit BI -- Nhóm 8}
+\fancyfoot[C]{\small\color{Slate}Trang \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\captionsetup{font=small,labelfont={bf,color=Navy},justification=centering}
+
+\newtcolorbox{draftbox}{
+  enhanced,breakable,colback=RoseLight,colframe=Rose,boxrule=0.7pt,
+  arc=2mm,left=3mm,right=3mm,top=2mm,bottom=2mm,
+  title={Trạng thái tài liệu},fonttitle=\bfseries
+}
+
+\begin{document}
+
+% =====================================================================
+% COVER
+% =====================================================================
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{0.35cm}
+{\normalsize VIETNAM NATIONAL UNIVERSITY HO CHI MINH CITY\par}
+\vspace{0.25em}
+{\normalsize UNIVERSITY OF SCIENCE\par}
+\vspace{0.25em}
+{\normalsize FACULTY OF INFORMATION TECHNOLOGY\par}
+
+\vspace{1.0em}
+% Đặt logo chính thức tên logo-hcmus.png cùng thư mục với main.tex.
+% Monogram bên dưới là fallback để tài liệu vẫn biên dịch khi thiếu ảnh.
+\IfFileExists{logo-hcmus.png}{%
+  \includegraphics[width=0.22\textwidth]{logo-hcmus.png}%
+}{%
+  \begin{tikzpicture}
+    \draw[very thick,Navy] (0,0) circle (1.35cm);
+    \draw[thick,Teal] (0,0) circle (1.18cm);
+    \node[font=\bfseries\Large,text=Navy] at (0,0.18) {HCMUS};
+    \node[font=\scriptsize\sffamily,text=Slate] at (0,-0.35) {VNUHCM--US};
+  \end{tikzpicture}%
+}
+
+\vspace{0.8em}
+{\Large\bfseries ĐỒ ÁN MÔN HỌC\par}
+\vspace{0.4em}
+{\large\bfseries COURSE: INFORMATION SYSTEMS FOR BUSINESS INTELLIGENCE\par}
+\vspace{0.25em}
+{\normalsize\bfseries HỌC PHẦN: HỆ THỐNG THÔNG TIN PHỤC VỤ TRÍ TUỆ KINH DOANH\par}
+
+\vspace{1.15em}
+{\LARGE\bfseries\color{Navy} HỆ THỐNG BI PHÂN TÍCH DANH MỤC CHO VAY\par}
+\vspace{0.35em}
+{\LARGE\bfseries\color{Navy} VÀ RỦI RO TÍN DỤNG HOME CREDIT\par}
+\vspace{0.35em}
+{\large\itshape Home Credit Risk \& Loan Portfolio Analytics\par}
+
+\vspace{1.2em}
+\begin{tabular}{@{}rll@{}}
+  \textbf{Lớp:} & \multicolumn{2}{l}{23HTTT2} \\[0.35em]
+  \textbf{Giảng viên:} & \multicolumn{2}{l}{Hồ Thị Hoàng Vy} \\
+                       & \multicolumn{2}{l}{Tiết Gia Hồng} \\[0.35em]
+  \textbf{Nhóm:} & \multicolumn{2}{l}{Nhóm 8} \\[0.35em]
+  \textbf{Sinh viên thực hiện:} & 22127107 & Nguyễn Thế Hiển \\
+                                & 23127182 & Nguyễn Trường Duy \\
+                                & 23127192 & Nguyễn Văn Hộp \\
+                                & 23127328 & Nguyễn Quốc Bảo \\
+  \end{tabular}
+
+\vfill
+{\color{Rose}\bfseries BẢN THẢO -- CHƯA CÓ BẰNG CHỨNG RUNTIME WINDOWS\par}
+\vspace{0.55em}
+\rule{0.92\textwidth}{1.25pt}\\[0.7em]
+{\large Thành phố Hồ Chí Minh, tháng 10 năm 2026\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\chapter*{Tóm tắt}
+\addcontentsline{toc}{chapter}{Tóm tắt}
+\begin{draftbox}
+Báo cáo đã có kết quả local và source code kiểm chứng được, nhưng chưa phải bản nộp cuối. Chỉ xóa cảnh báo này sau khi nhóm bổ sung đầy đủ \evidence{RUNTIME-01} đến \evidence{RUNTIME-05}, chạy SQL Server/SSIS/Power BI trên canonical Windows host và hoàn tất review chéo.
+\end{draftbox}
+
+Đồ án xây dựng hệ thống Business Intelligence cho lĩnh vực cho vay tiêu dùng từ bộ dữ liệu Home Credit Default Risk. Kiến trúc được tổ chức theo chuỗi \texttt{Source $\rightarrow$ STG $\rightarrow$ NDS $\rightarrow$ DDS $\rightarrow$ Power BI}; trong đó STG bảo toàn dữ liệu nguồn, NDS chuẩn hóa có truy vết và DDS lưu dữ liệu theo mô hình chiều.
+
+Quá trình kiểm tra local đã quét đầy đủ 58.441.149 dòng nghiệp vụ mà không sửa CSV gốc. Population có nhãn gồm 307.511 hồ sơ, trong đó 24.825 hồ sơ default, tương ứng 8,0729\%. Kết quả mô tả còn ghi nhận previous approval rate 62,6794\% và late-payment rate 8,5739\% trên các payment rows đã ghi nhận. Source code hiện có DDL STG/NDS/DDS, transaction-safe loaders, data-quality tests, KPI baseline, semantic SQL views, DAX specification và SSIS build specification. SQL Server, SSIS và Power BI runtime evidence chưa được xác nhận và được giữ ở trạng thái chờ thay vì suy đoán.
+
+\noindent\textbf{Từ khóa:} Business Intelligence, Data Warehouse, ETL, SSIS, SQL Server, Power BI, credit risk.
+
+\tableofcontents
+\listoftables
+\listoffigures
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{Tổng quan đề tài}
+\section{Bối cảnh và bài toán}
+Dữ liệu Home Credit phân tán ở nhiều bảng với grain khác nhau: một hồ sơ hiện tại, một đơn vay trước, một khoản bureau, một payment row hoặc một snapshot theo tháng. Nếu join trực tiếp các bảng one-to-many trước khi tính KPI, số hồ sơ có thể bị nhân bản và default rate bị sai. Vì vậy, đồ án tập trung xây dựng kho dữ liệu có grain, lineage và công thức KPI nhất quán, thay vì chỉ tạo biểu đồ.
+
+Hệ thống hướng tới quản lý danh mục tín dụng, nhóm kiểm soát rủi ro và nhóm phân tích. Kết quả dùng cho giám sát danh mục và khám phá phân khúc; không phải hệ thống chấm điểm tín dụng production hoặc công cụ tự động ra quyết định cá nhân.
+
+\section{Mục tiêu}
+\begin{enumerate}[label=\arabic*.]
+  \item Tích hợp dữ liệu nguồn bằng ETL có audit và reject handling.
+  \item Chuẩn hóa missing, sentinel và category mà không phá hủy raw data.
+  \item Xây NDS và DDS có grain, khóa và quan hệ rõ ràng.
+  \item Định nghĩa KPI nhất quán giữa SQL Server và Power BI.
+  \item Đối soát row count, default numerator và history population qua từng tầng.
+  \item Trình bày association mô tả mà không khẳng định quan hệ nhân quả.
+\end{enumerate}
+
+\section{Câu hỏi nghiệp vụ}
+\begin{itemize}
+  \item Quy mô và default rate của danh mục hồ sơ hiện tại là bao nhiêu?
+  \item Default rate khác nhau thế nào theo contract, age, income và affordability band?
+  \item Tỷ lệ phê duyệt previous applications và tỷ lệ payment rows trễ hạn là bao nhiêu?
+  \item Active bureau debt, overdue amount và missing-parent coverage ảnh hưởng báo cáo thế nào?
+\end{itemize}
+
+\section{Phạm vi}
+Core scope gồm \texttt{application\_train}, \texttt{previous\_application}, \texttt{bureau}, \texttt{bureau\_balance} và \texttt{installments\_payments}. \texttt{POS\_CASH\_balance} và \texttt{credit\_card\_balance} là extension scope. \texttt{application\_test} được giữ tại STG/NDS nhưng không đi vào default KPI; \texttt{sample\_submission} không phải fact nghiệp vụ.
+
+\chapter{Phân tích yêu cầu và dữ liệu}
+\section{Nguồn dữ liệu và grain}
+\begin{longtable}{p{4.2cm}rrp{5.5cm}}
+\caption{Inventory các nguồn dữ liệu}\label{tab:sources}\\
+\toprule
+Nguồn & Dòng & Cột & Grain \\
+\midrule
+\endfirsthead
+\toprule Nguồn & Dòng & Cột & Grain \\
+\midrule
+\endhead
+\texttt{application\_train.csv} & 307.511 & 122 & Một hồ sơ hiện tại có target \\
+\texttt{application\_test.csv} & 48.744 & 121 & Một hồ sơ hiện tại không target \\
+\texttt{previous\_application.csv} & 1.670.214 & 37 & Một đơn vay trước \\
+\texttt{bureau.csv} & 1.716.428 & 17 & Một khoản tín dụng bureau \\
+\texttt{bureau\_balance.csv} & 27.299.925 & 3 & Một khoản bureau tại một tháng tương đối \\
+\texttt{installments\_payments.csv} & 13.605.401 & 8 & Một source payment row \\
+\texttt{POS\_CASH\_balance.csv} & 10.001.358 & 8 & Một hợp đồng POS/cash tại một tháng \\
+\texttt{credit\_card\_balance.csv} & 3.840.312 & 23 & Một hợp đồng thẻ tại một tháng \\
+\bottomrule
+\end{longtable}
+
+\section{Quan hệ nguồn}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm and 1.7cm, every node/.style={font=\small}, entity/.style={draw,rounded corners,fill=accent,minimum width=3.1cm,minimum height=0.8cm}, rel/.style={-{Latex[length=2mm]},thick}]
+\node[entity] (app) {Application};
+\node[entity,below left=of app] (prev) {Previous application};
+\node[entity,below right=of app] (bureau) {Bureau credit};
+\node[entity,below=of prev] (inst) {Installment payment};
+\node[entity,left=of inst] (pos) {POS monthly};
+\node[entity,right=of inst] (card) {Card monthly};
+\node[entity,below=of bureau] (bm) {Bureau monthly};
+\draw[rel] (app) -- node[left]{1:N} (prev);
+\draw[rel] (app) -- node[right]{1:N} (bureau);
+\draw[rel] (app) -- (inst);
+\draw[rel,dashed] (prev) -- (inst);
+\draw[rel,dashed] (prev) -- (pos);
+\draw[rel,dashed] (prev) -- (card);
+\draw[rel] (bureau) -- (bm);
+\end{tikzpicture}
+\caption{Quan hệ logic giữa các nguồn; đường nét đứt biểu thị parent coverage không hoàn chỉnh.}
+\label{fig:source-rel}
+\end{figure}
+
+\section{Đánh giá chất lượng dữ liệu}
+Raw data được mở read-only; không impute và không tự động xóa giá trị tài chính bất thường. Bảng~\ref{tab:dq} ghi lại các rule có count xác nhận từ full scan.
+
+\begin{table}[H]
+\centering
+\caption{Các vấn đề chất lượng dữ liệu chính}\label{tab:dq}
+\begin{tabularx}{\textwidth}{XrX}
+\toprule
+Vấn đề & Số dòng & Xử lý tại NDS \\
+\midrule
+\texttt{DAYS\_EMPLOYED=365243} & 55.374 & Tenure thành null, giữ flag \\
+Gender \texttt{XNA} & 4 & Map \texttt{Unknown}, giữ flag \\
+Previous-date sentinel & 997.144 & Date thành null, giữ flag \\
+Previous payment count $\leq 0$ & 144.985 & Giữ giá trị, bật flag \\
+Previous negative amount & 2 & Giữ để review, bật flag \\
+Bureau negative debt & 8.418 & Giữ để tránh bóp méo, bật flag \\
+Missing installment payment & 2.905 & Giữ null, \texttt{PaymentRecordedFlag=0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Không phát hiện missing mandatory key trong bảy bảng nghiệp vụ, target ngoài $\{0,1\}$, positive \texttt{MONTHS\_BALANCE}, negative DPD hoặc negative installment/payment amount. Child-parent coverage vẫn không hoàn chỉnh; unmatched rows được giữ và gắn \texttt{ParentMissingFlag}.
+
+\chapter{Thiết kế kho dữ liệu}
+\section{Kiến trúc tổng thể}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=0.45cm, every node/.style={font=\small}, layer/.style={draw,rounded corners,fill=accent,minimum width=1.8cm,minimum height=0.9cm}, gate/.style={draw,diamond,aspect=1.6,fill=yellow!20}, rel/.style={-{Latex[length=2mm]},thick}]
+\node[layer] (src) {CSV nguồn};
+\node[layer,right=of src] (ssis) {SSIS};
+\node[layer,right=of ssis] (stg) {STG};
+\node[gate,right=of stg] (q1) {DQ};
+\node[layer,right=of q1] (nds) {NDS};
+\node[layer,right=of nds] (dds) {DDS};
+\node[layer,right=of dds] (pbi) {Power BI};
+\draw[rel] (src)--(ssis); \draw[rel] (ssis)--(stg); \draw[rel] (stg)--(q1); \draw[rel] (q1)--(nds); \draw[rel] (nds)--(dds); \draw[rel] (dds)--(pbi);
+\end{tikzpicture}
+\caption{Kiến trúc dữ liệu đầu cuối của đồ án.}
+\label{fig:architecture}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Trách nhiệm của từng tầng}\label{tab:layers}
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+Tầng & Trách nhiệm & Chính sách biến đổi \\
+\midrule
+Raw CSV & Source of truth & Read-only \\
+SSIS & Ingestion, orchestration, error path và audit & Không sửa raw files \\
+STG & Typed source-aligned landing & Không clean business value \\
+NDS & Normalize sentinel/category & Deterministic, có lineage \\
+DDS & Star schema cho TRAIN scope & Rebuildable, bảo toàn grain \\
+Power BI & Semantic measures và visualization & Không sửa dữ liệu nguồn \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Mô hình DDS}
+DDS gồm sáu dimensions và bảy facts. \texttt{DimApplicant} là conformed dimension; các bảng contract, status, relative month và affordability hỗ trợ slicing. Current application, previous application, installment, bureau và monthly snapshots có fact riêng để tránh nhân bản grain. Default KPI chỉ lấy từ \texttt{FactLoanApplication}.
+
+Thiết kế tuân theo bốn quyết định của dimensional modeling: chọn business process, khai báo grain, xác định dimensions và xác định facts \cite{kimball4step}. Hình~\ref{fig:dds-star} trình bày star schema lõi dùng cho default KPI. Mỗi quan hệ là một--nhiều từ dimension sang fact; khóa thay thế nằm ở dimension và khóa nghiệp vụ được giữ để truy vết.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=1.5cm and 2.2cm,
+  every node/.style={font=\small,align=left},
+  dim/.style={draw,rounded corners,fill=accent,text width=4.2cm,inner sep=6pt},
+  fact/.style={draw,rounded corners,very thick,fill=primary!12,text width=5.2cm,inner sep=7pt},
+  rel/.style={-{Latex[length=2mm]},thick}
+]
+\node[fact] (loan) {\textbf{FactLoanApplication}\\
+  PK LoanApplicationKey\\
+  FK ApplicantKey, ContractKey, AffordabilityBandKey\\
+  DD ApplicationID\\
+  TargetDefaultFlag, CreditAmount, AnnuityAmount\\
+  \emph{Grain: một TRAIN application}};
+\node[dim,left=of loan] (applicant) {\textbf{DimApplicant}\\
+  PK ApplicantKey\\
+  BK ApplicationID\\
+  Gender, AgeBand, IncomeBand};
+\node[dim,above right=of loan] (contract) {\textbf{DimContract}\\
+  PK ContractKey\\
+  BK ContractType\\
+  ContractTypeName};
+\node[dim,below right=of loan] (afford) {\textbf{DimAffordabilityBand}\\
+  PK AffordabilityBandKey\\
+  BK AffordabilityBandCode\\
+  MinRatio, MaxRatio};
+\draw[rel] (applicant) -- node[above]{1:N} (loan);
+\draw[rel] (contract) -- node[right]{1:N} (loan);
+\draw[rel] (afford) -- node[right]{1:N} (loan);
+\end{tikzpicture}}
+\caption{Star schema lõi cho hồ sơ vay hiện tại và default KPI. PK: primary key; FK: foreign key; BK: business key; DD: degenerate dimension.}
+\label{fig:dds-star}
+\end{figure}
+
+Các facts lịch sử dùng chung \texttt{DimApplicant}; mô hình dạng fact constellation giúp bảo toàn grain thay vì ghép sớm các bảng one-to-many. Bảng~\ref{tab:dds-bus} là bus matrix đồng thời ghi rõ khóa và grain của toàn bộ DDS.
+
+\begin{longtable}{p{3.7cm}p{4.7cm}p{6.0cm}}
+\caption{Bus matrix, khóa và grain của DDS}\label{tab:dds-bus}\\
+\toprule
+Fact và grain & Khóa/quan hệ & Dimensions và measure chính \\
+\midrule
+\endfirsthead
+\toprule Fact và grain & Khóa/quan hệ & Dimensions và measure chính \\
+\midrule
+\endhead
+\texttt{FactLoanApplication}: một TRAIN application & PK \texttt{LoanApplicationKey}; DD \texttt{ApplicationID} & Applicant, Contract, Affordability; target, income, credit, annuity \\
+\texttt{FactPreviousApplication}: một previous application & PK \texttt{PreviousApplicationFactKey}; DD \texttt{PreviousApplicationID} & Applicant, Contract, ApplicationStatus; requested/granted amount \\
+\texttt{FactInstallmentPayment}: một source payment row & PK \texttt{InstallmentPaymentFactKey}; unique \texttt{SourceBatchID+SourceRowNumber} & Applicant; scheduled/paid amount, delay, late flag \\
+\texttt{FactBureauCredit}: một bureau credit & PK \texttt{BureauCreditFactKey}; DD \texttt{BureauCreditID} & Applicant, CreditStatus; credit, debt, overdue amount \\
+\texttt{FactBureauMonthlySnapshot}: một bureau credit--relative month & PK \texttt{BureauMonthlyFactKey}; DD \texttt{BureauCreditID} & Applicant/Unknown, RelativeMonth; status \\
+\texttt{FactPOSCashMonthly}: một previous contract--relative month & PK \texttt{POSCashMonthlyFactKey}; DD \texttt{PreviousApplicationID} & Applicant, RelativeMonth; DPD, installment counts \\
+\texttt{FactCreditCardMonthly}: một previous contract--relative month & PK \texttt{CreditCardMonthlyFactKey}; DD \texttt{PreviousApplicationID} & Applicant, RelativeMonth; balance, limit, drawing/payment amounts \\
+\bottomrule
+\end{longtable}
+
+Thiết kế này phù hợp với hướng dẫn Power BI: dimension phục vụ lọc/nhóm, fact phục vụ tổng hợp và fact phải có grain nhất quán \cite{powerbistar}. Unknown member được dùng khi child row thuộc TRAIN scope nhưng thiếu parent; vì vậy dữ liệu được bảo toàn mà vẫn giữ toàn vẹn khóa ngoại.
+
+\chapter{Quy trình ETL}
+\section{Package flow}
+Thiết kế gồm năm package: \texttt{00\_Master\_Load}, \texttt{01\_Load\_Staging}, \texttt{02\_Load\_NDS}, \texttt{03\_Load\_DDS} và \texttt{04\_Reconcile\_Load}. Master tạo \texttt{BatchID}, gọi các package tuần tự và chỉ kết thúc \texttt{SUCCEEDED} nếu file audit cùng data-quality results không có lỗi.
+
+Control Flow điều phối thứ tự, transaction và audit; mỗi Data Flow đảm nhiệm source, transformation và destination. Cách tách này bám theo kiến trúc SSIS được Microsoft mô tả \cite{ssisflow}. Error output phải được redirect sang \texttt{ctl.RejectedRow}, không được âm thầm bỏ dòng lỗi.
+
+\section{Source-to-target mapping tiêu biểu}
+Bảng~\ref{tab:source-target} trích các mapping quan trọng nhất từ đặc tả đầy đủ trong \texttt{docs/SOURCE\_TO\_TARGET\_MAPPING.md}. STG giữ cấu trúc gần nguồn; NDS chuẩn hóa có cờ chất lượng; DDS áp dụng grain và surrogate key.
+
+\begin{longtable}{p{3.2cm}p{3.4cm}p{3.4cm}p{4.5cm}}
+\caption{Source-to-target mapping tiêu biểu}\label{tab:source-target}\\
+\toprule
+Source & NDS target & DDS target & Quy tắc biến đổi/kiểm tra \\
+\midrule
+\endfirsthead
+\toprule Source & NDS target & DDS target & Quy tắc biến đổi/kiểm tra \\
+\midrule
+\endhead
+\texttt{SK\_ID\_CURR} & \texttt{ApplicationID} & \texttt{DimApplicant.ApplicationID} & Bắt buộc, kiểu \texttt{BIGINT}, map surrogate \texttt{ApplicantKey} \\
+Tên file application & \texttt{DatasetRole} & Scope của fact & TRAIN/TEST từ metadata file; chỉ TRAIN vào DDS KPI \\
+\texttt{TARGET} & \texttt{TargetDefaultFlag} & \texttt{FactLoanApplication.TargetDefaultFlag} & Chỉ chấp nhận 0/1 ở TRAIN; TEST để null \\
+\texttt{CODE\_GENDER} & \texttt{GenderCode} & \texttt{DimApplicant.GenderCode} & Trim; \texttt{XNA}/blank thành \texttt{Unknown}; giữ quality flag \\
+\texttt{DAYS\_BIRTH} & \texttt{AgeYears} & \texttt{DimApplicant.AgeBand} & $\lfloor -days/365.25\rfloor$; kiểm tra miền hợp lệ \\
+\texttt{DAYS\_EMPLOYED} & \texttt{EmploymentYears} & Thuộc tính applicant & Sentinel 365243 thành null; giữ \texttt{EmploymentSentinelFlag} \\
+\texttt{AMT\_INCOME\_TOTAL}, \texttt{AMT\_ANNUITY} & Amounts đã typed & Affordability dimension/fact & Ratio $=annuity/income$ khi income $>0$; không impute \\
+\texttt{NAME\_CONTRACT\_STATUS} & \texttt{ApplicationStatusCode} & \texttt{DimApplicationStatus} & Trim, map unknown; không suy diễn trạng thái \\
+\texttt{DAYS\_INSTALMENT}, \texttt{DAYS\_ENTRY\_PAYMENT} & Due/payment relative days & Delay measures & Delay $=payment-due$; late khi delay $>0$ và có payment \\
+\texttt{AMT\_INSTALMENT}, \texttt{AMT\_PAYMENT} & Scheduled/paid amount & Payment measures & Variance $=paid-scheduled$; null payment giữ nguyên \\
+\texttt{SK\_ID\_BUREAU}, \texttt{MONTHS\_BALANCE} & Bureau ID/month & Bureau monthly fact & Lookup parent; thiếu parent dùng unknown applicant và bật cờ \\
+Mọi source row & Batch/row lineage & \texttt{SourceBatchID} & Lưu \texttt{BatchID}, source row number và UTC load time \\
+\bottomrule
+\end{longtable}
+
+\section{Transformations và kiểm soát}
+\begin{itemize}
+  \item Trim và chuẩn hóa category blank, \texttt{XNA}, \texttt{XAP} tại NDS.
+  \item Chuyển sentinel có nghĩa chắc chắn sang null nhưng giữ quality flag.
+  \item Tính age, tenure, payment delay, days late và payment variance.
+  \item Giữ negative financial values có thể là adjustment; không winsorize hoặc xóa tự động.
+  \item Lookup surrogate key và dùng unknown member khi lookup không khả dụng.
+  \item NDS/DDS loaders chạy trong transaction; replace chỉ xảy ra khi \texttt{@ConfirmReplace=1}.
+\end{itemize}
+
+\section{Audit và trạng thái runtime}
+\texttt{ctl.ETLBatch}, \texttt{ctl.ETLFileLoad}, \texttt{ctl.RejectedRow} và \texttt{ctl.DataQualityResult} lưu lineage, counts, errors và test status. Các bằng chứng sau chưa tồn tại và phải được bổ sung từ canonical Windows integration host:
+\begin{enumerate}
+  \item \evidence{RUNTIME-01}: phiên bản SQL Server, Visual Studio, SSDT/SSIS và Power BI.
+  \item \evidence{RUNTIME-02}: SSIS Control Flow, Data Flow và red error path.
+  \item \evidence{RUNTIME-03}: duration, rows/second và transaction-log usage.
+  \item \evidence{RUNTIME-04}: STG, NDS, DDS và KPI validator result grids.
+\end{enumerate}
+
+\chapter{Kết quả phân tích và dashboard}
+\section{KPI baseline}
+\begin{table}[H]
+\centering
+\caption{Expected KPI từ full-file scan}\label{tab:kpi}
+\begin{tabular}{lr}
+\toprule
+KPI & Kết quả \\
+\midrule
+Total applications & 307.511 \\
+Default applications & 24.825 \\
+Default rate & 8,0729\% \\
+Average credit amount & 599.026,00 \\
+Average annuity-to-income & 18,0930\% \\
+Previous approval rate & 62,6794\% \\
+Late-payment rate & 8,5739\% \\
+Average days late among late rows & 12,5137 ngày \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Kết quả phân khúc mô tả}
+Age bands trẻ hơn có observed default rate cao hơn trong dataset: Under 25 là 12,2946\%, trong khi 65+ là 3,6567\%. Cash loans đạt 8,3459\%, cao hơn revolving loans 5,4783\%. Income band 250k+ đạt 6,4005\%, thấp hơn các band còn lại. Đây là descriptive association; contract mix, selection và biến chưa kiểm soát có thể ảnh hưởng kết quả.
+
+Payment history ghi nhận 993.629 trong 11.589.009 recorded payment rows bị trễ, tương ứng 8,5739\%. Mean positive delay là 12,5137 ngày. Credit-card monthly có 27,0440\% TRAIN-linked rows không tìm thấy previous parent; vấn đề này phải xuất hiện trong data-quality tooltip thay vì dùng làm lý do loại bỏ fact.
+
+\section{Đặc tả dashboard}
+\begin{table}[H]
+\centering
+\caption{Đặc tả năm trang Power BI}\label{tab:dashboard}
+\begin{tabularx}{\textwidth}{p{2.7cm}XX}
+\toprule
+Trang & Visual và bộ lọc chính & Điều kiện nghiệm thu \\
+\midrule
+Executive overview & KPI cards; default theo contract/age; slicer contract, gender, age, income & Tổng application/default khớp baseline khi không lọc \\
+Credit risk profile & Default rate theo age, income, affordability và contract & Mẫu số chỉ là TRAIN population; tooltip có numerator/denominator \\
+Payment behavior & Late rate, average days late, scheduled/paid amount; slicer late status & Chỉ recorded payments nằm trong mẫu số late rate \\
+Credit history & Previous decision, active bureau, debt/overdue và monthly status & Không join làm nhân bản application grain \\
+Data quality & Batch status, source/accepted/rejected, sentinel và orphan rates & Số liệu truy ngược được về audit/test result \\
+\bottomrule
+\end{tabularx}
+\end{table}
+Model, relationships, DAX và tiêu chí nghiệm thu đã có trong repository. \pending{RUNTIME-05 -- tạo năm trang trong Power BI Desktop, chụp screenshot và kiểm tra từng visual.}
+
+\chapter{Kiểm thử và đánh giá}
+\section{Kết quả đã xác nhận trên macOS}
+\begin{table}[H]
+\centering
+\caption{Local validation status}\label{tab:local-tests}
+\begin{tabularx}{\textwidth}{Xl}
+\toprule
+Test group & Kết quả \\
+\midrule
+Raw SHA-256 cho 10 file & PASS \\
+Python script compilation & PASS \\
+Full DQ scan 58.441.149 dòng nghiệp vụ & PASS \\
+KPI group/population reconciliation & PASS \\
+SQL structural, batch và parenthesis checks & PASS \\
+Documentation internal links & PASS \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Expected row-count contract}
+Bảng~\ref{tab:expected-counts} là oracle độc lập lấy từ full-file scan. Cột DDS thể hiện TRAIN-linked scope và chính sách giữ orphan bằng unknown member; đây chưa phải kết quả thực thi SQL Server.
+
+\begin{longtable}{p{4.1cm}r r r}
+\caption{Expected row counts qua các tầng}\label{tab:expected-counts}\\
+\toprule
+Business object & Source/STG & NDS & DDS fact \\
+\midrule
+\endfirsthead
+\toprule Business object & Source/STG & NDS & DDS fact \\
+\midrule
+\endhead
+Application TRAIN + TEST & 356.255 & 356.255 & 307.511 \\
+Previous application & 1.670.214 & 1.670.214 & 1.413.701 \\
+Bureau credit & 1.716.428 & 1.716.428 & 1.465.325 \\
+Bureau monthly & 27.299.925 & 27.299.925 & 17.821.796 \\
+Installment payment & 13.605.401 & 13.605.401 & 11.591.592 \\
+POS/cash monthly & 10.001.358 & 10.001.358 & 8.543.375 \\
+Credit-card monthly & 3.840.312 & 3.840.312 & 3.227.965 \\
+\bottomrule
+\end{longtable}
+
+\noindent\textbf{Lưu ý:} \texttt{DimApplicant} dự kiến có 307.512 dòng, gồm 307.511 TRAIN applicants và một unknown member. Actual counts phải được lấy từ \texttt{050}, \texttt{051} và \texttt{052} validators sau canonical load; mọi chênh lệch phải được giải thích bằng reject/audit, không sửa baseline để làm cho khớp.
+
+\section{Đối soát SQL--DAX}
+Đối soát phải thực hiện dưới cùng filter context. Với mỗi KPI, nhóm lưu một ảnh SQL result grid, một ảnh Power BI card/table và chênh lệch tuyệt đối. Ngưỡng là bằng nhau với count; rate sai khác không quá $0{,}0001$ percentage point do làm tròn.
+
+\begin{table}[H]
+\centering
+\caption{Ma trận đối soát KPI SQL--DAX}\label{tab:sql-dax}
+\begin{tabularx}{\textwidth}{X X X r}
+\toprule
+KPI & SQL semantic source & DAX measure & Expected \\
+\midrule
+Total applications & \texttt{vw\_ExecutiveKPI} & \texttt{[Total Applications]} & 307.511 \\
+Default applications & Cùng view, tổng default flag & \texttt{[Default Applications]} & 24.825 \\
+Default rate & Default / total & \texttt{[Default Rate]} & 8,0729\% \\
+Previous approval rate & \texttt{vw\_PreviousApplicationKPI} & \texttt{[Previous Approval Rate]} & 62,6794\% \\
+Late-payment rate & \texttt{vw\_PaymentKPI} & \texttt{[Late Payment Rate]} & 8,5739\% \\
+Active bureau credits & \texttt{vw\_BureauKPI} & \texttt{[Active Bureau Credits]} & 541.919 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Rerun và idempotency protocol}
+Sau lần load thành công thứ nhất, ghi lại \texttt{BatchID}, counts của từng bảng, tổng reject và 12 KPI. Chạy lại cùng bộ file với cùng checksum và cấu hình; lần hai phải tạo audit batch mới nhưng không nhân bản business row. Nhóm so sánh trước/sau bằng \texttt{COUNT(*)}, unique-key violations, duplicate business keys và KPI. Acceptance là counts/KPI không đổi, không duplicate và cả hai batch có trạng thái kết thúc rõ ràng. \pending{RUNTIME-06 -- lưu hai BatchID, hai bộ result grids và kết luận PASS/FAIL.}
+
+\section{Acceptance tests còn chờ Windows}
+\begin{table}[H]
+\centering
+\caption{Runtime acceptance gates}\label{tab:runtime-tests}
+\begin{tabularx}{\textwidth}{X X}
+\toprule
+Evidence & Acceptance criterion \\
+\midrule
+SQL schema smoke test & Đủ 59 required objects \\
+STG validation & Không có \texttt{FAIL} \\
+NDS validation & 12 tests \texttt{PASS} \\
+DDS validation & 12 tests \texttt{PASS} \\
+KPI baseline validation & 12 tests \texttt{PASS} \\
+Power BI reconciliation & SQL bằng DAX dưới cùng filter \\
+Rerun test & Counts không đổi, không duplicate \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Evidence register và phần còn thiếu}
+\begin{longtable}{p{5.2cm}p{2.7cm}p{6.2cm}}
+\caption{Trạng thái các hạng mục của báo cáo cuối kỳ}\label{tab:evidence-register}\\
+\toprule
+Hạng mục & Trạng thái & Bằng chứng/vị trí \\
+\midrule
+\endfirsthead
+\toprule Hạng mục & Trạng thái & Bằng chứng/vị trí \\
+\midrule
+\endhead
+ERD/star schema có khóa, quan hệ, grain & Đã bổ sung & Hình~\ref{fig:dds-star}, Bảng~\ref{tab:dds-bus} \\
+Source-to-target mapping & Đã bổ sung & Bảng~\ref{tab:source-target} và đặc tả đầy đủ trong repository \\
+Expected STG/NDS/DDS row counts & Đã bổ sung & Bảng~\ref{tab:expected-counts}; actual runtime còn chờ \\
+Đặc tả năm trang Power BI & Đã bổ sung & Bảng~\ref{tab:dashboard}; PBIX/screenshots còn chờ \\
+SQL--DAX reconciliation protocol & Đã bổ sung & Bảng~\ref{tab:sql-dax}; kết quả runtime còn chờ \\
+Rerun protocol & Đã bổ sung & Mục rerun; evidence hai lần chạy còn chờ \\
+Tài liệu dimensional modeling/ETL & Đã bổ sung & \cite{kimball4step,powerbistar,ssisflow} \\
+SQL deploy và 59 objects & Chờ Windows & Screenshot smoke test/result grid \\
+SSIS Control/Data Flow/error path & Chờ Windows & Screenshot package thực tế \\
+12 NDS, 12 DDS, 12 KPI tests & Chờ Windows & Result grids của validators \\
+Runtime, rows/second, log usage & Chờ Windows & Execution log và SQL diagnostics \\
+Visual QA bản PDF & Chờ TeX/PDF & Render toàn bộ trang, kiểm tra overflow, font, bảng/hình \\
+\bottomrule
+\end{longtable}
+
+\section{Hạn chế}
+Dữ liệu được ẩn danh, không cung cấp currency label hoặc ngày lịch gốc. Target chỉ có trong application train. Missing-parent coverage cao ở một số monthly sources giới hạn drill-through. Kết quả segmentation là mô tả, không chứng minh quan hệ nhân quả. Local Python baseline xác nhận logic độc lập nhưng không thay thế SQL Server, SSIS và Power BI runtime validation.
+
+\chapter{Kết luận và hướng phát triển}
+Đồ án đã hoàn thành nền tảng logic cho một hệ thống BI tín dụng gồm inventory, profiling, cleaning contract, STG, NDS, DDS, ETL procedures, audit controls, tests, KPI definitions và semantic-model specification. Full-data baseline cung cấp chuẩn độc lập để phát hiện sai population hoặc numerator khi triển khai.
+
+Ưu tiên tiếp theo là chạy application sample rồi canonical full load bằng SSIS trên Windows, thu thập evidence, đo hiệu năng và hoàn thiện Power BI. Sau MVP có thể nghiên cứu incremental load, partitioning monthly facts, monitoring data drift và predictive modeling có đánh giá fairness; các phần này hiện ngoài phạm vi.
+
+\appendix
+\chapter{Phân công và trách nhiệm}
+\begin{longtable}{p{3.2cm}p{5.4cm}p{5.2cm}}
+\caption{Ownership của Nhóm 8}\label{tab:team}\\
+\toprule
+Thành viên & Phạm vi & Bằng chứng \\
+\midrule
+\endfirsthead
+\toprule Thành viên & Phạm vi & Bằng chứng \\
+\midrule
+\endhead
+Nguyễn Thế Hiển & Mac: intake, full profiling/DQ, modeling source, KPI baseline, source/spec, tài liệu, điều phối & Local validators và tài liệu đã lưu \\
+Nguyễn Trường Duy & Windows: SSIS staging, reject flow, rerun & Package, STG counts, reject/rerun evidence \\
+Nguyễn Văn Hộp & Canonical Windows host: SQL deploy, NDS/DDS/reconcile, validators, performance & SQL/SSIS result grids và benchmark \\
+Nguyễn Quốc Bảo & Windows: Power BI, SQL--DAX validation, evidence, slide/demo & PBIX, screenshots và final package \\
+\bottomrule
+\end{longtable}
+
+\chapter{Khả năng tái lập}
+Repository mã nguồn: \url{https://github.com/TheHien04/Home-Credit}. Raw CSV không được đưa vào repository; người chạy phải tải từ Kaggle, chấp nhận competition rules và đối chiếu \texttt{docs/RAW\_DATA\_SHA256.txt}. Hai lệnh local acceptance là:
+\begin{verbatim}
+python3 scripts/validate_kpi_baseline.py
+python3 scripts/validate_project_artifacts.py
+\end{verbatim}
+
+\begin{thebibliography}{12}
+\bibitem{homecredit} Home Credit Group. \emph{Home Credit Default Risk -- Data}. Kaggle, 2018. \url{https://www.kaggle.com/competitions/home-credit-default-risk/data}.
+\bibitem{kimball4step} Kimball Group. \emph{Four-Step Dimensional Design Process}. \url{https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/four-4-step-design-process/}.
+\bibitem{powerbistar} Microsoft. \emph{Understand star schema and the importance for Power BI}. Microsoft Learn. \url{https://learn.microsoft.com/en-us/power-bi/guidance/star-schema}.
+\bibitem{ssisflow} Microsoft. \emph{Data Flow -- SQL Server Integration Services}. Microsoft Learn. \url{https://learn.microsoft.com/en-us/sql/integration-services/data-flow/data-flow}.
+\bibitem{ssis} Microsoft. \emph{Install SQL Server Integration Services}. Microsoft Learn. \url{https://learn.microsoft.com/en-us/sql/integration-services/install-windows/install-integration-services}.
+\bibitem{ssdt} Microsoft. \emph{Install SQL Server Data Tools for Visual Studio}. Microsoft Learn. \url{https://learn.microsoft.com/en-us/sql/ssdt/download-sql-server-data-tools-ssdt}.
+\bibitem{powerbi} Microsoft. \emph{Download Power BI Desktop}. Microsoft Learn. \url{https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop}.
+\end{thebibliography}
+
+\end{document}
