@@ -26,8 +26,7 @@ _Quy tắc làm sạch từ STG sang NDS, cập nhật sau full scan ngày 22/10
 | `PREV_NONPOS_PAYMENT_COUNT` | 144.985 | 8,68% | Giữ và bật cờ structural |
 | `PREV_NEGATIVE_AMOUNT` | 2 | <0,01% | Giữ và đưa vào review |
 | `BUREAU_NEGATIVE_DEBT` | 8.418 | 0,49% | Giữ và bật cờ |
-| `INST_MISSING_PAYMENT_DATE` | 2.905 | 0,02% | Giữ null, đánh dấu chưa thanh toán |
-| `INST_MISSING_PAYMENT_AMOUNT` | 2.905 | 0,02% | Giữ null, đánh dấu chưa thanh toán |
+| `INST_MISSING_PAYMENT_ROW` | 2.583 | 0,02% | Union theo dòng của thiếu ngày hoặc amount; giữ null và đánh dấu chưa ghi nhận |
 
 Full scan không phát hiện:
 
@@ -98,7 +97,7 @@ Full scan không phát hiện:
 - [ ] Reject count bằng 0 cho dữ liệu hiện tại ở các rule bắt buộc
 - [ ] 55.374 employment sentinel được chuyển tenure null
 - [ ] 997.144 previous rows có ít nhất một sentinel date được chuẩn hóa
-- [ ] 2.905 installment rows được đánh dấu payment chưa ghi nhận
+- [ ] 2.583 installment rows được đánh dấu payment chưa ghi nhận
 - [ ] Negative bureau debt được giữ và có flag
 - [ ] Unknown categories không còn dùng chung với SQL null
 - [ ] Train/test được giữ tách biệt

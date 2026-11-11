@@ -54,7 +54,7 @@ Các tỷ lệ là ước tính quản trị dự án, không phải điểm s�
 | Previous payment count ≤ 0 | 144.985 | Giữ giá trị, bật flag |
 | Previous negative amount | 2 | Giữ để review, bật flag |
 | Bureau debt âm | 8.418 | Giữ để tránh bóp méo dữ liệu, bật flag |
-| Installment thiếu ngày/amount payment | 2.905 | Giữ null, `PaymentRecordedFlag = 0` |
+| Installment thiếu ngày/amount payment | 2.583 | Union theo dòng; giữ null, `PaymentRecordedFlag = 0` |
 | Child row thiếu parent | 3,41–28,20% tùy bảng | Không xóa; bật `ParentMissingFlag` |
 
 ## 🗺️ Trạng thái theo phase

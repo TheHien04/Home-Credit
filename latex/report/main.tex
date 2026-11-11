@@ -161,17 +161,17 @@
   \end{tabular}
 
 \vfill
-{\color{Rose}\bfseries BẢN THẢO -- CHƯA CÓ BẰNG CHỨNG RUNTIME WINDOWS\par}
+{\color{Rose}\bfseries BẢN THẢO / SOURCE RELEASE -- CHƯA CÓ BẰNG CHỨNG RUNTIME WINDOWS\par}
 \vspace{0.55em}
 \rule{0.92\textwidth}{1.25pt}\\[0.7em]
-{\large Thành phố Hồ Chí Minh, tháng 10 năm 2026\par}
+{\large Thành phố Hồ Chí Minh, tháng 11 năm 2026\par}
 \end{titlepage}
 
 \pagenumbering{roman}
 \chapter*{Tóm tắt}
 \addcontentsline{toc}{chapter}{Tóm tắt}
 \begin{draftbox}
-Báo cáo đã có kết quả local và source code kiểm chứng được, nhưng chưa phải bản nộp cuối. Chỉ xóa cảnh báo này sau khi nhóm bổ sung đầy đủ \evidence{RUNTIME-01} đến \evidence{RUNTIME-05}, chạy SQL Server/SSIS/Power BI trên canonical Windows host và hoàn tất review chéo.
+Báo cáo đã có kết quả local và source code kiểm chứng được, nhưng chưa phải bản nộp cuối. Chỉ xóa cảnh báo này sau khi nhóm bổ sung đầy đủ \evidence{RUNTIME-01} đến \evidence{RUNTIME-06}, chạy SQL Server/SSIS/Power BI trên canonical Windows host và hoàn tất review chéo.
 \end{draftbox}
 
 Đồ án xây dựng hệ thống Business Intelligence cho lĩnh vực cho vay tiêu dùng từ bộ dữ liệu Home Credit Default Risk. Kiến trúc được tổ chức theo chuỗi \texttt{Source $\rightarrow$ STG $\rightarrow$ NDS $\rightarrow$ DDS $\rightarrow$ Power BI}; trong đó STG bảo toàn dữ liệu nguồn, NDS chuẩn hóa có truy vết và DDS lưu dữ liệu theo mô hình chiều.
@@ -274,7 +274,7 @@ Previous-date sentinel & 997.144 & Date thành null, giữ flag \\
 Previous payment count $\leq 0$ & 144.985 & Giữ giá trị, bật flag \\
 Previous negative amount & 2 & Giữ để review, bật flag \\
 Bureau negative debt & 8.418 & Giữ để tránh bóp méo, bật flag \\
-Missing installment payment & 2.905 & Giữ null, \texttt{PaymentRecordedFlag=0} \\
+Missing installment payment rows (union) & 2.583 & Giữ null, \texttt{PaymentRecordedFlag=0} \\
 \bottomrule
 \end{tabularx}
 \end{table}

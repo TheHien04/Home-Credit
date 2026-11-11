@@ -23,9 +23,9 @@ Chạy hai lần để cập nhật mục lục, danh mục bảng và tham chi�
 1. SQL Server/SSIS full load chạy thành công.
 2. STG, NDS, DDS và KPI validators đều không có `FAIL`.
 3. Power BI đã đối soát SQL–DAX.
-4. Năm nhóm evidence `RUNTIME-01` đến `RUNTIME-05` đã được chèn.
+4. Các nhóm evidence `RUNTIME-01` đến `RUNTIME-06` đã được chèn.
 5. Nhóm xác nhận thông tin trường, khoa, giảng viên và tỷ lệ đóng góp.
 
 Hai file `.tex` là nguồn chính của báo cáo và kế hoạch nhóm. Markdown trong `docs/` chỉ giữ các tài liệu kỹ thuật hỗ trợ như profiling, cleaning rules, DDS model, KPI, mapping, test plan và checklist triển khai.
 
-`slides/main.tex` là source slide trình bày 10 trang, dùng cùng baseline KPI và trạng thái evidence với báo cáo. Có thể biên dịch bằng XeLaTeX sau khi kiểm tra thông tin lớp, giảng viên và ngày nộp.
+`slides/main.tex` là source slide trình bày 10 trang, dùng cùng baseline KPI và trạng thái evidence với báo cáo. Có thể biên dịch bằng XeLaTeX sau khi kiểm tra thông tin lớp, giảng viên và ngày nộp. Source này chưa phải file `.pptx`; cần export và review bố cục trên PowerPoint/LibreOffice hoặc dùng PDF trình chiếu.

@@ -83,7 +83,7 @@ These figures are test oracles, not substitutes for database execution evidence.
 | Previous-date sentinels | 997,144 | Convert affected normalized dates to null and retain flags |
 | Non-positive previous payment count | 144,985 | Preserve source value and flag for review |
 | Negative bureau debt | 8,418 | Preserve value to avoid silent distortion and flag it |
-| Missing installment payment value/date | 2,905 | Preserve null and set `PaymentRecordedFlag = 0` |
+| Missing installment payment value/date | 2,583 rows (union) | Preserve null and set `PaymentRecordedFlag = 0` |
 
 Raw CSV files are never modified. Cleaning occurs through deterministic NDS rules with lineage and quality indicators.
 

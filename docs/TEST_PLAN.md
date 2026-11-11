@@ -16,7 +16,7 @@ _Cập nhật: 29/10/2026 — test chạy local và test chờ Windows được 
 | TC-006 | NDS | Application row parity | PASS | `NDS_APP_ROW_PARITY` |
 | TC-007 | NDS | Employment sentinel normalized | 55.374 and PASS | `CLEAN_EMPLOYMENT_SENTINEL` |
 | TC-008 | NDS | Previous-date sentinel normalized | 997.144 and PASS | `CLEAN_PREVIOUS_DATE_SENTINEL` |
-| TC-009 | NDS | Missing payment flagged | 2.905 and PASS | `CLEAN_MISSING_PAYMENT` |
+| TC-009 | NDS | Missing payment flagged | 2.583 and PASS | `CLEAN_MISSING_PAYMENT` |
 | TC-010 | NDS | Negative bureau debt retained/flagged | 8.418 and PASS | `CLEAN_NEGATIVE_BUREAU_DEBT` |
 | TC-011 | NDS | Default numerator unchanged | 24.825 | `TARGET_DEFAULT_COUNT` |
 | TC-012 | DDS | One fact per labeled train application | 307.511 | `DDS_LOAN_ROW_PARITY` |

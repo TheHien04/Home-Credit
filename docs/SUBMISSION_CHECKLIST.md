@@ -1,6 +1,10 @@
 # Submission checklist — Home Credit BI
 
-_Nhóm 8 · 4 thành viên · cập nhật ngày 29/10/2026_
+_Nhóm 8 · 4 thành viên · rà soát ngày 12/11/2026_
+
+> **Release status:** Source/report/slide specifications are prepared. The package is
+> not submission-ready until W01–W08 runtime evidence and the binary files in the
+> final-package section exist. See [`RELEASE_READINESS.md`](RELEASE_READINESS.md).
 
 ---
 
@@ -22,6 +26,8 @@ _Nhóm 8 · 4 thành viên · cập nhật ngày 29/10/2026_
 - [x] Application mapping/profile tập trung
 - [x] TRAIN/TEST samples 5.000 dòng và SHA-256 test oracle
 - [x] Progress status matrix và speaker notes 2–3 phút
+- [x] Handoff Hiển, expected-vs-actual register và metadata/audit queries
+- [x] Report source, team-plan source và slide source đã được review tĩnh
 
 Chạy trước khi sao chép project:
 
@@ -58,7 +64,7 @@ Không đánh dấu một gate là hoàn tất nếu chỉ có source code mà c
 5. Dùng duy nhất một canonical `BatchID` cho STG, NDS, DDS, validator và Power BI evidence.
 6. Chạy `etl.usp_ValidateKPIBaseline`; mọi `KPI_%` phải `PASS`.
 7. Dựng Power BI theo `powerbi/MODEL_SPEC.md` và nhập `powerbi/MEASURES_DAX.md`.
-8. Điền `[RUNTIME-01]` đến `[RUNTIME-05]` trong báo cáo, sau đó review chéo.
+8. Điền `[RUNTIME-01]` đến `[RUNTIME-06]` trong báo cáo, sau đó review chéo.
 
 ## 📁 Quy ước evidence
 
@@ -77,8 +83,8 @@ Tên file nên bắt đầu bằng test ID hoặc gate ID, ví dụ `W05_KPI_bas
 
 ## 📦 Gói nộp cuối
 
-- [ ] `Nhom08_HomeCreditBI_Report.docx` và bản PDF
-- [ ] `Nhom08_HomeCreditBI_Slides.pptx`
+- [ ] `Nhom08_HomeCreditBI_Report.docx` và bản PDF (compile sau W02–W08)
+- [ ] `Nhom08_HomeCreditBI_Slides.pptx` (compile/review sau W06)
 - [ ] `Nhom08_HomeCreditBI_YYYYMMDD.pbix`
 - [ ] SSIS solution có năm package `.dtsx`
 - [ ] Thư mục `sql/` và `scripts/`
