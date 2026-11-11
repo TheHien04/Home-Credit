@@ -1,0 +1,151 @@
+{
+  "CapturedAtUtc": "2026-11-11T16:36:44.0185679Z",
+  "Database": "HomeCreditBI",
+  "Mode": "Regression",
+  "Batch": {
+    "BatchID": 4,
+    "PipelineName": "HomeCredit_Team_FULL_20261111",
+    "BatchStatus": "RUNNING"
+  },
+  "Status": "INCOMPLETE",
+  "Inputs": [
+    {
+      "File": "application_train.csv",
+      "Table": "stg.Application",
+      "ExpectedRows": 307511,
+      "ActualRows": 0,
+      "FileLoadID": null,
+      "AuditStatus": "MISSING",
+      "RejectRecords": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "File": "application_test.csv",
+      "Table": "stg.Application",
+      "ExpectedRows": 48744,
+      "ActualRows": 0,
+      "FileLoadID": null,
+      "AuditStatus": "MISSING",
+      "RejectRecords": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "File": "previous_application.csv",
+      "Table": "stg.PreviousApplication",
+      "ExpectedRows": 1670214,
+      "ActualRows": 1670214,
+      "FileLoadID": 11,
+      "AuditStatus": "SUCCEEDED",
+      "RejectRecords": 0,
+      "Status": "PASS"
+    },
+    {
+      "File": "bureau.csv",
+      "Table": "stg.BureauCredit",
+      "ExpectedRows": 1716428,
+      "ActualRows": 1716428,
+      "FileLoadID": 10,
+      "AuditStatus": "SUCCEEDED",
+      "RejectRecords": 0,
+      "Status": "PASS"
+    },
+    {
+      "File": "bureau_balance.csv",
+      "Table": "stg.BureauBalance",
+      "ExpectedRows": 27299925,
+      "ActualRows": 27299925,
+      "FileLoadID": 9,
+      "AuditStatus": "SUCCEEDED",
+      "RejectRecords": 0,
+      "Status": "PASS"
+    },
+    {
+      "File": "POS_CASH_balance.csv",
+      "Table": "stg.POSCashBalance",
+      "ExpectedRows": 10001358,
+      "ActualRows": 0,
+      "FileLoadID": null,
+      "AuditStatus": "MISSING",
+      "RejectRecords": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "File": "installments_payments.csv",
+      "Table": "stg.InstallmentPayment",
+      "ExpectedRows": 13605401,
+      "ActualRows": 0,
+      "FileLoadID": null,
+      "AuditStatus": "MISSING",
+      "RejectRecords": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "File": "credit_card_balance.csv",
+      "Table": "stg.CreditCardBalance",
+      "ExpectedRows": 3840312,
+      "ActualRows": 0,
+      "FileLoadID": null,
+      "AuditStatus": "MISSING",
+      "RejectRecords": 0,
+      "Status": "INCOMPLETE"
+    }
+  ],
+  "Nds": [
+    {
+      "Table": "nds.Applicant",
+      "ExpectedRows": 356255,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.LoanApplication",
+      "ExpectedRows": 356255,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.PreviousApplication",
+      "ExpectedRows": 1670214,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.BureauCredit",
+      "ExpectedRows": 1716428,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.BureauMonthlyStatus",
+      "ExpectedRows": 27299925,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.POSCashMonthly",
+      "ExpectedRows": 10001358,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.InstallmentPayment",
+      "ExpectedRows": 13605401,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    },
+    {
+      "Table": "nds.CreditCardMonthly",
+      "ExpectedRows": 3840312,
+      "ActualRows": 0,
+      "Status": "INCOMPLETE"
+    }
+  ],
+  "Capacity": {
+    "Edition": "Express Edition (64-bit)",
+    "DataFileMB": 6152.000000,
+    "UsedDataMB": 6113.000000
+  },
+  "PersistedQuality": [],
+  "ReadOnlyNdsTests": [],
+  "Note": "PASS requires full source counts and latest successful audit for each of eight source files. Readiness is not NDS acceptance. Express capacity must be reviewed before loading all warehouse layers."
+}

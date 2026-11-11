@@ -1,0 +1,18 @@
+{
+  "BatchID": 4,
+  "Scope": "BureauCredit source package duplicate guard",
+  "Before": {
+    "DataRows": 1716428,
+    "FileAudits": 3,
+    "RejectedRows": 0
+  },
+  "After": {
+    "DataRows": 1716428,
+    "FileAudits": 3,
+    "RejectedRows": 0
+  },
+  "ExitCode": 1,
+  "ExpectedGuardObserved": true,
+  "Status": "PASS",
+  "Note": "Expected failure before data flow. Does not certify NDS rerun."
+}

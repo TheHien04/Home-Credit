@@ -1,0 +1,9 @@
+test_bad_record_does_not_replace_previous_prepared_output (test_prepare_source.PrepareSourceTests.test_bad_record_does_not_replace_previous_prepared_output) ... ok
+test_csv_records_and_values_survive_quotes_newlines_and_empty_fields (test_prepare_source.PrepareSourceTests.test_csv_records_and_values_survive_quotes_newlines_and_empty_fields) ... ok
+test_row_limit_is_explicitly_labeled_sample (test_prepare_source.PrepareSourceTests.test_row_limit_is_explicitly_labeled_sample) ... ok
+test_storage_casts_keep_integer_precision_and_sentinels (test_prepare_source.PrepareSourceTests.test_storage_casts_keep_integer_precision_and_sentinels) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.064s
+
+OK

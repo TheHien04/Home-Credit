@@ -1,5 +1,16 @@
 # Project status — Home Credit BI
 
+## Cập nhật thực thi phần Hộp — 11/11/2026
+
+Theo lịch 09–12/11: SQL smoke PASS 59 objects; backup đã VERIFYONLY; cả ba
+nguồn Credit History full đã đối soát PASS, tổng 30.686.567 dòng, 0 reject.
+Ngày 1–2 phần Hộp đã hoàn tất kiểm tra hiện tại. NDS/ngày 3 và nghiệm thu
+ngày 4 chưa hoàn tất do thiếu Application/Payment History cùng batch và
+peer review/merge. Xem [bàn giao hiện tại](HOP_DAY4_HANDOFF.md) và
+[runtime evidence](../evidence/hop_credit_history/README.md).
+
+Phần bên dưới là snapshot ngày 29/10, không phản ánh đầy đủ runtime mới.
+
 _Cập nhật: 29/10/2026 — Nhóm 8_
 
 ---

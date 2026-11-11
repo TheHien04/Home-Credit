@@ -75,24 +75,26 @@ VALUES
     ('etl', 'usp_ValidateDDS', 'P'),
     ('etl', 'usp_ValidateKPIBaseline', 'P');
 
+-- Catalog metadata can use a different collation from the current database.
+-- Normalize comparisons without changing database or server collation.
 SELECT e.SchemaName, e.ObjectName, e.ObjectType
 FROM @Expected AS e
-LEFT JOIN sys.schemas AS s ON s.name = e.SchemaName
+LEFT JOIN sys.schemas AS s ON s.name COLLATE DATABASE_DEFAULT = e.SchemaName
 LEFT JOIN sys.objects AS o
   ON o.schema_id = s.schema_id
- AND o.name = e.ObjectName
- AND o.type = e.ObjectType
+ AND o.name COLLATE DATABASE_DEFAULT = e.ObjectName
+ AND o.type COLLATE DATABASE_DEFAULT = e.ObjectType
 WHERE o.object_id IS NULL;
 
 IF EXISTS
 (
     SELECT 1
     FROM @Expected AS e
-    LEFT JOIN sys.schemas AS s ON s.name = e.SchemaName
+    LEFT JOIN sys.schemas AS s ON s.name COLLATE DATABASE_DEFAULT = e.SchemaName
     LEFT JOIN sys.objects AS o
       ON o.schema_id = s.schema_id
-     AND o.name = e.ObjectName
-     AND o.type = e.ObjectType
+     AND o.name COLLATE DATABASE_DEFAULT = e.ObjectName
+     AND o.type COLLATE DATABASE_DEFAULT = e.ObjectType
     WHERE o.object_id IS NULL
 )
     THROW 51300, 'Schema smoke test failed: one or more required objects are missing.', 1;

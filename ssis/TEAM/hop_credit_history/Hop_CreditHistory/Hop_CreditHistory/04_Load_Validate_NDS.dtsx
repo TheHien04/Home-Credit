@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/11/2026 10:18:41 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-LK0NHV2"
+  DTS:CreatorName="DESKTOP-LK0NHV2\nguye"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{F051C621-7334-4ECF-931A-1D5CD1E82E5C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.1000.6"
+  DTS:LocaleID="1033"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="04_Load_Validate_NDS"
+  DTS:ProtectionLevel="0"
+  DTS:VersionGUID="{C1CA7828-7A7F-4830-99E3-74EC664A6F37}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_HomeCreditBI]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CA955945-54CC-4155-BE80-837A80B9D2F0}"
+      DTS:ObjectName="CM_HomeCreditBI">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=MSOLEDBSQL;Data Source=" + @[User::ServerInstance] + ";Initial Catalog=HomeCreditBI;Integrated Security=SSPI;Trust Server Certificate=True;"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=HomeCreditBI;Provider=MSOLEDBSQL;Integrated Security=SSPI;Trust Server Certificate=True;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{63896205-9C4D-4DE5-AB14-D2613B8B7D9B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchID">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DBD5E12A-F000-4F67-B076-7C2E45DD49FD}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileLoadID">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6A421A69-2143-4A01-8141-A8E527043820}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="PreparedRoot">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{99122097-FB24-4CAD-A181-3CDBA197F9A2}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RowsRead">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{145750DA-41BE-49C5-BC89-CC360576302B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RowsRejected">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FA3890BF-732D-4A79-8C9D-421001287DF4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ServerInstance">
+      <DTS:VariableValue
+        DTS:DataType="8">.\SQLEXPRESS</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F51C6122-9E18-4F37-A905-E4570E994151}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceFileID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\01 Validate all seven staging inputs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{CBEFA3FC-3B3D-4F14-B669-CDC6191B5455}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="01 Validate all seven staging inputs"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CA955945-54CC-4155-BE80-837A80B9D2F0}"
+          SQLTask:SqlStatementSource="SET NOCOUNT ON; DECLARE @B BIGINT=?; IF NOT EXISTS(SELECT 1 FROM ctl.ETLBatch WHERE BatchID=@B AND BatchStatus='RUNNING') THROW 51407,'Supply the shared RUNNING integration batch.',1; IF NOT EXISTS(SELECT 1 FROM stg.[Application] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[PreviousApplication] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[BureauCredit] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[BureauBalance] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[InstallmentPayment] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[POSCashBalance] WHERE BatchID=@B) OR NOT EXISTS(SELECT 1 FROM stg.[CreditCardBalance] WHERE BatchID=@B) THROW 51408,'All seven staging tables are required before NDS. Obtain Application and Payment History inputs first.',1; IF (SELECT COUNT(DISTINCT s.FileName) FROM ctl.ETLFileLoad f JOIN ctl.SourceFile s ON s.SourceFileID=f.SourceFileID WHERE f.BatchID=@B AND f.LoadStatus='SUCCEEDED' AND f.RowsRejected=0 AND f.RowsRead=f.RowsAccepted AND s.FileName IN (N'application_train.csv',N'application_test.csv',N'previous_application.csv',N'bureau.csv',N'bureau_balance.csv',N'POS_CASH_balance.csv',N'installments_payments.csv',N'credit_card_balance.csv'))&lt;&gt;8 THROW 51409,'Eight successful per-file audits are required before NDS.',1; EXEC ctl.usp_ValidateHomeCreditStaging @BatchID=@B; IF EXISTS(SELECT 1 FROM ctl.DataQualityResult WHERE BatchID=@B AND TestCode LIKE 'STG[_]%' AND TestStatus='FAIL') THROW 51403,'Staging validation has FAIL. NDS will not run.',1;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::BatchID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="20"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\02 Load NDS without replacing existing data"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{1D9B6C22-EE74-4504-906B-62EAD847F461}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="02 Load NDS without replacing existing data"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CA955945-54CC-4155-BE80-837A80B9D2F0}"
+          SQLTask:SqlStatementSource="EXEC etl.usp_LoadNDS @BatchID=?,@ConfirmReplace=0;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::BatchID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="20"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\03 Persist NDS validation and enforce PASS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{67B8D7B4-0A20-4EA7-98EA-E8731499780F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="03 Persist NDS validation and enforce PASS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CA955945-54CC-4155-BE80-837A80B9D2F0}"
+          SQLTask:SqlStatementSource="SET NOCOUNT ON; DECLARE @B BIGINT=?; EXEC etl.usp_ValidateNDS @BatchID=@B,@PersistResults=1; IF EXISTS(SELECT 1 FROM ctl.DataQualityResult WHERE BatchID=@B AND TestCode LIKE 'NDS[_]%' AND TestStatus='FAIL') THROW 51404,'NDS validation has FAIL.',1;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::BatchID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="20"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{557858CB-CF6B-43F9-9F69-2C4275EDA9C4\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{557858CB-CF6B-43F9-9F69-2C4275EDA9C4}"
+      DTS:From="Package\01 Validate all seven staging inputs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{557858CB-CF6B-43F9-9F69-2C4275EDA9C4}"
+      DTS:To="Package\02 Load NDS without replacing existing data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{7AC772F6-0ED2-409F-B278-0C39509A93E9\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{7AC772F6-0ED2-409F-B278-0C39509A93E9}"
+      DTS:From="Package\02 Load NDS without replacing existing data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{7AC772F6-0ED2-409F-B278-0C39509A93E9}"
+      DTS:To="Package\03 Persist NDS validation and enforce PASS" />
+  </DTS:PrecedenceConstraints>
+</DTS:Executable>

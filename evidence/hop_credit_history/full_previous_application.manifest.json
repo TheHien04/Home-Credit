@@ -1,0 +1,8 @@
+{
+  "file": "previous_application.csv",
+  "rows": 1670214,
+  "source_columns": 37,
+  "scope": "full",
+  "row_limit": 0,
+  "conversion": "exact SQL BIGINT / DECIMAL storage casts; sentinels retained"
+}

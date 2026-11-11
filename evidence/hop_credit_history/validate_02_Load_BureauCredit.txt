@@ -1,0 +1,1 @@
+PACKAGE 02_Load_BureauCredit | validate | Success

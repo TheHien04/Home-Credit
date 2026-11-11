@@ -1,0 +1,1 @@
+KPI baseline validation: PASS (7 files, all invariants reconciled)

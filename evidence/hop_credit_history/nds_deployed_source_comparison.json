@@ -1,0 +1,72 @@
+[
+  {
+    "Module": "etl.vw_CleanApplicant",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "daca6475a21df4a25141568a3b6d9ea047ea537a4f6e26db112bedf6e48dcf15",
+    "DatabaseSha256": "daca6475a21df4a25141568a3b6d9ea047ea537a4f6e26db112bedf6e48dcf15",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanLoanApplication",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "8406c6ec7e67afaa2441b3b9926a0fef241a5a4f02796a35e9ed4641d8b0d751",
+    "DatabaseSha256": "8406c6ec7e67afaa2441b3b9926a0fef241a5a4f02796a35e9ed4641d8b0d751",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanPreviousApplication",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "cfbeee135d56b73268000b0a59874b4c0543e47c8374041bcaa78ccc94ba2a6b",
+    "DatabaseSha256": "cfbeee135d56b73268000b0a59874b4c0543e47c8374041bcaa78ccc94ba2a6b",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanBureauCredit",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "e361b93b3386be6fe116f4773523a2d5ca830f33ca89d5e4092146ccbd14019b",
+    "DatabaseSha256": "e361b93b3386be6fe116f4773523a2d5ca830f33ca89d5e4092146ccbd14019b",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanBureauMonthlyStatus",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "d98dabc6692359c260fdb8e1ef5b1bfc734d5ee886e8d644316dc8b21a27cbb8",
+    "DatabaseSha256": "d98dabc6692359c260fdb8e1ef5b1bfc734d5ee886e8d644316dc8b21a27cbb8",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanInstallmentPayment",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "cecf9f06da51e14cab4521a85396c38862a26994a604d1dee25d9d4d25e6123b",
+    "DatabaseSha256": "cecf9f06da51e14cab4521a85396c38862a26994a604d1dee25d9d4d25e6123b",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanPOSCashMonthly",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "79d7d762e338c1fd718e617d9ad4b23cb4fa54e0515a9ebff081ebf67a430648",
+    "DatabaseSha256": "79d7d762e338c1fd718e617d9ad4b23cb4fa54e0515a9ebff081ebf67a430648",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.vw_CleanCreditCardMonthly",
+    "Source": "sql/04_etl/040_create_clean_views.sql",
+    "SourceSha256": "22591e684f8009d1297d469e861940cfcd894fba759e681d911ce77aafca6b39",
+    "DatabaseSha256": "22591e684f8009d1297d469e861940cfcd894fba759e681d911ce77aafca6b39",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.usp_LoadNDS",
+    "Source": "sql/04_etl/041_load_nds.sql",
+    "SourceSha256": "bcac2dc48480196ca67f8c7d424f3063bda3b76e91d0827665e91a46f317e0e1",
+    "DatabaseSha256": "bcac2dc48480196ca67f8c7d424f3063bda3b76e91d0827665e91a46f317e0e1",
+    "Status": "PASS"
+  },
+  {
+    "Module": "etl.usp_ValidateNDS",
+    "Source": "sql/05_tests/051_validate_nds.sql",
+    "SourceSha256": "46fe2316aacf0420a79ff0a2ca55c996b760b6d6eaab135ec999d5a74292d91f",
+    "DatabaseSha256": "46fe2316aacf0420a79ff0a2ca55c996b760b6d6eaab135ec999d5a74292d91f",
+    "Status": "PASS"
+  }
+]

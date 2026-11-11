@@ -1,0 +1,8 @@
+{
+  "file": "bureau_balance.csv",
+  "rows": 27299925,
+  "source_columns": 3,
+  "scope": "full",
+  "row_limit": 0,
+  "conversion": "exact SQL BIGINT / DECIMAL storage casts; sentinels retained"
+}

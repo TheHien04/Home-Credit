@@ -1,0 +1,3 @@
+ERROR C002F210 | Execute SQL Task | Executing the query "SET NOCOUNT ON; DECLARE @B BIGINT=?; IF NOT EXISTS..." failed with the following error: "All seven staging tables are required before NDS. Obtain Application and Payment History inputs first.". Possible failure reasons: Problems with the query, "ResultSet" property not set correctly, parameters not set correctly, or connection not established correctly.
+
+PACKAGE 04_Load_Validate_NDS | run | Failure

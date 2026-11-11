@@ -1,0 +1,3 @@
+ERROR C002F210 | Execute SQL Task | Executing the query "SET NOCOUNT ON; DECLARE @B BIGINT=?; IF EXISTS(SEL..." failed with the following error: "Selected source already has staging rows for this batch. Refusing duplicates.". Possible failure reasons: Problems with the query, "ResultSet" property not set correctly, parameters not set correctly, or connection not established correctly.
+
+PACKAGE 02_Load_BureauCredit | run | Failure

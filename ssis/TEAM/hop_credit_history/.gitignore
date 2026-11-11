@@ -1,0 +1,7 @@
+*.local.*
+*.dtsConfig
+*.exe
+*.dll
+*.pdb
+*.config
+__pycache__/

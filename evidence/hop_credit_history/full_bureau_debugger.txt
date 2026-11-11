@@ -1,0 +1,18 @@
+SSIS package "H:\My Drive\HK1 - Year 4\BI\Project\Home-Credit\ssis\TEAM\hop_credit_history\Hop_CreditHistory\Hop_CreditHistory\02_Load_BureauCredit.local.dtsx" starting.
+Information: 0x4004300A at 02 CSV to BureauCredit, SSIS.Pipeline: Validation phase is beginning.
+Warning: 0x80049304 at 02 CSV to BureauCredit, SSIS.Pipeline: Warning: Could not open global shared memory to communicate with performance DLL; data flow performance counters are not available.  To resolve, run this package as an administrator, or on the system's console.
+Information: 0x40043006 at 02 CSV to BureauCredit, SSIS.Pipeline: Prepare for Execute phase is beginning.
+Information: 0x40043007 at 02 CSV to BureauCredit, SSIS.Pipeline: Pre-Execute phase is beginning.
+Information: 0x402090DC at 02 CSV to BureauCredit, Flat File Source - original values plus ordinal [99]: The processing of file "D:\HomeCreditWork\hop_credit_history\batch_4\bureau.csv" has started.
+Information: 0x4004300C at 02 CSV to BureauCredit, SSIS.Pipeline: Execute phase is beginning.
+Information: 0x402090DE at 02 CSV to BureauCredit, Flat File Source - original values plus ordinal [99]: The total number of data rows processed for file "D:\HomeCreditWork\hop_credit_history\batch_4\bureau.csv" is 1716429.
+Information: 0x402090DF at 02 CSV to BureauCredit, Audit rejected records [2]: The final commit for the data insertion in "Audit rejected records" has started.
+Information: 0x402090E0 at 02 CSV to BureauCredit, Audit rejected records [2]: The final commit for the data insertion  in "Audit rejected records" has ended.
+Information: 0x402090DF at 02 CSV to BureauCredit, Fast Load - BureauCredit [41]: The final commit for the data insertion in "Fast Load - BureauCredit" has started.
+Information: 0x402090E0 at 02 CSV to BureauCredit, Fast Load - BureauCredit [41]: The final commit for the data insertion  in "Fast Load - BureauCredit" has ended.
+Information: 0x40043008 at 02 CSV to BureauCredit, SSIS.Pipeline: Post Execute phase is beginning.
+Information: 0x402090DD at 02 CSV to BureauCredit, Flat File Source - original values plus ordinal [99]: The processing of file "D:\HomeCreditWork\hop_credit_history\batch_4\bureau.csv" has ended.
+Information: 0x4004300B at 02 CSV to BureauCredit, SSIS.Pipeline: "Audit rejected records" wrote 0 rows.
+Information: 0x4004300B at 02 CSV to BureauCredit, SSIS.Pipeline: "Fast Load - BureauCredit" wrote 1716428 rows.
+Information: 0x40043009 at 02 CSV to BureauCredit, SSIS.Pipeline: Cleanup phase is beginning.
+SSIS package "H:\My Drive\HK1 - Year 4\BI\Project\Home-Credit\ssis\TEAM\hop_credit_history\Hop_CreditHistory\Hop_CreditHistory\02_Load_BureauCredit.local.dtsx" finished: Success.

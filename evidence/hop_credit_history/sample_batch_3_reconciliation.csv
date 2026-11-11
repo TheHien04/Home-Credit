@@ -1,0 +1,4 @@
+"File","Table","BatchID","Scope","ExpectedRows","FullProfileRows","ActualRows","UniqueOrdinals","MissingKeys","SampleRows","SampleFieldMismatches","FileLoadID","LoadStatus","RowsRead","RowsAccepted","RowsRejected","RejectRecords","DurationMs","Status"
+"previous_application.csv","stg.PreviousApplication","3","sample","1000","1670214","1000","1000","0","1000","0","6","SUCCEEDED","1000","1000","0","0","1119","PASS"
+"bureau.csv","stg.BureauCredit","3","sample","1000","1716428","1000","1000","0","1000","0","7","SUCCEEDED","1000","1000","0","0","1150","PASS"
+"bureau_balance.csv","stg.BureauBalance","3","sample","1000","27299925","1000","1000","0","1000","0","8","SUCCEEDED","1000","1000","0","0","1130","PASS"

@@ -1,0 +1,24 @@
+{
+  "SourceManifest": "docs/RAW_DATA_SHA256.txt",
+  "Files": [
+    {
+      "File": "bureau.csv",
+      "Status": "PASS",
+      "SHA256": "9d799143423f280720cf51c1bfbbab2a0422da8ff2763335bb30bf43155494f7"
+    },
+    {
+      "File": "bureau_balance.csv",
+      "Status": "PASS",
+      "SHA256": "33e09f06174c26f0be6b8b7398886c69e7bf0abbb29b4122f7841ffe545729a9"
+    },
+    {
+      "File": "previous_application.csv",
+      "Status": "PASS",
+      "SHA256": "5046cd657ee04df2eaa6dc8308ae86be6b3b1763674a3f63574886a2f2896505"
+    }
+  ],
+  "Scope": "Three Hộp source files",
+  "GeneratedAtUtc": "2026-11-11T15:33:35.6886196Z",
+  "Note": "All three raw-file SHA256 values were measured before the full SSIS run and matched the repository manifest.",
+  "Result": "PASS"
+}

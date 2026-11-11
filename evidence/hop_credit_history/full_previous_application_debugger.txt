@@ -1,0 +1,18 @@
+SSIS package "H:\My Drive\HK1 - Year 4\BI\Project\Home-Credit\ssis\TEAM\hop_credit_history\Hop_CreditHistory\Hop_CreditHistory\01_Load_PreviousApplication.local.dtsx" starting.
+Information: 0x4004300A at 02 CSV to PreviousApplication, SSIS.Pipeline: Validation phase is beginning.
+Warning: 0x80049304 at 02 CSV to PreviousApplication, SSIS.Pipeline: Warning: Could not open global shared memory to communicate with performance DLL; data flow performance counters are not available.  To resolve, run this package as an administrator, or on the system's console.
+Information: 0x40043006 at 02 CSV to PreviousApplication, SSIS.Pipeline: Prepare for Execute phase is beginning.
+Information: 0x40043007 at 02 CSV to PreviousApplication, SSIS.Pipeline: Pre-Execute phase is beginning.
+Information: 0x402090DC at 02 CSV to PreviousApplication, Flat File Source - original values plus ordinal [139]: The processing of file "D:\HomeCreditWork\hop_credit_history\batch_4\previous_application.csv" has started.
+Information: 0x4004300C at 02 CSV to PreviousApplication, SSIS.Pipeline: Execute phase is beginning.
+Information: 0x402090DE at 02 CSV to PreviousApplication, Flat File Source - original values plus ordinal [139]: The total number of data rows processed for file "D:\HomeCreditWork\hop_credit_history\batch_4\previous_application.csv" is 1670215.
+Information: 0x402090DF at 02 CSV to PreviousApplication, Audit rejected records [2]: The final commit for the data insertion in "Audit rejected records" has started.
+Information: 0x402090E0 at 02 CSV to PreviousApplication, Audit rejected records [2]: The final commit for the data insertion  in "Audit rejected records" has ended.
+Information: 0x402090DF at 02 CSV to PreviousApplication, Fast Load - PreviousApplication [41]: The final commit for the data insertion in "Fast Load - PreviousApplication" has started.
+Information: 0x402090E0 at 02 CSV to PreviousApplication, Fast Load - PreviousApplication [41]: The final commit for the data insertion  in "Fast Load - PreviousApplication" has ended.
+Information: 0x40043008 at 02 CSV to PreviousApplication, SSIS.Pipeline: Post Execute phase is beginning.
+Information: 0x402090DD at 02 CSV to PreviousApplication, Flat File Source - original values plus ordinal [139]: The processing of file "D:\HomeCreditWork\hop_credit_history\batch_4\previous_application.csv" has ended.
+Information: 0x4004300B at 02 CSV to PreviousApplication, SSIS.Pipeline: "Audit rejected records" wrote 0 rows.
+Information: 0x4004300B at 02 CSV to PreviousApplication, SSIS.Pipeline: "Fast Load - PreviousApplication" wrote 1670214 rows.
+Information: 0x40043009 at 02 CSV to PreviousApplication, SSIS.Pipeline: Cleanup phase is beginning.
+SSIS package "H:\My Drive\HK1 - Year 4\BI\Project\Home-Credit\ssis\TEAM\hop_credit_history\Hop_CreditHistory\Hop_CreditHistory\01_Load_PreviousApplication.local.dtsx" finished: Success.

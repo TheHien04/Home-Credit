@@ -41,6 +41,13 @@ This separation prevents one-to-many history tables from multiplying application
 
 ## Current delivery status
 
+**11 November update (Hộp):** SQL smoke and backup verification passed. All
+three Credit History full loads reconciled: 30,686,567 rows, zero rejects.
+NDS and day-4 acceptance remain incomplete pending Application/Payment inputs
+on the same batch, peer review/merge and integration regression. See the
+[current handoff](docs/HOP_DAY4_HANDOFF.md) and
+[runtime evidence](evidence/hop_credit_history/README.md).
+
 _Status as of 29 October 2026_
 
 | Workstream | Delivered | Verification state |

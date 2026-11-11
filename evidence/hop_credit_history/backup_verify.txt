@@ -1,0 +1,14 @@
+10 percent processed.
+20 percent processed.
+30 percent processed.
+40 percent processed.
+50 percent processed.
+60 percent processed.
+70 percent processed.
+80 percent processed.
+90 percent processed.
+100 percent processed.
+Processed 503408 pages for database 'HomeCreditBI', file 'HomeCreditBI' on file 1.
+Processed 1 pages for database 'HomeCreditBI', file 'HomeCreditBI_log' on file 1.
+BACKUP DATABASE successfully processed 503409 pages in 69.678 seconds (56.443 MB/sec).
+The backup set on file 1 is valid.
