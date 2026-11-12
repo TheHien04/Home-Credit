@@ -1,0 +1,47 @@
+HOME CREDIT - DUY APPLICATION - NATIVE SSIS DESIGN (v3)
+=======================================================
+
+DAY LA SOLUTION SSIS THAT: 2 DATA FLOW TASKS (TRAIN/TEST).
+KHONG GOI C# / POWERSHELL / EXECUTE PROCESS TASK.
+
+1. GIAI NEN vao mot thu muc RIENG. GIU LAI BAN CU. KHONG REPLACE truoc.
+2. Mo file Duy_Application\Duy_Application.slnx bang Visual Studio co SQL Server Integration Services Projects.
+3. Trong 01_Load_Application.dtsx, tab CONTROL FLOW phai co 4 task:
+   SQL_01_Prepare_Duy_Raw
+       -> DFT_Load_Application_Train
+       -> DFT_Load_Application_Test
+       -> SQL_04_Validate_And_Commit
+   Hai DATA FLOW su dung:
+   Flat File Source -> DRV_Add_Metadata -> OLEDB_Stg_Application
+
+4. Connection Managers mac dinh:
+   CSV_Application_Train = D:\HomeCredit\dataset\application_train.csv
+   CSV_Application_Test  = D:\HomeCredit\dataset\application_test.csv
+   SQL_HomeCreditBI      = LAPTOP-7IRDHAGI\SQLEXPRESS ; database HomeCreditBI
+   Neu khac, sua connection manager trong Visual Studio.
+
+5. SQL dau tien TU DONG tao [duy].[DuyApplicationRaw] va TRUNCATE RIENG
+   buffer nay; KHONG xoa/truncate bang [stg].[Application] cua nhom.
+6. Hai DATA FLOW nap CSV vao buffer VARCHAR. Chuoi '2.0' van la chuoi.
+7. SQL cuoi kiem tra co TARGET TRAIN/TEST, numeric, NULL, trung key,
+   roi INSERT stg.Application va ghi ctl audit trong 1 TRANSACTION.
+   Neu loi, ROLLBACK; khong de du lieu stg nạp do.
+8. Chay 01_Load_Application.dtsx bang Execute Package (toan package).
+   Chay 1 lan; neu loi, lay loi DAU TIEN trong Execution Results.
+9. Sau khi FULL load thanh cong, mo SQL_DUY\03_VERIFY_AFTER_RUN.sql
+   trong SSMS de doi soat. Kiem tra TRAIN 307511, TEST 48744 neu
+   su dung du dataset Kaggle.
+
+QUAN TRONG:
+- Khi su dung file sample 1000 dong thay vi full CSV, doi chieu 1000/1000,
+  khong phai 307511/48744.
+- SQL FINALIZE se tao BatchID moi va audit moi cho moi lan chay thanh cong.
+  KHONG chay lap lai tren full data tru khi can batch moi.
+- SQL truoc do cua HOP phai co stg.Application va cac ctl stored procedures.
+- Thong tin 'TEST_RESULTS.json' la test DATA + XML ngoai tuyen,
+  KHONG PHAI bang chung SSIS Windows/SQL Server da run PASS.
+- Neu trong Visual Studio OLEDB Destination hien warning table chua ton tai
+  o design time, chay toan package mot lan de SQL Prep tao table truoc;
+  ValidateExternalMetadata=False va DelayValidation=True da duoc cau hinh.
+- User dang bi loi DPAPI nhung du an nay khong chua mat khau SQL; dung
+  Windows Integrated Security nhu project goc.

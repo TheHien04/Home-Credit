@@ -1,0 +1,39 @@
+{
+  "build_type": "NATIVE_SSIS_Data_Flow",
+  "original_package_schema_columns": 122,
+  "native_dataflow_tasks": 2,
+  "source_component_per_task": "Flat File Source -> Derived Column -> OLE DB Destination",
+  "script_components": 0,
+  "external_CSharp": false,
+  "source_sample_tests": {
+    "train": {
+      "rows": 1000,
+      "expected_header_columns": 122,
+      "nonempty_integer_values": 53455,
+      "nonempty_decimal_values": 25559,
+      "null_cells": 29396,
+      "non_null_cells": 92604
+    },
+    "test": {
+      "rows": 1000,
+      "expected_header_columns": 121,
+      "nonempty_integer_values": 52672,
+      "nonempty_decimal_values": 25422,
+      "null_cells": 30389,
+      "non_null_cells": 91611
+    }
+  },
+  "schema_match": true,
+  "column_mapping_counts": {
+    "TRAIN": 123,
+    "TEST": 122
+  },
+  "sql_transaction_validation": "static_sql_review_only",
+  "SSIS_Windows_runtime_executed": false,
+  "SQL_Server_execution_executed": false,
+  "notes": [
+    "SQL_Prepare only truncates [duy].[DuyApplicationRaw] (private buffer)",
+    "SQL_Finalize transaction inserts [stg].[Application] and creates ctl audit, full rollback on failure",
+    "SQL Server end-to-end must run on user Windows SQL Server + SSIS runtime"
+  ]
+}

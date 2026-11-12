@@ -1,0 +1,8 @@
+{
+  "patched_schema": "DAYS_REGISTRATION DECIMAL(28,12) NULL",
+  "patch_in_package": true,
+  "patch_in_sql04": true,
+  "migration_idempotent": true,
+  "package_xml_well_formed": true,
+  "runtime_verified": false
+}
