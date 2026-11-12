@@ -1,0 +1,16 @@
+HOME CREDIT – DUY SSIS NATIVE V4 (SQL FIX)
+
+Root cause: Source DAYS_REGISTRATION can include decimals, e.g. -10116.041666666662, but SQL staging originally defined BIGINT.
+
+ACTIONS (in order):
+1) Close old Visual Studio package. Keep backup of v3 and SQL database.
+2) In SSMS (database HomeCreditBI), execute SQL_DUY/00_MIGRATE_STAGING_DAYS_REGISTRATION.sql ONCE. This alters only one shared column; it does not delete rows. It is idempotent.
+3) Open Duy_Application/Duy_Application.slnx from THIS v4 folder. Build Solution. Verify SQL_04 task now has DAYS_REGISTRATION DECIMAL(28,12).
+4) In SSMS check no other user is loading staging. Do not run package if stg.Application has pre-existing data unless the team agrees on duplicate handling.
+5) Execute the full package ONE time. SQL_01 re-creates/clears Duy's private raw staging and Data Flows reread the CSVs; this is expected. Do not execute SQL_04 separately using old/mixed raw data.
+6) Run SQL_DUY/03_VERIFY_AFTER_RUN.sql and verify TRAIN=307511, TEST=48744, audit and BatchID.
+
+Changes: embedded SQL_04 + standalone SQL_04, new SQL migration, patched SQL staging create script (reference for shared repo).
+IMPORTANT: SQL_04 is embedded in the .dtsx. Modifying only external .sql file does not update the package.
+NOT YET VERIFIED: Cannot execute SQL Server/SSIS Windows runtime in current environment.
+Other numeric columns could still reveal mismatches; do not claim an end-to-end PASS without real Windows test.
