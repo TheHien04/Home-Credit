@@ -1,0 +1,13 @@
+*.local.*
+*.dtsConfig
+*.exe
+*.dll
+*.pdb
+*.config
+__pycache__/
+*.py[cod]
+bin/
+obj/
+.vs/
+*.user
+.DS_Store
